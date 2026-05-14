@@ -73,4 +73,4 @@ See the [full license text](LICENSE) for details.
 ---
 
 Made with ❤️ by Hummingbird  
-[Main website →](https://your-website.com) • [Main repo →](https://github.com/YOUR_USERNAME/meditationclock)
+
