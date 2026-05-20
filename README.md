@@ -47,13 +47,14 @@ If you want to rebuild the app yourself (e.g., after making changes):
    
    The output `.exe` will be inside the `dist/` folder.
 
+   Ignore the ```build:offline``` part, I had to use it in my case. Getting any kind of a build with an outdated electron binary without any services working. 
+
 
 ##  License
 
-You know, use as you please but please don't monitize it. 
+You know, use as you please but please don't monitize it, or recieve money for it. It's because of the themes mostly.
 
-
-And here goes the boring talk.
+But here goes the boring talk.
 
 All assets in this repository – **code, themes, icons, and documentation** – are licensed under the  
 [Creative Commons Attribution‑NonCommercial‑ShareAlike 4.0 International License](LICENSE).
