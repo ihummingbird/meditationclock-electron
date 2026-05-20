@@ -22,7 +22,6 @@ I do meditation daily. When I temporarily lost internet access, I needed a way t
 ##  Download
 
 Grab the latest Windows installer from the [Releases page](https://github.com/ihummingbird/meditationclock-electron/releases).  
-No installation wizard tricks – just a straightforward setup.
 
 ## OR Build it youself from source (offline)
 
@@ -47,7 +46,7 @@ If you want to rebuild the app yourself (e.g., after making changes):
    
    The output `.exe` will be inside the `dist/` folder.
 
-   Ignore the ```build:offline``` part, I had to use it in my case. Getting any kind of a build with an outdated electron binary without any services working. 
+   Ignore the ```build:offline``` part, I had to use it in my case. Getting any kind of a build with an outdated electron binary without any service mirrors working. 
 
 
 ##  License
