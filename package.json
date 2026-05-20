@@ -1,0 +1,25 @@
+{
+  "name": "meditationclock",
+  "version": "0.1.0",
+  "description": "A meditation timer app for you to meditate and track your progress :D",
+  "author": "Hummingbird",
+  "main": "main.js",
+  "scripts": {
+    "start": "node_modules\\electron\\dist\\electron.exe .",
+    "build": "electron-builder --win",
+    "build:offline": "electron-builder --win --config.electronDist=node_modules/electron/dist --publish=never"
+  },
+  "build": {
+  "appId": "com.hummingbird.meditationclock",
+  "productName": "Meditation Clock",
+  "electronDist": "node_modules/electron/dist",
+  "forceCodeSigning": false,
+  "win": {
+    "target": "nsis",
+    "icon": "static/favicon.png"
+  }
+},
+  "devDependencies": {
+    "electron-builder": "^26.8.1"
+  }
+}
