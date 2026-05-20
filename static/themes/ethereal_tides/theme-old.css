@@ -1,0 +1,175 @@
+:root {
+    --et-hue: 220;
+    /* Default Blue */
+    --et-scale: 1;
+    --et-speed: 20s;
+}
+
+body {
+    background: #000;
+}
+
+.tides-stage {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #020205, #080f1a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: 'Inter', sans-serif;
+}
+
+/* THE LIQUID LAYER */
+.liquid-container {
+    position: absolute;
+    inset: -20%;
+    /* Bleed edges to handle corner blobs */
+    /* THE MAGIC: Contrast creates smooth edges from blurry blobs */
+    filter: url('#et-goo');
+    opacity: 0.8;
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%,
+            hsl(var(--et-hue), 100%, 85%),
+            hsl(var(--et-hue), 80%, 60%));
+    filter: blur(40px);
+    /* Blurry edges merge with contrast filter */
+    animation: drift var(--et-speed) ease-in-out infinite alternate;
+}
+
+/* Individual Orb Configurations (Positions/Sizes) */
+.orb:nth-child(1) {
+    width: 40vmin;
+    height: 40vmin;
+    top: 20%;
+    left: 30%;
+    animation-delay: 0s;
+    --x: 10%;
+    --y: 20%;
+}
+
+.orb:nth-child(2) {
+    width: 50vmin;
+    height: 50vmin;
+    bottom: 20%;
+    right: 20%;
+    animation-delay: -5s;
+    --x: -15%;
+    --y: -10%;
+}
+
+.orb:nth-child(3) {
+    width: 30vmin;
+    height: 30vmin;
+    top: 40%;
+    right: 40%;
+    animation-delay: -10s;
+    --x: 20%;
+    --y: -15%;
+}
+
+.orb:nth-child(4) {
+    width: 45vmin;
+    height: 45vmin;
+    bottom: 10%;
+    left: 10%;
+    animation-delay: -15s;
+    --x: 10%;
+    --y: 10%;
+}
+
+/* Accent Orb (Complementary Color) */
+.orb:nth-child(5) {
+    width: 25vmin;
+    height: 25vmin;
+    top: 50%;
+    left: 50%;
+    background: hsl(calc(var(--et-hue) + 40), 90%, 70%);
+    /* Shift hue */
+    animation-delay: -7s;
+    --x: -20%;
+    --y: 20%;
+}
+
+@keyframes drift {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        transform: translate(var(--x), var(--y)) scale(1.1);
+    }
+}
+
+/* FOREGROUND CONTENT */
+.tides-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    transform: scale(var(--et-scale));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5vh;
+}
+
+.time-wrapper {
+    position: relative;
+    backdrop-filter: blur(0px);
+    /* Crisp text */
+}
+
+.main-time {
+    font-size: 18vmin;
+    line-height: 1;
+    font-weight: 300;
+    /* Thin elegant */
+    letter-spacing: -0.04em;
+    background: linear-gradient(to bottom, #fff, rgba(255, 255, 255, 0.7));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+}
+
+.meta-row {
+    font-size: 2.5vmin;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: rgba(255, 255, 255, 0.6);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-weight: 500;
+}
+
+.orb-pill {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.5;
+}
+
+/* SVG FILTER (Hidden visually) */
+.svg-filter {
+    position: absolute;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+@media (orientation: portrait) {
+    .main-time {
+        font-size: 24vmin;
+    }
+
+    .meta-row {
+        font-size: 3.5vmin;
+    }
+}

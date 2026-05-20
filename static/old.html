@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Meditation Clock</title>
+
+    <link rel="stylesheet" href="core_old/global.css">
+    <link id="theme-stylesheet" rel="stylesheet" href="">
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav id="navbar">
+        <div class="nav-left">
+            <button id="btn-library" class="nav-btn">
+                <span class="icon">❖</span> <span class="nav-text">Library</span>
+            </button>
+            <a href="stats.html" class="nav-btn">
+                <span class="icon">il.</span> <span class="nav-text">Stats</span>
+            </a>
+        </div>
+        <div class="nav-brand">Meditation Clock</div>
+        <div class="nav-right">
+            <button id="btn-fullscreen" class="nav-btn" title="Enter Focus Mode">
+                ⛶
+            </button>
+            <button id="btn-settings" class="nav-btn" title="Settings">
+                ⋯
+            </button>
+        </div>
+    </nav>
+
+    <!-- GHOST EXIT BUTTON (Appears in Fullscreen) -->
+    <button id="btn-exit-fs">
+        Exit Focus ×
+    </button>
+
+    <!-- STAGE -->
+    <div id="stage"></div>
+
+    <!-- LEFT DRAWER: Library -->
+    <div id="library-drawer" class="drawer left-drawer">
+        <div class="drawer-header">
+            <h3>Atmospheres</h3>
+            <button id="btn-close-library" class="close-btn">×</button>
+        </div>
+        <div id="theme-grid" class="grid-container"></div>
+    </div>
+
+    <!-- RIGHT DRAWER: Settings -->
+    <div id="settings-panel" class="drawer right-drawer">
+        <div class="drawer-header">
+            <h3>Configuration</h3>
+            <button id="btn-close-settings" class="close-btn">×</button>
+        </div>
+        <div id="settings-content"></div>
+    </div>
+
+    <!-- SESSION CONTROL (Bottom Drawer) -->
+    <div id="session-handle" class="session-handle">
+        <div class="handle-bar"></div>
+        <span id="session-status-text">Start Session</span>
+    </div>
+
+    <div id="session-panel" class="bottom-drawer">
+        <div class="session-content">
+            <div id="session-timer">00:00:00</div>
+
+            <!-- CONTROLS ROW -->
+            <div id="controls-row">
+
+                <!-- MAIN BUTTON (Unchanged logic, just cleaner markup) -->
+                <button id="btn-session-toggle">BEGIN MEDITATION</button>
+
+                <!-- SYNC GROUP (Cleaned) -->
+                <div id="sync-group">
+                    <!-- USERNAME INPUT -->
+                    <input type="text" id="user-input" placeholder="YOUR NAME" maxlength="12" autocomplete="off">
+
+                    <!-- SYNC BUTTON -->
+                    <button id="btn-sync">
+                        SYNC ☁
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tiny status message below -->
+            <div id="sync-msg"
+                style="font-size: 10px; margin-top: 5px; opacity: 0.6; min-height: 14px; text-align: center;"></div>
+        </div>
+    </div>
+
+    <!-- SECRET MODAL -->
+    <div id="secret-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Manual Override</h3>
+                <button id="btn-close-secret" class="close-btn">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label>USER ID</label>
+                    <input type="text" id="secret-username" placeholder="ANONYMOUS" class="sleek-input">
+                </div>
+                <div class="input-group">
+                    <label>DURATION (MINUTES)</label>
+                    <input type="number" id="secret-duration" placeholder="00" class="sleek-input">
+                </div>
+                <div id="secret-msg" class="status-msg"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-secret-submit" class="action-btn">UPLOAD ENTRY</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="core_old/engine.js"></script>
+</body>
+
+</html>

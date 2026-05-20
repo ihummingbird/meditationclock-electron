@@ -1,0 +1,174 @@
+:root {
+    --zo-accent: #7fe0d5;
+    --zo-secondary: #b385ff;
+    --zo-scale: 1;
+    --zo-glow: 40%;
+    --zo-text: #ffffff;
+    --zo-font: 'Inter', system-ui, sans-serif;
+}
+
+.zen-stage {
+    position: relative;
+    width: 100vw; height: 100vh;
+    background: radial-gradient(circle at 50% 50%, #1a1e29 0%, #050608 100%);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    color: var(--zo-text);
+    font-family: var(--zo-font);
+}
+
+/* Background Atmosphere */
+.zen-atmosphere {
+    position: absolute; inset: -50%;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0%,
+        var(--zo-accent) 20%,
+        transparent 40%,
+        var(--zo-secondary) 60%,
+        transparent 80%
+    );
+    opacity: 0.07;
+    filter: blur(80px);
+    animation: slowSpin 60s linear infinite;
+}
+
+@keyframes slowSpin { to { transform: rotate(360deg); } }
+
+/* The Main Container */
+.zen-shell {
+    position: relative;
+    width: min(85vmin, 550px);
+    height: min(85vmin, 550px);
+    display: flex; align-items: center; justify-content: center;
+    transform: scale(var(--zo-scale));
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* The Frosted Glass Core */
+.zen-core {
+    position: relative;
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    
+    /* Complex Glass Shader */
+    background: 
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,0.03), transparent 60%),
+        linear-gradient(135deg, rgba(255,255,255,0.05), rgba(0,0,0,0.4)),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    
+    box-shadow: 
+        inset 0 0 0 1px rgba(255,255,255,0.08),
+        inset 0 0 60px rgba(0,0,0,0.8),
+        0 30px 60px rgba(0,0,0,0.5);
+        
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* ORBIT RINGS */
+/* We use absolute positioning to center them, JS handles rotation */
+.orbit-track {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    display: flex; justify-content: center; /* Aligns the dot to top center */
+}
+
+/* Outer Ring (Seconds) */
+.orbit-track.primary {
+    inset: 5%;
+    border-color: color-mix(in srgb, var(--zo-accent) 20%, transparent);
+}
+
+/* Inner Ring (Minutes) */
+.orbit-track.secondary {
+    inset: 16%;
+    border-color: color-mix(in srgb, var(--zo-secondary) 20%, transparent);
+}
+
+/* The Glowing Head (Dot) */
+/* By default, flex aligns it to the top. We translate Y to pull it onto the line */
+.orbit-head {
+    position: absolute;
+    top: -5px; /* Pull up half its height to sit on the line */
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 
+        0 0 10px var(--zo-accent),
+        0 0 20px var(--zo-accent),
+        0 0 40px var(--zo-accent);
+}
+
+.orbit-track.secondary .orbit-head {
+    top: -4px;
+    width: 8px; height: 8px;
+    box-shadow: 
+        0 0 10px var(--zo-secondary),
+        0 0 20px var(--zo-secondary);
+}
+
+/* TEXT CONTENT */
+.zen-content {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    z-index: 10;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+}
+
+.time-group {
+    display: flex; flex-direction: column;
+    line-height: 0.9;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+}
+
+.hh {
+    font-size: clamp(60px, 16vmin, 140px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    background: linear-gradient(to bottom, #fff, rgba(255,255,255,0.7));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.mm {
+    font-size: clamp(60px, 16vmin, 140px);
+    font-weight: 300;
+    letter-spacing: -0.04em;
+    color: rgba(255,255,255,0.9);
+}
+
+.ss-pill {
+    margin-top: 10px;
+    font-size: clamp(14px, 3.5vmin, 20px);
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(255,255,255,0.08);
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--zo-accent);
+    letter-spacing: 0.1em;
+    font-weight: 600;
+}
+
+.meta-info {
+    position: absolute; bottom: 22%;
+    font-size: clamp(10px, 2.5vmin, 12px);
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    opacity: 0.6;
+    font-weight: 500;
+    color: rgba(255,255,255,0.8);
+}
+
+/* Mobile Tweaks */
+@media (max-width: 600px) {
+    .zen-shell { width: 90vmin; height: 90vmin; }
+    .orbit-track.primary { inset: 2%; }
+    .orbit-track.secondary { inset: 12%; }
+}

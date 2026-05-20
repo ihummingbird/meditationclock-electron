@@ -1,0 +1,532 @@
+/* Define the local fonts */
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('../fonts/JetBrainsMono-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+/* --- Inter Font --- */
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter-Regular.ttf') format('truetype');
+    font-weight: 400; /* Normal */
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --bg-color: #000000;
+    --glass-fill: rgba(25, 25, 27, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-highlight: rgba(255, 255, 255, 0.08);
+    --text-main: #ffffff;
+    --text-dim: rgba(255, 255, 255, 0.5);
+    --success: #34C759;
+    --error: #FF3B30;
+    --spring-easing: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+    margin: 0; padding: 0;
+    width: 100vw; height: 100vh;
+    overflow: hidden;
+    background: var(--bg-color);
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--text-main);
+}
+
+/* --- NAVBAR (Rigid Geometry + Thinner Fonts) --- */
+#navbar {
+    position: fixed; top: 0; left: 0;
+    width: 100%;
+    /* OLD: height: 80px; */
+    /* NEW: Fluid height */
+    height: clamp(60px, 10vh, 80px);
+    display: flex; justify-content: space-between; align-items: center;
+    /* OLD: padding: 0 32px; */
+    /* NEW: Fluid padding */
+    padding: 0 clamp(16px, 4vw, 32px);
+    z-index: 1500;
+    background: var(--glass-fill);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.nav-left, .nav-right { display: flex; align-items: center; gap: 14px; z-index: 2; }
+a { text-decoration: none; }
+
+.nav-brand {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    font-family: 'Inter', sans-serif;
+    /* OLD: font-size: 15px; */
+    /* NEW: Fluid font size */
+    font-size: clamp(12px, 2.2vw, 15px);
+    text-transform: uppercase;
+    letter-spacing: 0.35em;
+    font-weight: 600;
+    opacity: 0.9;
+    white-space: nowrap;
+    text-align: center; /* Added for multi-line support */
+}
+
+.nav-btn {
+    background: var(--glass-highlight);
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+    cursor: pointer;
+    transition: all 0.4s var(--spring-easing);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Inter', sans-serif;
+}
+.nav-btn:hover { background: rgba(255, 255, 255, 0.15); transform: scale(1.05); }
+.nav-btn:active { transform: scale(0.95); }
+
+/* Left: Pills */
+.nav-left .nav-btn {
+    /* OLD: padding: 12px 24px; */
+    /* NEW: Fluid padding */
+    padding: clamp(8px, 1.5vh, 12px) clamp(16px, 3vw, 24px);
+    border-radius: 100px;
+    /* OLD: font-size: 13px; */
+    /* NEW: Fluid font size */
+    font-size: clamp(12px, 1.8vw, 13px);
+    font-weight: 500;
+    gap: 10px;
+}
+.nav-left .icon {
+    /* OLD: font-size: 16px; */
+    /* NEW: Fluid font size */
+    font-size: clamp(14px, 2vw, 16px);
+    margin-top: -2px;
+}
+
+/* Right: Perfect Circles */
+.nav-right .nav-btn {
+    /* OLD: width: 48px; height: 48px; */
+    /* NEW: Fluid size */
+    width: clamp(40px, 6vh, 48px);
+    height: clamp(40px, 6vh, 48px);
+    padding: 0; border-radius: 50%;
+    /* OLD: font-size: 18px; */
+    /* NEW: Fluid font size */
+    font-size: clamp(16px, 2.5vw, 18px);
+}
+
+/* --- DRAWERS --- */
+.drawer {
+    position: fixed; top: 90px; bottom: 20px; /* Adjusted for 80px navbar */
+    width: 360px; background: var(--glass-fill);
+    backdrop-filter: blur(40px) saturate(210%);
+    z-index: 2000; padding: 24px;
+    border: 1px solid var(--glass-border); border-radius: 30px;
+    transition: transform 0.6s var(--spring-easing);
+    display: flex; flex-direction: column; overflow: hidden; /* Prevent the whole drawer from scrolling (we want the inside to scroll) */
+}
+.left-drawer { left: 20px; transform: translateX(calc(-100% - 30px)); }
+.right-drawer { right: 20px; transform: translateX(calc(100% + 30px)); }
+.drawer.active { transform: translateX(0); }
+
+.drawer-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px; border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 15px; flex-shrink: 0;
+}
+.drawer-header h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--text-dim); margin: 0; }
+.close-btn {
+    background: var(--glass-highlight); border: 1px solid var(--glass-border);
+    color: white; width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: 0.2s;
+}
+
+/* --- SCROLLBAR HIDING & INDICATOR --- */
+.grid-container { 
+    display: flex; flex-direction: column; gap: 10px; 
+    overflow-y: auto; flex: 1; 
+    padding-bottom: 20px;
+    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;  /* IE */
+    /* This is vital: it prevents the container from expanding past the flex parent */
+    min-height: 0;  
+}
+.grid-container::-webkit-scrollbar { display: none; }
+
+.scroll-indicator {
+    position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
+    color: white; font-size: 24px;
+    animation: bounce 2s infinite; pointer-events: none;
+    opacity: 0; transition: opacity 0.3s; z-index: 10;
+}
+@keyframes bounce { 
+    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+    40% { transform: translateX(-50%) translateY(-5px); }
+    60% { transform: translateX(-50%) translateY(-3px); }
+}
+
+.theme-tile {
+    width: 100%; padding: 18px; background: rgba(255, 255, 255, 0.04);
+    border-radius: 16px; cursor: pointer; transition: all 0.3s;
+    font-size: 14px; font-weight: 500; color: var(--text-dim); flex-shrink: 0;
+}
+.theme-tile.active { background: rgba(255, 255, 255, 0.12); border: 1px solid var(--glass-border); color: white; }
+
+/* --- SETTINGS --- */
+.setting-item { margin-bottom: 35px; }
+.setting-label {
+    display: flex; justify-content: space-between;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--text-dim); margin-bottom: 15px;
+}
+input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; height: 24px; width: 38px;
+    background: white; border-radius: 100px; cursor: pointer; margin-top: -9px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: transform 0.2s var(--spring-easing);
+}
+input[type=range]:active::-webkit-slider-thumb { transform: scale(1.1); background: #f0f0f0; }
+
+.palette-grid { display: flex; gap: 12px; flex-wrap: wrap; }
+.color-swatch { width: 36px; height: 36px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: 0.3s; }
+.color-swatch.active { border-color: white; transform: scale(1.15); box-shadow: 0 0 15px rgba(255,255,255,0.2); }
+
+/* ADD THIS CSS FOR THE NEW DROPDOWN */
+.setting-select {
+    width: 100%;
+    margin-top: 5px; /* Space below the label */
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+    padding: 12px 16px;
+    padding-right: 30px; /* Space for the arrow */
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    /* Remove default ugly arrow and styling */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    
+    /* Add a custom arrow using an encoded SVG */
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 10px;
+}
+
+.setting-select:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.setting-select:focus {
+    border-color: white;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Style the dropdown options for dark mode */
+.setting-select option {
+    background-color: #1a1a1a;
+    color: white;
+}
+
+/* --- SESSION CONTROL (Thinner, Centered, Morphing) --- */
+.session-handle {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 240px; height: 50px; 
+    background: var(--glass-fill); backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border); border-bottom: none; border-radius: 24px 24px 0 0;
+    z-index: 2200; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    cursor: pointer; 
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim);
+    transition: all 0.3s ease;
+
+    
+    
+}
+.session-handle:hover { background: rgba(255,255,255,0.1); color: white; }
+.session-handle.meditating { 
+    background: rgba(52, 199, 89, 0.2); color: var(--success); border-color: var(--success);
+    box-shadow: 0 0 30px rgba(52, 199, 89, 0.4); 
+}
+.handle-bar { width: 40px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 10px; margin-bottom: 6px; }
+
+.bottom-drawer {
+    position: fixed; bottom: 0; width: 100%; height: 300px;
+    background: var(--glass-fill); backdrop-filter: blur(50px) saturate(200%);
+    border-top: 1px solid var(--glass-border); z-index: 2100;
+    transform: translateY(100%); transition: transform 0.6s var(--spring-easing);
+    display: flex; justify-content: center; align-items: center;
+    padding-bottom: 20px;
+}
+.bottom-drawer.active { transform: translateY(0); }
+
+.session-content { 
+    width: 100%; max-width: 500px; 
+    display: flex; flex-direction: column; align-items: center; 
+    padding: 0 20px;
+}
+
+#session-timer { 
+    font-family: 'JetBrains Mono', monospace; 
+    font-size: 5.5rem; 
+    font-weight: 400; /* Regular weight */
+    color: white; 
+    margin-bottom: 30px; 
+    text-shadow: 0 0 20px rgba(0,0,0,0.5);
+    transition: color 0.3s;
+    line-height: 1;
+}
+#session-timer.finished { color: var(--success); text-shadow: 0 0 30px rgba(52, 199, 89, 0.4); }
+
+#controls-row {
+    display: flex; width: 100%; height: 60px; 
+    gap: 0; transition: all 0.6s var(--spring-easing);
+}
+
+#btn-session-toggle {
+    flex: 1; height: 100%;
+    background: white; color: black; border: none;
+    font-size: 14px; font-weight: 700;
+    letter-spacing: 0.05em; border-radius: 100px; cursor: pointer;
+    transition: all 0.4s var(--spring-easing); white-space: nowrap;
+}
+#btn-session-toggle:hover { transform: scale(1.02); box-shadow: 0 5px 25px rgba(255,255,255,0.25); }
+#btn-session-toggle.stop-mode { background: var(--error); color: white; box-shadow: 0 5px 25px rgba(255, 59, 48, 0.3); }
+
+#sync-group {
+    flex: 0; width: 0; opacity: 0; overflow: hidden;
+    display: flex; gap: 12px; transition: all 0.6s var(--spring-easing);
+}
+
+#user-input {
+    min-width: 140px; width: 100%; height: 100%;
+    background: rgba(255,255,255,0.08); border: 1px solid var(--glass-border);
+    border-radius: 100px; padding: 0 24px; 
+    color: white; font-family: 'JetBrains Mono'; font-size: 14px; outline: none;
+    text-align: center; 
+    text-transform: uppercase; /* FIX: ALWAYS UPPERCASE */
+    transition: 0.3s;
+}
+#user-input:focus { background: rgba(255,255,255,0.15); border-color: white; }
+#user-input::placeholder { color: rgba(255,255,255,0.3); text-transform: uppercase; }
+
+#btn-sync {
+    min-width: 90px; height: 100%;
+    background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border);
+    border-radius: 100px; color: white; font-weight: 600; font-size: 12px; 
+    cursor: pointer; white-space: nowrap; transition: 0.3s;
+}
+#btn-sync:hover { background: white; color: black; }
+
+
+
+/* Sync Layout State */
+#controls-row.sync-layout { gap: 14px; }
+#controls-row.sync-layout #btn-session-toggle { flex: 0 0 130px; background: rgba(255,255,255,0.1); color: white; font-size: 11px; }
+#controls-row.sync-layout #btn-session-toggle:hover { background: rgba(255,255,255,0.2); }
+#controls-row.sync-layout #sync-group { flex: 1; width: auto; opacity: 1; }
+
+#sync-msg { height: 20px; margin-top: 20px; font-size: 12px; color: var(--text-dim); text-align: center; }
+
+/* --- MODAL --- */
+.modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+    z-index: 9999; display: flex; justify-content: center; align-items: center;
+    opacity: 0; pointer-events: none; transition: 0.3s;
+}
+.modal-overlay.active { opacity: 1; pointer-events: auto; }
+.modal-content {
+    width: 320px; background: #111; border: 1px solid var(--glass-border); border-radius: 20px;
+    padding: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+.modal-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
+.input-group { margin-bottom: 15px; display: flex; flex-direction: column; gap: 5px; }
+.input-group label { font-size: 10px; color: var(--text-dim); letter-spacing: 0.1em; }
+.sleek-input { 
+    background: #222; border: 1px solid #333; color: white; padding: 10px; border-radius: 8px; outline: none; 
+    font-family: 'JetBrains Mono';
+}
+.action-btn { width: 100%; background: white; border: none; padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+
+/* --- EXIT FOCUS BUTTON (Restored Functionality & Position) --- */
+/* --- EXIT FOCUS BUTTON --- */
+#btn-exit-fs {
+    position: fixed; 
+    bottom: 32px; 
+    right: 32px;
+    z-index: 9999;
+    background: var(--glass-fill); 
+    border: 1px solid var(--glass-border); 
+    color: white;
+    padding: 12px 24px; 
+    border-radius: 100px; 
+    font-size: 13px; 
+    font-weight: 600;
+    backdrop-filter: blur(15px);
+    
+    /* Start hidden and below the screen */
+    opacity: 0; 
+    pointer-events: none; 
+    transform: translateY(20px); /* Start further down for a better slide-in */
+    transition: all 0.4s var(--spring-easing); /* Use your nice spring */
+}
+
+/* This class is added by engine.js when entering fullscreen */
+body.fullscreen-mode #btn-exit-fs { 
+    opacity: 0.2; 
+    pointer-events: auto; 
+    transform: translateY(0);
+}
+
+/* Ensure navbar hides in fullscreen so exit button has space */
+body.fullscreen-mode #navbar { 
+    transform: translateY(-100%); 
+}
+
+/* ADD THIS NEW RULE for the hover effect */
+body.fullscreen-mode #btn-exit-fs:hover {
+    opacity: 1; /* Become fully visible */
+    transform: translateY(0px); /* Nope do not Lift up slightly */
+}
+
+/* --- SETTINGS DRAWER OVERRIDES --- */
+
+/* A distinct box for global settings */
+.system-section {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+.system-header {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 12px;
+}
+
+.toggle-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.toggle-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+}
+
+/* The Switch UI */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.switch input { opacity: 0; width: 0; height: 0; }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px; width: 18px;
+    left: 3px; bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--success); /* Green */
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+/* --- MOBILE RESPONSIVENESS (Consolidated) --- */
+@media (max-width: 800px) {
+    /* 1. HIDE TEXT & BRAND */
+    .nav-text { display: none; }
+    /* .nav-brand { display: block; } <-- This line is okay, but we will modify the brand */
+
+    /* ADD THIS BLOCK FOR THE TITLE */
+    .nav-brand {
+        white-space: normal; /* Allow the text to wrap */
+        line-height: 1.2;    /* Adjust line spacing */
+        max-width: 150px;    /* Prevent it from getting too wide */
+        letter-spacing: 0.2em; /* Slightly reduce spacing to fit */
+    }
+    /* END OF NEW BLOCK */
+
+
+    /* 2. FIX SYMMETRY: Make Left Buttons Perfect Circles like Right Buttons */
+    .nav-left .nav-btn {
+        /* OLD: width: 48px; height: 48px; */
+        /* NEW: Use the same fluid values as the right buttons */
+        width: clamp(40px, 6vh, 48px);
+        height: clamp(40px, 6vh, 48px);
+        padding: 0;
+        border-radius: 50%;
+        gap: 0;
+    }
+
+    /* 3. DRAWERS */
+    .drawer { width: calc(100% - 30px); left: 15px !important; }
+    .bottom-drawer { height: 280px; }
+    
+    /* 4. TIMER & HANDLE */
+    #session-timer { font-size: 3.5rem; margin-bottom: 25px; }
+    .session-handle { width: 240px; }
+    
+    /* 5. FIX FOOTER OVERFLOW (Sync Layout) */
+    /* When syncing on mobile, shrink the 'New Session' button to an icon */
+    #controls-row.sync-layout #btn-session-toggle {
+        flex: 0 0 48px; /* Make it a square */
+        font-size: 0;   /* Hide the text "NEW SESSION" */
+        padding: 0;
+    }
+    /* Add a loop icon to represent 'New' */
+    #controls-row.sync-layout #btn-session-toggle::after {
+        content: '↺'; 
+        font-size: 20px;
+        color: white;
+    }
+    
+    /* Give the inputs more room now */
+    #controls-row.sync-layout #sync-group {
+        gap: 8px;
+    }
+    #user-input { min-width: 0; padding: 0 15px; } /* Allow shrinking */
+    
+    /* 6. EXIT BUTTON POSITION */
+    #btn-exit-fs { 
+        bottom: 20px; 
+        right: 20px; 
+        padding: 10px 20px; 
+    }
+
+    
+}

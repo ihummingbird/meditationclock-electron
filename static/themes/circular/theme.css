@@ -1,0 +1,92 @@
+/* THEME: Zen Orbit */
+
+:root {
+    --zen-size: 100vmin;
+    --zen-hue: 190;
+}
+
+.zen-stage {
+    width: 100%; height: 100%;
+    display: flex; justify-content: center; align-items: center;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #1a1a1a 0%, #000 70%);
+}
+
+.zen-scaler {
+    position: relative;
+    width: 100vw; height: 100vh;
+    display: flex; justify-content: center; align-items: center;
+    transform-origin: center center;
+    transition: transform 0.1s linear;
+    will-change: transform;
+}
+
+.zen-canvas {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+}
+
+/* --- OVERLAY FIXED --- */
+.zen-overlay {
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
+    
+    /* Ensure overlay fills the space but allows text to flow */
+    width: 100%;
+    height: 100%;
+    
+    /* Center vertical only */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    color: white;
+    opacity: 0.95;
+}
+
+.zen-time {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: calc(var(--zen-size) * 0.14);
+    font-weight: 200;
+    letter-spacing: -0.04em;
+    
+    /* 1. Force Full Width & Text Center */
+    width: 100%;
+    text-align: center;
+    
+    /* 2. Visual Center Fix */
+    /* Nudges text slightly left to fix the "Right-Shift" illusion */
+    margin-right: 0.04em; 
+    
+    /* 3. Height fixes */
+    line-height: 0;
+    padding-top: 1.5vmin; /* Baseline correction */
+    
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    
+    /* Ensure numbers are equal width (Monospace) */
+    font-feature-settings: "tnum"; 
+    font-variant-numeric: tabular-nums;
+    
+    position: relative;
+}
+
+.zen-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: calc(var(--zen-size) * 0.035);
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    opacity: 0.6;
+    text-transform: uppercase;
+    
+    /* Absolute positioning to float freely above time */
+    position: absolute;
+    bottom: 58%; 
+    
+    /* Center Horizontally */
+    width: 100%;
+    text-align: center;
+    left: 0;
+}

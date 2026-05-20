@@ -1,0 +1,175 @@
+:root {
+    --rm-color-1: #ff0055;
+    /* Magenta */
+    --rm-color-2: #00ffff;
+    /* Cyan */
+    --rm-color-3: #ffd700;
+    /* Gold */
+    --rm-speed: 1;
+    /* Multiplier */
+    --rm-scale: 1;
+}
+
+body {
+    background: #050505;
+}
+
+.mandala-stage {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #1a0b14, #000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: 'Inter', sans-serif;
+}
+
+/* CONTAINER */
+.mandala-core {
+    position: relative;
+    width: 80vmin;
+    height: 80vmin;
+    transform: scale(var(--rm-scale));
+    /* Blend mode magic happens here */
+    isolation: isolate;
+}
+
+/* SHARED LAYER PROPERTIES */
+.layer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    mix-blend-mode: screen;
+    /* THE KEY: Colors add up to white */
+    opacity: 0.9;
+    /* Transition for smooth ticking */
+    transition: transform 0.1s cubic-bezier(0.4, 2.08, 0.55, 0.44);
+    /* Bouncy tick */
+}
+
+.layer.smooth {
+    transition: none;
+    /* Smooth sweep */
+}
+
+/* --- LAYER 1: SECONDS (The Outer Rays) --- */
+.layer-seconds {
+    width: 100%;
+    height: 100%;
+    /* Complex Conic Gradient Pattern */
+    background: conic-gradient(from 0deg,
+            transparent 0deg,
+            var(--rm-color-1) 2deg,
+            transparent 4deg);
+    background-size: 100% 100%;
+    /* Create a repeating pattern of 60 rays? No, conic gradient does 360/60 = 6deg steps. 
+       Let's use a simpler repeating gradient */
+    background: repeating-conic-gradient(from 0deg,
+            transparent 0deg 4deg,
+            var(--rm-color-1) 4deg 6deg);
+    mask-image: radial-gradient(transparent 50%, black 60%);
+    -webkit-mask-image: radial-gradient(transparent 50%, black 60%);
+    filter: drop-shadow(0 0 10px var(--rm-color-1));
+}
+
+/* --- LAYER 2: MINUTES (The Geometric Web) --- */
+.layer-minutes {
+    width: 75%;
+    height: 75%;
+    background: repeating-conic-gradient(from 0deg,
+            var(--rm-color-2) 0deg 30deg,
+            transparent 30deg 60deg);
+    /* Cutout pattern */
+    mask-image: radial-gradient(black 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(black 30%, transparent 80%);
+    opacity: 0.8;
+}
+
+/* --- LAYER 3: HOURS (The Core Jewel) --- */
+.layer-hours {
+    width: 45%;
+    height: 45%;
+    background: conic-gradient(var(--rm-color-3),
+            color-mix(in srgb, var(--rm-color-3), transparent),
+            var(--rm-color-3));
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    filter: blur(2px) drop-shadow(0 0 15px var(--rm-color-3));
+}
+
+/* CENTER DOT */
+.center-dot {
+    position: absolute;
+    width: 4vmin;
+    height: 4vmin;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 20px white;
+    z-index: 10;
+}
+
+/* MARKERS (Static) */
+.markers {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 85vmin;
+    height: 85vmin;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.marker-12,
+.marker-3,
+.marker-6,
+.marker-9 {
+    position: absolute;
+    font-size: 2vmin;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.marker-12 {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.marker-6 {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.marker-3 {
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.marker-9 {
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* DIGITAL OVERLAY (Optional, maybe hidden by default) */
+.digital-overlay {
+    position: absolute;
+    bottom: 5vh;
+    font-size: 2vmin;
+    letter-spacing: 0.2em;
+    opacity: 0.5;
+    text-transform: uppercase;
+}
+
+@media (orientation: portrait) {
+    .mandala-core {
+        width: 90vmin;
+        height: 90vmin;
+    }
+}

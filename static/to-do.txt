@@ -1,0 +1,7 @@
+Let's see if we can get a cloudflare worker for a cleaner domain
+
+The astral analog theme doesn't load in again after switching themes.
+The astral analog second arm also doesn't loop correctly
+The daily 90 day disk is not scrollabe ujsing desktop mouse.
+Try to see if we can fix the iphone fullscreen bug.
+

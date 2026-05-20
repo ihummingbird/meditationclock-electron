@@ -1,0 +1,100 @@
+/* --- BREATHE THEME: THE ZEN ENSO (Restored) --- */
+
+.breathe-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle at center, #1a1a1a 0%, #050505 70%);
+    
+    /* Variables set by JS */
+    --breathe-color: #ffffff; 
+    --breathe-rgb: 255, 255, 255;
+}
+
+/* THE CIRCLE */
+#breathe-circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    
+    /* 
+       THE MAGIC VISUALS (Restored):
+       We use the RGB variable to create transparent versions of the selected color.
+    */
+    background: rgba(var(--breathe-rgb), 0.05);
+    
+    box-shadow: 
+        0 0 60px rgba(var(--breathe-rgb), 0.05), /* Soft Outer Glow */
+        inset 0 0 40px rgba(var(--breathe-rgb), 0.05); /* Inner Depth */
+    
+    border: 1px solid rgba(var(--breathe-rgb), 0.2);
+    
+    transition-timing-function: ease-in-out;
+    will-change: transform, opacity, border-color, box-shadow;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* THE TEXT */
+#breathe-text {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--breathe-color);
+    opacity: 0.9;
+    position: absolute;
+    text-shadow: 0 0 10px rgba(0,0,0,0.8);
+    pointer-events: none;
+    transition: color 0.5s ease;
+}
+
+/* --- STATES --- */
+
+/* 1. INHALE: Grow & Saturate */
+.state-inhale {
+    transform: scale(1.6);
+    
+    /* Fills with 15% opacity of the color */
+    background: rgba(var(--breathe-rgb), 0.15);
+    
+    /* Stronger Border */
+    border-color: rgba(var(--breathe-rgb), 0.8);
+    
+    /* Stronger Glow */
+    box-shadow: 0 0 80px rgba(var(--breathe-rgb), 0.2);
+}
+
+/* 2. HOLD: Freeze */
+.state-hold {
+    transform: scale(1.6);
+    border-color: rgba(var(--breathe-rgb), 0.4);
+    /* Keeps the size but dims the intensity */
+}
+
+/* 3. EXHALE: Shrink */
+.state-exhale {
+    transform: scale(0.6);
+    
+    /* Fades to almost nothing */
+    background: rgba(var(--breathe-rgb), 0.02);
+    border-color: rgba(var(--breathe-rgb), 0.1);
+    box-shadow: none;
+}
+
+/* CLOCK (Increased Visibility) */
+.tiny-clock {
+    position: absolute;
+    bottom: 80px;
+    font-size: 14px; /* Bigger */
+    color: #888; /* Brighter */
+    font-family: 'JetBrains Mono', monospace;
+    opacity: 1.0; /* Fully visible */
+    font-weight: 600;
+}

@@ -1,0 +1,154 @@
+/* --- BASE STAGE --- */
+#stage {
+    position: absolute;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000000;
+    overflow: hidden;
+}
+
+/* --- AMBIENT MESH BACKGROUND --- */
+.apple-aura-bg {
+    position: absolute;
+    inset: -30%; /* Stretch further to hide edges on mobile */
+    width: 160%;
+    height: 160%;
+    z-index: 1;
+    /* FLUID BLUR: Smaller blur on mobile so colors don't wash out, massive on desktop */
+    filter: blur(clamp(50px, 8vw, 120px)); 
+    -webkit-filter: blur(clamp(50px, 8vw, 120px));
+    opacity: 0.9;
+    transition: all 1s ease-in-out;
+}
+
+.aura-orb {
+    position: absolute;
+    border-radius: 50%;
+    mix-blend-mode: screen; 
+    animation: aura-drift 25s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background 1.5s ease;
+}
+
+/* FIX: Using vmax instead of vw so they are always huge, even on narrow phone screens */
+.orb-1 { width: 70vmax; height: 70vmax; top: 0%; left: 0%; animation-delay: 0s; }
+.orb-2 { width: 85vmax; height: 85vmax; bottom: -10%; right: -10%; animation-delay: -5s; animation-direction: alternate-reverse; }
+.orb-3 { width: 60vmax; height: 60vmax; top: 20%; left: 20%; animation-delay: -10s; }
+
+/* --- COLOR PALETTES --- */
+/* 1. Apple Intelligence */
+.apple-aura-bg[data-theme="intelligence"] .orb-1 { background: #ff2a6d; }
+.apple-aura-bg[data-theme="intelligence"] .orb-2 { background: #05d9e8; }
+.apple-aura-bg[data-theme="intelligence"] .orb-3 { background: #01012b; }
+
+/* 2. Ambient Music */
+.apple-aura-bg[data-theme="music"] .orb-1 { background: #ff0055; }
+.apple-aura-bg[data-theme="music"] .orb-2 { background: #ff9900; }
+.apple-aura-bg[data-theme="music"] .orb-3 { background: #6600ff; }
+
+/* 3. Midnight Ocean */
+.apple-aura-bg[data-theme="midnight"] .orb-1 { background: #0044ff; }
+.apple-aura-bg[data-theme="midnight"] .orb-2 { background: #001133; }
+.apple-aura-bg[data-theme="midnight"] .orb-3 { background: #00aaff; opacity: 0.8; }
+
+/* 4. Morning Dawn */
+.apple-aura-bg[data-theme="dawn"] .orb-1 { background: #ffaa00; }
+.apple-aura-bg[data-theme="dawn"] .orb-2 { background: #ff5566; }
+.apple-aura-bg[data-theme="dawn"] .orb-3 { background: #ffeebb; opacity: 0.7; }
+
+/* 5. Natural Titanium (NEW) */
+.apple-aura-bg[data-theme="titanium"] .orb-1 { background: #8e8d88; }
+.apple-aura-bg[data-theme="titanium"] .orb-2 { background: #b5b3a9; }
+.apple-aura-bg[data-theme="titanium"] .orb-3 { background: #4a4945; opacity: 0.9; }
+
+/* 6. Boreal Aurora (NEW) */
+.apple-aura-bg[data-theme="aurora"] .orb-1 { background: #00ffaa; }
+.apple-aura-bg[data-theme="aurora"] .orb-2 { background: #0055ff; }
+.apple-aura-bg[data-theme="aurora"] .orb-3 { background: #9900ff; opacity: 0.8; }
+
+/* 7. Deep Purple (NEW) */
+.apple-aura-bg[data-theme="purple"] .orb-1 { background: #4a00e0; }
+.apple-aura-bg[data-theme="purple"] .orb-2 { background: #8e2de2; }
+.apple-aura-bg[data-theme="purple"] .orb-3 { background: #1a0033; }
+
+/* 8. Sunset Glass (NEW) */
+.apple-aura-bg[data-theme="sunset"] .orb-1 { background: #ff4b2b; }
+.apple-aura-bg[data-theme="sunset"] .orb-2 { background: #ff416c; }
+.apple-aura-bg[data-theme="sunset"] .orb-3 { background: #ffb88c; opacity: 0.8; }
+
+
+@keyframes aura-drift {
+    0% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(10%, -10%) scale(1.1); }
+    66% { transform: translate(-10%, 8%) scale(0.95); }
+    100% { transform: translate(5%, 12%) scale(1.05); }
+}
+
+/* --- VISION-OS FROSTED GLASS --- */
+.apple-aura-glass {
+    z-index: 2;
+    padding: clamp(20px, 4vh, 60px) clamp(30px, 5vw, 100px);
+    border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease;
+    max-width: 90vw;
+}
+
+/* --- TYPOGRAPHY --- */
+.apple-aura-time {
+    display: flex;
+    align-items: baseline;
+    color: #ffffff;
+    letter-spacing: -0.04em;
+    line-height: 1;
+}
+
+#aura-hm {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(4.5rem, 14vw, 12rem);
+    font-weight: 200;
+    font-variant-numeric: tabular-nums;
+}
+
+#aura-s {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.6);
+    margin-left: clamp(10px, 2vw, 20px);
+    font-variant-numeric: tabular-nums;
+}
+
+#aura-ampm {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1rem, 2.5vw, 1.8rem);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.5);
+    margin-left: 10px;
+    letter-spacing: 0;
+}
+
+.apple-aura-date {
+    margin-top: clamp(10px, 2vh, 20px);
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.9rem, 1.8vw, 1.3rem);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/* --- MOBILE TWEAKS --- */
+@media (max-width: 800px) {    
+    .apple-aura-glass {
+        border-radius: 32px;
+        padding: 25px 20px;
+    }
+}

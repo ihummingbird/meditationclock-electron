@@ -1,0 +1,75 @@
+#et-wrapper {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Deep space background to make the glowing colors pop */
+    background: radial-gradient(circle at center, #0f1015 0%, #000000 100%);
+    overflow: hidden;
+}
+
+#et-svg {
+    width: 100vw;
+    height: 100vh;
+    /* Prevents the SVG from pushing out of bounds on weird screen sizes */
+    max-width: 1200px;
+    max-height: 1200px;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+}
+
+/* Base style for all waves */
+.et-wave {
+    fill: none;
+    stroke-linejoin: round;
+    /* blend-mode is the secret sauce here. When paths overlap, they mix colors! */
+    mix-blend-mode: screen; 
+    transition: stroke 0.5s ease, fill 0.5s ease;
+}
+
+/* Individual Wave Styling */
+#wave-h {
+    stroke: var(--color-h);
+    stroke-width: 12px;
+    fill: color-mix(in srgb, var(--color-h) 8%, transparent);
+}
+
+#wave-m {
+    stroke: var(--color-m);
+    stroke-width: 6px;
+    fill: color-mix(in srgb, var(--color-m) 5%, transparent);
+}
+
+#wave-s {
+    stroke: var(--color-s);
+    stroke-width: 3px;
+    fill: color-mix(in srgb, var(--color-s) 3%, transparent);
+}
+
+#et-digital {
+    fill: #ffffff;
+    font-size: 50px;
+    pointer-events: none;
+    transition: font-family 0.3s ease;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    
+    /* FIX: This forces all numbers to be exactly the same width, stopping the text from shifting! */
+    font-variant-numeric: tabular-nums;
+    
+    /* Small breathing animation for the core */
+    animation: core-breathe 4s ease-in-out infinite alternate;
+}
+
+
+@keyframes core-breathe {
+    0% { transform: scale(0.98); opacity: 0.8; }
+    100% { transform: scale(1.02); opacity: 1; }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 800px) {
+    #et-digital {
+        font-size: 50px; /* Make it slightly bigger relative to the svg on mobile */
+    }
+}

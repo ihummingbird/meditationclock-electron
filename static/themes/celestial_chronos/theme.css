@@ -1,0 +1,342 @@
+/* Celestial Chronos - An Elegant Analog Clock */
+/*@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Cinzel:wght@400;500&display=swap');*/
+
+:root {
+    --gold: #d4af37;
+    --gold-light: #f4e4bc;
+    --gold-glow: rgba(212, 175, 55, 0.5);
+    --deep-navy: #0a0e17;
+    --accent-blue: #1a2a4a;
+    --star-white: #ffffff;
+}
+
+body {
+    margin: 0;
+    background: var(--deep-navy);
+    overflow: hidden;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+/* === COSMIC BACKGROUND === */
+#celestial-bg {
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 20% 80%, rgba(26, 42, 74, 0.8) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(30, 50, 90, 0.6) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 50%, rgba(15, 25, 45, 1) 0%, var(--deep-navy) 100%);
+    z-index: 0;
+}
+
+/* Animated Stars */
+.stars-layer {
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(2px 2px at 20px 30px, var(--star-white), transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.8), transparent),
+        radial-gradient(1px 1px at 90px 40px, var(--star-white), transparent),
+        radial-gradient(2px 2px at 130px 80px, rgba(255, 255, 255, 0.6), transparent),
+        radial-gradient(1px 1px at 160px 120px, var(--star-white), transparent);
+    background-size: 200px 200px;
+    animation: twinkle 4s ease-in-out infinite alternate;
+    opacity: 0.6;
+}
+
+.stars-layer-2 {
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(1px 1px at 50px 100px, var(--star-white), transparent),
+        radial-gradient(2px 2px at 100px 50px, rgba(255, 255, 255, 0.7), transparent),
+        radial-gradient(1px 1px at 150px 150px, var(--star-white), transparent);
+    background-size: 250px 250px;
+    animation: twinkle 6s ease-in-out infinite alternate-reverse;
+    opacity: 0.4;
+}
+
+@keyframes twinkle {
+    0% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 0.7;
+    }
+}
+
+/* Subtle Aurora */
+.aurora {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+            transparent 0%,
+            rgba(100, 149, 237, 0.03) 25%,
+            rgba(147, 112, 219, 0.02) 50%,
+            rgba(72, 61, 139, 0.03) 75%,
+            transparent 100%);
+    animation: aurora-shift 20s ease-in-out infinite;
+}
+
+@keyframes aurora-shift {
+
+    0%,
+    100% {
+        opacity: 0.5;
+        transform: translateX(0);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: translateX(5%);
+    }
+}
+
+/* === CLOCK CONTAINER === */
+#clock-root {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+/* === MAIN CLOCK FACE === */
+.clock-wrapper {
+    position: relative;
+    width: min(75vmin, 500px);
+    height: min(75vmin, 500px);
+}
+
+.clock-face {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(circle, rgba(10, 14, 23, 0.95) 0%, rgba(5, 8, 15, 0.98) 100%);
+    border: 2px solid var(--gold);
+    box-shadow:
+        0 0 60px rgba(212, 175, 55, 0.15),
+        0 0 100px rgba(212, 175, 55, 0.08),
+        inset 0 0 80px rgba(0, 0, 0, 0.5),
+        inset 0 0 20px rgba(212, 175, 55, 0.05);
+}
+
+/* Outer decorative ring */
+.clock-face::before {
+    content: '';
+    position: absolute;
+    inset: -15px;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.1);
+}
+
+/* Inner decorative ring */
+.clock-face::after {
+    content: '';
+    position: absolute;
+    inset: 8%;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+/* === HOUR MARKERS === */
+.markers {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.marker {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 2px;
+    height: 50%;
+    margin-left: -1px;
+    background: transparent;
+    transform-origin: center bottom;
+}
+
+.marker::after {
+    content: '';
+    position: absolute;
+    top: 4%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 8%;
+    background: linear-gradient(to bottom, var(--gold), var(--gold-light));
+    box-shadow: 0 0 8px var(--gold-glow);
+    border-radius: 1px;
+}
+
+.marker.major::after {
+    width: 3px;
+    height: 12%;
+    background: var(--gold);
+    box-shadow: 0 0 12px var(--gold-glow);
+}
+
+/* Roman numerals */
+.numeral {
+    position: absolute;
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1rem, 3vmin, 1.5rem);
+    font-weight: 400;
+    color: var(--gold-light);
+    text-shadow: 0 0 10px var(--gold-glow);
+    transform: translate(-50%, -50%);
+    letter-spacing: 0.1em;
+}
+
+/* === CLOCK HANDS === */
+.hands-container {
+    position: absolute;
+    inset: 0;
+}
+
+.hand {
+    position: absolute;
+    left: 50%;
+    bottom: 50%;
+    transform-origin: bottom center;
+    border-radius: 4px 4px 0 0;
+}
+
+.hour-hand {
+    width: 6px;
+    height: 22%;
+    background: linear-gradient(to top, var(--gold), var(--gold-light));
+    margin-left: -3px;
+    box-shadow:
+        0 0 15px var(--gold-glow),
+        2px 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 3;
+}
+
+.minute-hand {
+    width: 4px;
+    height: 32%;
+    background: linear-gradient(to top, var(--gold-light), #fff);
+    margin-left: -2px;
+    box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.3),
+        2px 2px 8px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+}
+
+.second-hand {
+    width: 2px;
+    height: 38%;
+    background: linear-gradient(to top, #e74c3c, #ff6b6b);
+    margin-left: -1px;
+    box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+    z-index: 4;
+    transition: none;
+}
+
+/* Counterweight on second hand */
+.second-hand::before {
+    content: '';
+    position: absolute;
+    bottom: -15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 12%;
+    background: linear-gradient(to bottom, #e74c3c, #c0392b);
+    border-radius: 2px;
+}
+
+/* Center cap */
+.center-cap {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    transform: translate(-50%, -50%);
+    background:
+        radial-gradient(circle at 30% 30%, var(--gold-light), var(--gold));
+    border-radius: 50%;
+    box-shadow:
+        0 0 20px var(--gold-glow),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.3);
+    z-index: 5;
+}
+
+.center-cap::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    background: radial-gradient(circle at 40% 40%, var(--gold), #8b6914);
+    border-radius: 50%;
+}
+
+/* === DATE DISPLAY === */
+.date-display {
+    margin-top: 4vmin;
+    text-align: center;
+    color: var(--gold-light);
+    opacity: 0.9;
+}
+
+.date-text {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.9rem, 2.5vmin, 1.3rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    text-shadow: 0 0 15px var(--gold-glow);
+}
+
+.time-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.8rem, 2vmin, 1rem);
+    letter-spacing: 0.2em;
+    margin-top: 1vmin;
+    opacity: 0.7;
+}
+
+/* === MOON PHASE INDICATOR (Decorative) === */
+.moon-phase {
+    position: absolute;
+    bottom: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12%;
+    height: 12%;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 65% 35%, rgba(255, 255, 255, 0.9) 0%, rgba(200, 200, 200, 0.7) 50%, rgba(100, 100, 100, 0.3) 100%);
+    box-shadow:
+        inset -3px -3px 8px rgba(0, 0, 0, 0.4),
+        0 0 15px rgba(255, 255, 255, 0.1);
+    opacity: 0.8;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 600px) {
+    .clock-wrapper {
+        width: 80vmin;
+        height: 80vmin;
+    }
+
+    .numeral {
+        font-size: 2.5vmin;
+    }
+}
+
+/* === SMOOTH HAND ANIMATIONS === */
+.hand {
+    will-change: transform;
+}
+
+.second-hand.smooth {
+    transition: transform 0.1s cubic-bezier(0.4, 2.3, 0.3, 1);
+}

@@ -1,0 +1,193 @@
+/*@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');*/
+
+@font-face {
+    font-family: 'Audiowide';
+    src: url('../../fonts/audiowide-latin-400-normal.woff') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+:root {
+    --accent: #7cf9ff;
+    --accent-glow: rgba(124, 249, 255, 0.7);
+    --accent-dim: rgba(124, 249, 255, 0.25);
+}
+
+body {
+    margin: 0;
+    background: #02030a;
+    overflow: hidden;
+}
+
+/* --- BACKGROUND LAYER (Fixed Full Screen) --- */
+/* Holds the gradient, grid, and scanlines */
+#theme-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    
+    /* Font family definition for inheritance */
+    font-family: 'Audiowide', 'Rajdhani', sans-serif;
+    color: var(--accent);
+}
+
+/* Gradient Background */
+#theme-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 20%, #1b68ff, transparent 50%),
+                radial-gradient(circle at 80% 0%, #ff2ba0, transparent 40%),
+                radial-gradient(circle at 70% 80%, #00ffcf, transparent 45%),
+                #02030a;
+    filter: blur(40px);
+    opacity: 0.9;
+    z-index: 0;
+}
+
+.grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 4vw 4vw;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.scanline {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent, rgba(255,255,255,0.08), transparent);
+    animation: scan 4s linear infinite;
+    pointer-events: none;
+    z-index: 2;
+}
+
+@keyframes scan {
+    from { transform: translateY(-100%); }
+    to   { transform: translateY(100%); }
+}
+
+/* --- CLOCK ROOT (Sits on top) --- */
+#lcd-root {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+/* --- 16:9 ASPECT RATIO BOX --- */
+#lcd-aspect-box {
+    position: relative;
+    width: min(100vw, 177.78vh); 
+    height: min(56.25vw, 100vh);
+}
+
+/* --- SCALER (Zoom Layer) --- */
+#lcd-scaler {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-origin: center center;
+    transition: transform 0.1s linear;
+}
+
+/* --- MAIN LAYOUT --- */
+.lcd-container {
+    display: grid;
+    grid-template-rows: 1fr 2fr 1fr;
+    grid-template-columns: 1fr 2fr 1fr;
+    
+    width: 100%;
+    height: 100%;
+    
+    padding: 2%;
+    box-sizing: border-box;
+    
+    font-family: 'Audiowide', 'Rajdhani', sans-serif;
+    color: var(--accent);
+}
+
+/* --- TYPOGRAPHY & EFFECTS --- */
+.lcd-glow {
+    text-shadow: 0 0 12px var(--accent-dim), 0 0 32px var(--accent-glow);
+    letter-spacing: 0.08em;
+}
+
+.lcd-dim { opacity: 0.25; transition: opacity 0.2s ease; }
+#lcd-am.active, #lcd-pm.active { opacity: 1; }
+
+/* Text Sizes (Relative to 16:9 Box) */
+.top-left, .top-right, .bottom-left, .bottom-right {
+    font-size: 3.5vmin; 
+    text-transform: uppercase;
+    line-height: 1.4;
+    white-space: nowrap; 
+}
+
+.top-left { align-self: start; }
+.top-right { text-align: right; align-self: start; }
+.bottom-left { align-self: end; }
+
+.bottom-right {
+    text-align: right;
+    align-self: end;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1vh;
+}
+
+/* Center Clock */
+.clock-center {
+    grid-column: 1 / 4; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* This scales based on the smaller side of the screen */
+    font-size: clamp(80px, calc(12vw + 12vh), 24vw);  
+    line-height: 1;
+}
+
+#lcd-ampm {
+    margin-left: 1.5vmin;
+    font-size: 5vmin; 
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vmin;
+    justify-content: center;
+}
+
+#lcd-seconds {
+    font-size: 5vmin;
+}
+
+/* Pulse bar */
+.pulse-bar {
+    width: 8vmin;
+    height: 0.5vmin;
+    background: var(--accent);
+    border-radius: 999px;
+    box-shadow: 0 0 20px var(--accent-glow);
+    animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scaleX(0.4); opacity: 0.4; }
+    50% { transform: scaleX(1); opacity: 1; }
+    100% { transform: scaleX(0.4); opacity: 0.4; }
+}

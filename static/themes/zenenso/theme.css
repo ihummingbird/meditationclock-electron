@@ -1,0 +1,87 @@
+/* --- ZEN ENSO THEME --- */
+.zen-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: #050505;
+    font-family: 'Inter', -apple-system, sans-serif;
+    overflow: hidden;
+    
+    /* Variables set by JS */
+    --zen-color-hex: #E1E1E6; 
+    --zen-color-rgb: 225, 225, 230;
+}
+
+/* The soft, ambient background glow */
+.zen-glow {
+    position: absolute;
+    width: 100vmin;
+    height: 100vmin;
+    border-radius: 50%;
+    z-index: 1;
+    background: radial-gradient(circle, rgba(var(--zen-color-rgb), 0.2) 0%, rgba(var(--zen-color-rgb), 0) 60%);
+    filter: blur(80px);
+    animation: glow-pulse 20s infinite alternate ease-in-out;
+    transition: opacity 0.5s ease;
+}
+
+/* The main ring element */
+.zen-enso-ring {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* Fluid sizing for all screens */
+    width: clamp(280px, 45vmin, 450px);
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    
+    /* Apple-like glass effect */
+    background: rgba(30, 30, 30, 0.2);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    
+    border: 2px solid rgba(var(--zen-color-rgb), 0.5);
+    box-shadow: 
+        0 0 50px -10px rgba(var(--zen-color-rgb), 0.5),
+        inset 0 0 15px rgba(0, 0, 0, 0.5);
+        
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s, box-shadow 0.5s;
+}
+
+/* Container for text elements */
+.zen-time-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+    color: var(--zen-color-hex);
+    text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+    transition: color 0.5s ease;
+}
+
+/* Main time (HH:MM) */
+#zen-time {
+    font-size: clamp(4rem, 9vmin, 7rem);
+    font-weight: 200;
+    letter-spacing: -0.05em;
+}
+
+/* Seconds */
+#zen-seconds {
+    font-size: clamp(1.5rem, 3vmin, 2.5rem);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: rgba(var(--zen-color-rgb), 0.7);
+    margin-top: 10px;
+    transition: color 0.5s ease;
+}
+
+@keyframes glow-pulse {
+    from { transform: scale(0.8); }
+    to { transform: scale(1.2); }
+}

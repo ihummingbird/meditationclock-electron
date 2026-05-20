@@ -1,0 +1,42 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <!-- The "Liquid" Gradient -->
+        <linearGradient id="complexGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#7cf3ff" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#9b6cff" stop-opacity="1"/>
+        </linearGradient>
+        
+        <!-- A soft glow filter -->
+        <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="1.5" result="blur"/>
+            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+    </defs>
+
+    <!-- Layer 1: The Abstract Diamond (Stability) -->
+    <!-- Rotated 45 degrees, rounded corners, semi-transparent fill -->
+    <rect x="18" y="18" width="28" height="28" rx="8" 
+          transform="rotate(45 32 32)" 
+          fill="url(#complexGrad)" 
+          fill-opacity="0.2"
+          stroke="url(#complexGrad)" 
+          stroke-width="3"
+          filter="url(#softGlow)" />
+
+    <!-- Layer 2: The Orbital Arc (Flow) -->
+    <!-- An open ring that cuts through the diamond -->
+    <path d="M 52 32 A 20 20 0 1 0 32 52" 
+          fill="none" 
+          stroke="url(#complexGrad)" 
+          stroke-width="4" 
+          stroke-linecap="round" />
+
+    <!-- Layer 3: The "Now" Particle (Focus) -->
+    <!-- A solid dot representing the current moment -->
+    <circle cx="32" cy="32" r="6" fill="white" />
+    
+    <!-- Layer 4: Floating Satellite (Complexity) -->
+    <!-- A small dot on the orbit path -->
+    <circle cx="52" cy="32" r="3" fill="#7cf3ff" />
+
+</svg>

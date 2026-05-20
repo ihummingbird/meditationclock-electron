@@ -1,0 +1,201 @@
+:root {
+    /* Apple-style Vibrant Palette Defaults */
+    --zo-p1: #FF2D55; /* Pink */
+    --zo-p2: #5856D6; /* Purple */
+    --zo-p3: #007AFF; /* Blue */
+    
+    --zo-scale: 1;
+    --zo-ring-weight: 2px; /* Thinner, elegant rings */
+    --zo-glow: 1;
+    --zo-text: #ffffff;
+    
+    --size-outer: 100%; 
+    --size-inner: 68%;
+}
+
+/* --- 1. STAGE & ATMOSPHERE --- */
+.zen-stage {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* The Breathing Mesh Gradient Background */
+.zen-aurora {
+    position: absolute;
+    width: 140vmin;
+    height: 140vmin;
+    background: 
+        radial-gradient(circle at 50% 0%, var(--zo-p2), transparent 60%),
+        radial-gradient(circle at 80% 50%, var(--zo-p3), transparent 60%),
+        radial-gradient(circle at 20% 80%, var(--zo-p1), transparent 60%);
+    filter: blur(80px);
+    opacity: 0.4;
+    animation: aurora-spin 20s linear infinite alternate;
+    will-change: transform, opacity;
+}
+
+@keyframes aurora-spin {
+    0% { transform: rotate(0deg) scale(1); opacity: 0.4; }
+    100% { transform: rotate(45deg) scale(1.1); opacity: 0.6; }
+}
+
+/* --- 2. THE SHELL --- */
+.zen-shell {
+    position: relative;
+    width: min(85vmin, 460px);
+    height: min(85vmin, 460px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(var(--zo-scale));
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Glass Capsule Logic */
+.glass-capsule {
+    position: absolute;
+    width: 55%;
+    height: 55%;
+    border-radius: 50%;
+    background: rgba(20, 20, 25, 0.4);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 
+        0 20px 40px rgba(0,0,0,0.4),
+        inset 0 0 20px rgba(255,255,255,0.05);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- 3. THE RINGS (Perfectly Aligned) --- */
+.ring-container {
+    position: absolute;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.ring-outer { width: var(--size-outer); height: var(--size-outer); z-index: 2; }
+.ring-inner { width: var(--size-inner); height: var(--size-inner); z-index: 3; }
+
+/* The Static Track (Faint Line) */
+.track {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: var(--zo-ring-weight) solid rgba(255, 255, 255, 0.15);
+}
+
+/* The Rotating Hand */
+.hand {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    will-change: transform;
+}
+
+/* The Jewel Dot */
+.dot {
+    position: absolute;
+    width: 16px; 
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    
+    /* ALIGNMENT MATH: Keeps dot on center of line */
+    left: 50%;
+    top: calc(var(--zo-ring-weight) / 2);
+    transform: translate(-50%, -50%);
+    
+    /* Apple Style Glow */
+    box-shadow: 
+        0 0 0 2px rgba(0,0,0,0.5), /* Contrast Ring */
+        0 0 15px var(--zo-dot-color),
+        0 0 30px var(--zo-dot-color);
+}
+
+/* Outer Dot Color */
+.ring-outer .dot { --zo-dot-color: var(--zo-p3); }
+/* Inner Dot Color */
+.ring-inner .dot { --zo-dot-color: var(--zo-p1); }
+
+
+/* --- 4. TYPOGRAPHY (San Francisco Style) --- */
+.time-stack {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Optical vertical correction */
+    transform: translateY(-2px); 
+}
+
+.ts-hours {
+    font-size: 5rem;
+    font-weight: 800; /* Heavy */
+    letter-spacing: -0.02em; /* Tight Apple kerning */
+    line-height: 0.9;
+    
+    /* Gradient Text */
+    background: linear-gradient(135deg, #fff 20%, rgba(255,255,255,0.5) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 10px rgba(0,0,0,0.3));
+}
+
+.ts-minutes {
+    font-size: 5rem;
+    font-weight: 200; /* Thin */
+    letter-spacing: -0.02em;
+    line-height: 0.9;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.ts-seconds {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--zo-p2);
+    margin-top: 12px;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+.meta-info {
+    position: absolute;
+    bottom: 25px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    display: flex;
+    gap: 8px;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 600px) {
+    .ts-hours, .ts-minutes { font-size: 3.5rem; }
+    .glass-capsule { width: 60%; height: 60%; }
+}
+
+/* Minimal Layout State */
+.zen-shell[data-mode="minimal"] .ts-seconds,
+.zen-shell[data-mode="minimal"] .meta-info {
+    opacity: 0;
+    transition: 0.3s;
+}

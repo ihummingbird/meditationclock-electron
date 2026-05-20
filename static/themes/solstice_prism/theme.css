@@ -1,0 +1,274 @@
+:root {
+    --sp-tone: #05060d;
+    --sp-accent: #8ef7ff;
+    --sp-accent2: #ffadf1;
+    --sp-scale: 1;
+    --sp-band-strength: 0.5;
+    --sp-grid-opacity: 0.18;
+    --sp-glimmer-speed: 26s;
+    --sp-font: 'Space Grotesk', 'Inter', sans-serif;
+}
+
+.solstice-canvas {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at 20% 20%, #0c1323, var(--sp-tone));
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f6fbff;
+}
+
+.solstice-gradient {
+    position: absolute;
+    inset: -30%;
+    background: conic-gradient(
+        from 55deg,
+        rgba(142,247,255,0.4),
+        rgba(255,173,241,0.35),
+        rgba(16,34,64,0.65),
+        rgba(255,198,128,0.25),
+        rgba(142,247,255,0.4)
+    );
+    filter: blur(140px);
+    opacity: 0.6;
+    animation: drift var(--sp-glimmer-speed) linear infinite;
+    pointer-events: none;
+}
+
+.glimmer {
+    position: absolute;
+    inset: -40% -10%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.55), transparent 55%);
+    opacity: 0.2;
+    mix-blend-mode: screen;
+    animation: sweep calc(var(--sp-glimmer-speed) * 1.15) ease-in-out infinite;
+    pointer-events: none;
+}
+
+.solstice-noise {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+    background-size: 3px 3px;
+    opacity: 0.06;
+    mix-blend-mode: screen;
+    pointer-events: none;
+}
+
+@keyframes drift {
+    0% { transform: rotate(0deg) scale(1); }
+    100% { transform: rotate(360deg) scale(1.05); }
+}
+
+@keyframes sweep {
+    0% { transform: translate(-20%, -15%) rotate(0deg); }
+    100% { transform: translate(15%, 20%) rotate(12deg); }
+}
+
+.safe-box {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    width: min(94vw, 1200px);
+    max-height: 85vh;
+    transform: scale(var(--sp-scale));
+    transition: transform 0.4s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.solstice-panel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 36px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(0,0,0,0.7));
+    box-shadow:
+        0 35px 80px rgba(0,0,0,0.6),
+        inset 0 0 40px rgba(0,0,0,0.45),
+        0 0 0 1px rgba(255,255,255,0.03);
+    padding: clamp(26px, 4vw, 70px);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.solstice-panel::before,
+.solstice-panel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 36px;
+    pointer-events: none;
+}
+
+.solstice-panel::before {
+    background: linear-gradient(120deg,
+        color-mix(in srgb, var(--sp-accent) 60%, transparent),
+        color-mix(in srgb, var(--sp-accent2) 50%, transparent)
+    );
+    mix-blend-mode: screen;
+    opacity: 0.25;
+}
+
+.solstice-panel::after {
+    background: linear-gradient(150deg,
+        rgba(255,255,255,0.16) 0%,
+        transparent 35%,
+        transparent 65%,
+        rgba(255,255,255,0.12) 100%);
+    opacity: calc(0.1 + var(--sp-band-strength) * 0.6);
+    mix-blend-mode: soft-light;
+}
+
+.panel-grid {
+    position: absolute;
+    inset: 12px;
+    border-radius: 30px;
+    border: 1px solid rgba(255,255,255,0.05);
+    opacity: var(--sp-grid-opacity);
+    background-image:
+        linear-gradient(to right, rgba(255,255,255,0.35) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.3) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+}
+
+.solstice-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: clamp(16px, 3vw, 40px);
+    font-family: var(--sp-font);
+}
+
+.solstice-panel[data-layout="center"] .solstice-content {
+    align-items: center;
+    text-align: center;
+}
+
+.solstice-panel[data-layout="offset"] {
+    justify-content: flex-start;
+    padding-left: clamp(50px, 7vw, 110px);
+    padding-right: clamp(26px, 4vw, 60px);
+}
+
+.solstice-panel[data-layout="offset"] .solstice-content {
+    align-items: flex-start;
+    text-align: left;
+}
+
+.headline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 0.35em;
+    font-size: clamp(12px, 2vw, 16px);
+    flex-wrap: wrap;
+}
+
+.headline .tag {
+    color: color-mix(in srgb, var(--sp-accent) 80%, white 20%);
+    font-weight: 600;
+}
+
+.headline .date {
+    color: rgba(255,255,255,0.78);
+}
+
+.time-row {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: clamp(14px, 4vw, 40px);
+    letter-spacing: -0.04em;
+}
+
+.solstice-panel[data-layout="offset"] .time-row {
+    justify-content: flex-start;
+}
+
+.time-row .hh,
+.time-row .mm {
+    font-size: clamp(56px, 15vmin, 180px);
+    font-weight: 600;
+    text-shadow: 0 0 40px color-mix(in srgb, var(--sp-accent) 60%, transparent);
+}
+
+.time-row .dot {
+    font-size: clamp(32px, 8vmin, 120px);
+    color: color-mix(in srgb, var(--sp-accent2) 75%, white 15%);
+    opacity: 0.7;
+    transition: opacity 0.35s ease;
+}
+
+.subline {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    text-transform: uppercase;
+    letter-spacing: 0.35em;
+    font-size: clamp(12px, 2.2vw, 18px);
+}
+
+.seconds-pill {
+    padding: 9px 18px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.08);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+.timezone {
+    color: rgba(255,255,255,0.7);
+}
+
+.mantra {
+    flex: 1;
+    text-align: right;
+    color: color-mix(in srgb, var(--sp-accent2) 70%, white 15%);
+}
+
+.solstice-panel[data-layout="center"] .subline {
+    justify-content: center;
+}
+
+@media (max-aspect-ratio: 10 / 16) {
+    .safe-box {
+        width: 94vw;
+        max-height: 72vh;
+        transform: scale(calc(var(--sp-scale) * 0.96));
+    }
+    .headline,
+    .subline {
+        letter-spacing: 0.25em;
+    }
+}
+
+@media (max-width: 480px) {
+    .headline,
+    .subline {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .mantra {
+        text-align: left;
+        width: 100%;
+    }
+}

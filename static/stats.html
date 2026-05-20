@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindful Stats</title>
+
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="stats.css">
+</head>
+
+<body>
+
+    <div class="dashboard">
+        <!-- NAV -->
+        <div class="nav">
+            <a href="index.html" class="back-link">← Clock</a>
+            <div class="version-tag">SYNCED CLOUD v1.0</div>
+        </div>
+
+        <!-- PROFILE -->
+        <div class="profile-card">
+            <div class="user-info">
+                <p id="rank-badge">NOVICE</p>
+                <h1 id="username-display" title="Click to switch user">LOADING...</h1>
+                <input type="text" id="user-search" placeholder="Enter Username..." autocomplete="off">
+            </div>
+            <div class="profile-icon">🧘</div>
+        </div>
+
+        <!-- STATS GRID -->
+        <div class="grid">
+            <div class="stat-card">
+                <span class="stat-num" id="total-hours">0</span>
+                <span class="stat-label">Total Hours</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-num" id="total-sessions">0</span>
+                <span class="stat-label">Sessions</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-num" id="avg-time">0m</span>
+                <span class="stat-label">Avg Session</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-num" id="longest-streak">0</span>
+                <span class="stat-label">Active Days</span>
+            </div>
+        </div>
+
+        <!-- CHART -->
+        <div class="chart-container">
+            <canvas id="activityChart"></canvas>
+        </div>
+
+        <!-- NEW: DISTRIBUTION CHART -->
+        <div class="distribution-section" style="margin-top: 20px; margin-bottom: 20px;">
+            <div class="dist-header"
+                style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h3 style="margin:0; font-size:12px; color:#666; text-transform:uppercase; letter-spacing:1px;">
+                    Distribution</h3>
+                <div class="toggle-group"
+                    style="background:#111; padding:4px; border-radius:8px; border:1px solid #333;">
+                    <button id="btn-daily" class="toggle-btn active">Daily</button>
+                    <button id="btn-hourly" class="toggle-btn">Hourly</button>
+                </div>
+            </div>
+            <div class="chart-container" style="height: 180px;">
+                <canvas id="distChart"></canvas>
+            </div>
+        </div>
+
+
+
+        <!-- RECORD DURATION DISTRIBUTION -->
+        <div class="distribution-section" style="margin-top: 20px; margin-bottom: 20px;">
+            <div class="dist-header" style="margin-bottom:15px;">
+                <h3 style="margin:0; font-size:12px; color:#666; text-transform:uppercase; letter-spacing:1px;">Session
+                    Length</h3>
+            </div>
+            <div class="chart-container" style="height: 180px;">
+                <canvas id="durationChart"></canvas>
+            </div>
+        </div>
+
+        <!-- NEW: DAILY SCROLLER -->
+        <div class="scroller-section">
+            <h3>Daily Overview</h3>
+            <div id="day-scroller" class="day-scroller">
+                <!-- JS will populate -->
+            </div>
+        </div>
+
+        <!-- NEW: ACTIVITY HEATMAP -->
+        <div class="heatmap-section" style="margin-bottom: 30px;">
+            <h3>Yearly Activity</h3>
+            <div id="activity-heatmap" class="heatmap-grid"></div>
+        </div>
+
+        <!-- HISTORY -->
+        <div class="history-section">
+            <h3>Recent Flows</h3>
+            <div id="history-list">
+                <!-- Javascript will populate this -->
+                <div style="color: #444; font-size: 12px;">Loading history...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIC -->
+    <script src="stats.js"></script>
+</body>
+
+</html>

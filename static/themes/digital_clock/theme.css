@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+:root {
+    --lcd-color: #66fcf1;
+    --lcd-glow: rgba(102, 252, 241, 0.35);
+    --lcd-dim: rgba(102, 252, 241, 0.2);
+}
+
+body {
+    margin: 0;
+    background: #000;
+    overflow: hidden;
+}
+
+/* --- BACKGROUND LAYER (Fixed & Full Screen) --- */
+#theme-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0; /* Behind everything */
+    
+    /* The Industrial Gradient */
+    background: linear-gradient(135deg, #0b0c10 0%, #1f2833 100%);
+}
+
+/* --- CLOCK ROOT (Sits on top of background) --- */
+#lcd-root {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1; /* In front of background */
+}
+
+/* --- 16:9 ASPECT RATIO BOX --- */
+#lcd-aspect-box {
+    position: relative;
+    /* Forces 16:9 ratio, fitting within screen limits */
+    width: min(100vw, 177.78vh); 
+    height: min(56.25vw, 100vh);
+}
+
+/* --- SCALER (Zoom Layer) --- */
+#lcd-scaler {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-origin: center center;
+    transition: transform 0.1s linear;
+}
+
+/* --- MAIN LAYOUT --- */
+.lcd-container {
+    display: grid;
+    grid-template-rows: 1fr 2fr 1fr;
+    grid-template-columns: 1fr 2fr 1fr;
+    
+    width: 100%;
+    height: 100%;
+    
+    padding: 2%;
+    box-sizing: border-box;
+    
+    /* IMPORTANT: Transparent so we see the #theme-bg behind it */
+    background: transparent; 
+}
+
+/* --- INDUSTRIAL THEME FONTS --- */
+.industrial {
+    font-family: 'Share Tech Mono', 'Consolas', monospace;
+    color: var(--lcd-color);
+    letter-spacing: 0.08em;
+}
+
+.lcd-glow { text-shadow: none; }
+.lcd-dim { opacity: 0.2; }
+#lcd-am.active, #lcd-pm.active { opacity: 1; }
+
+/* --- TEXT SIZES (Responsive to 16:9 Box) --- */
+.top-left, .top-right, .bottom-left, .bottom-right { 
+    font-size: 3.5vmin; 
+    text-transform: uppercase; 
+    white-space: nowrap;
+}
+
+.top-left, .bottom-left { text-align: left; }
+.top-right, .bottom-right { text-align: right; }
+.bottom-left, .bottom-right { align-self: end; }
+
+/* Center Clock */
+.clock-center { 
+    grid-column: 1 / 4; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    font-size: 25vmin; 
+    line-height: 1;
+}
+
+#lcd-ampm { 
+    font-size: 5vmin; 
+    margin-left: 2vmin; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5vmin;
+}
+
+#lcd-seconds {
+    font-size: 5vmin;
+}

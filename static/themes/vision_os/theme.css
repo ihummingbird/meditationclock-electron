@@ -1,0 +1,139 @@
+/* themes/lumina/theme.css */
+
+/* Define the base environment */
+.lumina-wrapper {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #050507; /* Ultra deep off-black */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif; /* Using the elegant thin font from your engine */
+}
+
+/* --- THE FLUID AURORA BACKGROUND --- */
+.lumina-aurora-container {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    z-index: 1;
+    pointer-events: none;
+    /* This creates the massive soft blur */
+    filter: blur(80px);
+    -webkit-filter: blur(80px);
+    opacity: var(--lumina-glow, 0.6);
+    transition: opacity 0.5s ease;
+}
+
+.lumina-orb {
+    position: absolute;
+    border-radius: 50%;
+    animation: lumina-drift var(--lumina-speed, 30s) infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base Hue comes from JS. Orb 2 & 3 shift the hue slightly for a beautiful gradient */
+.lumina-orb-1 {
+    width: 40vmax; height: 40vmax;
+    top: 30%; left: 30%;
+    background: radial-gradient(circle, hsl(var(--lumina-hue), 80%, 50%), transparent 70%);
+    animation-delay: 0s;
+}
+
+.lumina-orb-2 {
+    width: 50vmax; height: 30vmax;
+    bottom: 20%; right: 20%;
+    background: radial-gradient(circle, hsl(calc(var(--lumina-hue) + 40), 90%, 60%), transparent 70%);
+    animation-delay: -5s;
+    animation-duration: calc(var(--lumina-speed, 30s) * 1.2);
+}
+
+.lumina-orb-3 {
+    width: 35vmax; height: 35vmax;
+    top: 40%; right: 40%;
+    background: radial-gradient(circle, hsl(calc(var(--lumina-hue) - 30), 100%, 65%), transparent 70%);
+    animation-delay: -10s;
+    animation-duration: calc(var(--lumina-speed, 30s) * 0.8);
+}
+
+@keyframes lumina-drift {
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    33% { transform: translate(15%, 10%) scale(1.1) rotate(45deg); }
+    66% { transform: translate(-10%, 15%) scale(0.9) rotate(90deg); }
+    100% { transform: translate(10%, -10%) scale(1.05) rotate(135deg); }
+}
+
+/* --- THE CLOCK UI --- */
+.lumina-clock-stage {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* The Zoom slider directly scales this container */
+    transform: scale(var(--lumina-zoom, 1));
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lumina-time-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+}
+
+.lumina-hours, .lumina-minutes {
+    font-weight: 200; /* Ultra thin, Apple-style */
+    font-size: clamp(80px, 15vw, 200px);
+    line-height: 1;
+    color: #ffffff;
+    text-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    letter-spacing: -0.04em;
+}
+
+.lumina-colon {
+    font-weight: 200;
+    font-size: clamp(60px, 12vw, 160px);
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0 1vw;
+    animation: lumina-pulse 2s infinite ease-in-out;
+}
+
+@keyframes lumina-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* The Frosted Glass Seconds Pill */
+.lumina-seconds-pill {
+    margin-top: 20px;
+    padding: 8px 24px;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.lumina-seconds {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(16px, 3vw, 24px);
+    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 0.1em;
+}
+
+.lumina-am-pm {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: clamp(10px, 1.5vw, 14px);
+    color: hsl(var(--lumina-hue), 80%, 70%);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}

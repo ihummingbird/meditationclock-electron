@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+
+:root {
+    --accent: #7cf9ff;
+    --accent-glow: rgba(124, 249, 255, 0.7);
+    --accent-dim: rgba(124, 249, 255, 0.25);
+}
+
+body {
+    margin: 0;
+    background: #02030a;
+    overflow: hidden;
+}
+
+/* Shell */
+.aurora-shell {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    font-family: 'Audiowide', 'Rajdhani', sans-serif;
+    color: var(--accent);
+}
+
+/* Gradient background */
+.aurora-shell::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 20%, #1b68ff, transparent 50%),
+                radial-gradient(circle at 80% 0%, #ff2ba0, transparent 40%),
+                radial-gradient(circle at 70% 80%, #00ffcf, transparent 45%),
+                #02030a;
+    filter: blur(40px);
+    opacity: 0.9;
+}
+
+/* Grid overlay */
+.grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 4vw 4vw;
+    mix-blend-mode: screen;
+    pointer-events: none;
+}
+
+/* Scanline */
+.scanline {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent, rgba(255,255,255,0.08), transparent);
+    animation: scan 4s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes scan {
+    from { transform: translateY(-100%); }
+    to   { transform: translateY(100%); }
+}
+
+/* Clock layout */
+.lcd-container {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-rows: 1fr 2fr 1fr;
+    grid-template-columns: 1fr 2fr 1fr;
+    height: 100%;
+    width: 100%;
+    padding: 6vw;
+    box-sizing: border-box;
+}
+
+.lcd-glow {
+    text-shadow: 0 0 12px var(--accent-dim), 0 0 32px var(--accent-glow);
+    letter-spacing: 0.08em;
+}
+
+.lcd-dim { opacity: 0.25; transition: opacity 0.2s ease; }
+#lcd-am.active, #lcd-pm.active { opacity: 1; }
+
+.top-left, .top-right, .bottom-left, .bottom-right {
+    font-size: 2.6vw;
+    text-transform: uppercase;
+}
+
+.top-left { align-self: start; }
+.top-right { text-align: right; }
+.bottom-left { align-self: end; }
+.bottom-right {
+    text-align: right;
+    align-self: end;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1vw;
+}
+
+.clock-center {
+    grid-column: 1 / 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: min(24vw, 35vh);
+    line-height: 1;
+}
+
+#lcd-ampm {
+    margin-left: 2vw;
+    font-size: 5vw;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vw;
+}
+
+/* Pulse bar */
+.pulse-bar {
+    width: 6vw;
+    height: 0.7vw;
+    background: var(--accent);
+    border-radius: 999px;
+    box-shadow: 0 0 20px var(--accent-glow);
+    animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scaleX(0.4); opacity: 0.4; }
+    50% { transform: scaleX(1); opacity: 1; }
+    100% { transform: scaleX(0.4); opacity: 0.4; }
+}

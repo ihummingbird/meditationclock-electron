@@ -1,0 +1,267 @@
+/* THEME: Aurora Halo */
+
+:root {
+    --aurora-size: 100vmin;
+    --aurora-hue: 205;
+    --aurora-hue-2: 275;
+}
+
+.aurora-stage {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(circle at 50% 42%,
+            hsl(var(--aurora-hue), 55%, 10%) 0%,
+            #07080d 42%,
+            #010207 100%);
+}
+
+.aurora-stage::before {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    pointer-events: none;
+
+    background:
+        radial-gradient(circle at 30% 28%,
+            hsla(var(--aurora-hue), 100%, 62%, 0.13),
+            transparent 34%),
+        radial-gradient(circle at 70% 68%,
+            hsla(var(--aurora-hue-2), 100%, 60%, 0.11),
+            transparent 36%),
+        linear-gradient(135deg,
+            rgba(255,255,255,0.035),
+            transparent 45%,
+            rgba(255,255,255,0.025));
+
+    filter: blur(22px);
+    animation: auroraFloat 14s ease-in-out infinite alternate;
+}
+
+.aurora-stage::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    background:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.014) 1px, transparent 1px);
+    background-size: 42px 42px;
+
+    mask-image: radial-gradient(circle at center, black 0%, transparent 72%);
+    opacity: 0.28;
+}
+
+.aurora-scaler {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transform-origin: center center;
+    transition: transform 0.14s ease-out;
+    will-change: transform;
+}
+
+.aurora-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.aurora-center {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.aurora-glass {
+    position: relative;
+
+    width: calc(var(--aurora-size) * 0.34);
+    min-width: 170px;
+    max-width: 330px;
+
+    aspect-ratio: 1 / 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(145deg,
+            rgba(255,255,255,0.18),
+            rgba(255,255,255,0.055) 42%,
+            rgba(255,255,255,0.025));
+    border: 1px solid rgba(255,255,255,0.18);
+
+    box-shadow:
+        0 30px 90px rgba(0,0,0,0.46),
+        inset 0 1px 0 rgba(255,255,255,0.30),
+        inset 0 -24px 60px rgba(0,0,0,0.22),
+        0 0 80px hsla(var(--aurora-hue), 100%, 62%, 0.11);
+
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+}
+
+.aurora-glass::before {
+    content: "";
+    position: absolute;
+    inset: 8%;
+    border-radius: inherit;
+
+    background:
+        radial-gradient(circle at 35% 25%,
+            rgba(255,255,255,0.23),
+            transparent 36%),
+        radial-gradient(circle at 65% 75%,
+            hsla(var(--aurora-hue), 100%, 70%, 0.12),
+            transparent 42%);
+
+    opacity: 0.9;
+    pointer-events: none;
+}
+
+.aurora-glass::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+
+    background:
+        linear-gradient(145deg,
+            rgba(255,255,255,0.38),
+            transparent 32%,
+            rgba(255,255,255,0.08) 62%,
+            rgba(255,255,255,0.20));
+    mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    padding: 1px;
+}
+
+.aurora-time,
+.aurora-date,
+.aurora-subtitle {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    text-align: center;
+    color: white;
+}
+
+.aurora-time {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+    font-size: clamp(2.4rem, calc(var(--aurora-size) * 0.105), 6.3rem);
+    line-height: 0.95;
+
+    font-weight: 200;
+    letter-spacing: -0.065em;
+
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+
+    text-shadow:
+        0 0 18px rgba(255,255,255,0.22),
+        0 0 36px hsla(var(--aurora-hue), 100%, 70%, 0.22);
+}
+
+.aurora-date {
+    margin-bottom: calc(var(--aurora-size) * 0.016);
+
+    font-family: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+    font-size: clamp(0.62rem, calc(var(--aurora-size) * 0.018), 1rem);
+    line-height: 1;
+
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+
+    color: rgba(255,255,255,0.64);
+}
+
+.aurora-subtitle {
+    margin-top: calc(var(--aurora-size) * 0.02);
+
+    font-family: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+    font-size: clamp(0.52rem, calc(var(--aurora-size) * 0.014), 0.78rem);
+    line-height: 1;
+
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+
+    color: hsla(var(--aurora-hue), 100%, 82%, 0.58);
+}
+
+@keyframes auroraFloat {
+    0% {
+        transform: translate3d(-1.5%, -1%, 0) scale(1);
+        opacity: 0.78;
+    }
+
+    100% {
+        transform: translate3d(1.5%, 1%, 0) scale(1.08);
+        opacity: 1;
+    }
+}
+
+/* Phone tuning */
+@media (max-width: 600px) {
+    .aurora-glass {
+        width: calc(var(--aurora-size) * 0.40);
+        min-width: 158px;
+    }
+
+    .aurora-time {
+        font-size: clamp(2.15rem, calc(var(--aurora-size) * 0.118), 4.5rem);
+    }
+
+    .aurora-date {
+        font-size: clamp(0.56rem, calc(var(--aurora-size) * 0.021), 0.82rem);
+        letter-spacing: 0.18em;
+    }
+
+    .aurora-subtitle {
+        font-size: clamp(0.48rem, calc(var(--aurora-size) * 0.016), 0.68rem);
+        letter-spacing: 0.22em;
+    }
+}
+
+/* Very short displays */
+@media (max-height: 520px) {
+    .aurora-glass {
+        width: calc(var(--aurora-size) * 0.31);
+        min-width: 145px;
+    }
+
+    .aurora-subtitle {
+        display: none;
+    }
+}

@@ -1,0 +1,207 @@
+:root {
+    --ag-accent: #7cf3ff;
+    --ag-accent2: #9b6cff;
+    --ag-glow: 40%;
+    --ag-blur: 18px;
+    --ag-text: #eaf9ff;
+    --ag-scale: 0.9;
+    --ag-speed: 40s;
+    --ag-font: 'JetBrains Mono', 'Inter', monospace;
+}
+
+.aurora-shell {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at 20% 20%, #0b1a24, #050505 60%);
+}
+
+/* Animated aurora background */
+.aurora-bg {
+    position: absolute;
+    inset: 0;
+    filter: blur(60px) saturate(150%);
+    opacity: 0.8;
+    background: conic-gradient(from 180deg,
+            var(--ag-accent),
+            var(--ag-accent2),
+            #1c2a50,
+            #0f161f,
+            var(--ag-accent));
+    animation: auroraFlow var(--ag-speed) ease-in-out infinite;
+}
+
+@keyframes auroraFlow {
+    0% {
+        transform: scale(1) translate(-5%, -5%) rotate(0deg);
+    }
+
+    50% {
+        transform: scale(1.1) translate(5%, 5%) rotate(10deg);
+    }
+
+    100% {
+        transform: scale(1) translate(-5%, -5%) rotate(0deg);
+    }
+}
+
+/* Safe 16:9 box that scales nicely on portrait */
+.aurora-safe {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    width: min(92vw, 1200px);
+    max-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(var(--ag-scale));
+}
+
+.aurora-glass {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+    backdrop-filter: blur(var(--ag-blur));
+    -webkit-backdrop-filter: blur(var(--ag-blur));
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        0 30px 80px rgba(0, 0, 0, 0.55),
+        0 0 50px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Accent glow ring */
+.aurora-glass::before {
+    content: "";
+    position: absolute;
+    inset: 18px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow:
+        0 0 40px rgba(0, 0, 0, 0.4),
+        0 0 24px rgba(0, 0, 0, 0.35);
+    pointer-events: none;
+}
+
+.aurora-glass::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 28px;
+    background: radial-gradient(circle at 30% 30%,
+            color-mix(in srgb, var(--ag-accent) 40%, transparent),
+            transparent 60%);
+    opacity: 0.4;
+    filter: blur(40px);
+    pointer-events: none;
+}
+
+/* Time & layout */
+.aurora-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    padding: clamp(18px, 3vw, 36px);
+    color: var(--ag-text);
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+
+.time-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(8px, 2vw, 16px);
+    font-family: var(--ag-font);
+    font-weight: 700;
+    letter-spacing: -1px;
+    text-shadow:
+        0 0 20px color-mix(in srgb, var(--ag-accent) var(--ag-glow), transparent),
+        0 0 40px rgba(0, 0, 0, 0.35);
+    user-select: none;
+}
+
+.time-block .hh,
+.time-block .mm,
+.time-block .ss {
+    font-size: clamp(38px, 18vw, 240px);
+    line-height: 1;
+    
+}
+
+/* Sloppy second fix*/
+.time-block .ss {
+    width: 5%;
+}
+
+.time-block .dot {
+    font-size: clamp(22px, 6vw, 70px);
+    opacity: 0.65;
+    transition: opacity 0.35s ease;
+}
+
+.time-block .ss {
+    font-size: clamp(16px, 4.5vw, 50px);
+    opacity: 0.7;
+}
+
+/* Footer info */
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: clamp(10px, 2vw, 14px);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 1vh;
+    
+}
+
+.footer .pill {
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Responsive tweaks */
+@media (max-aspect-ratio: 10/16) {
+    .aurora-safe {
+        width: 94vw;
+        max-height: 72vh;
+        transform: scale(calc(var(--ag-scale) * 0.98));
+    }
+
+    .time-block .hh,
+    .time-block .mm {
+        font-size: clamp(42px, 16vw, 110px);
+    }
+}
+
+@media (max-width: 480px) {
+    .time-block {
+        gap: 10px;
+    }
+
+    .footer {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1vh; 
+    }
+
+}
+

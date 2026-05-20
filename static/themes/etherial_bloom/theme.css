@@ -1,0 +1,133 @@
+/* Ethereal Bloom Theme for Mom */
+:root {
+    --bloom-zoom: 1;
+    --bloom-glow: 1;
+    
+    /* Default: Amethyst Dream */
+    --color-blob-h: #9b59b6; /* Purple */
+    --color-blob-m: #ff7675; /* Pink */
+    --color-blob-s: #fd79a8; /* Light Pink */
+    --color-bg: #130f1a;
+}
+
+#stage {
+    background-color: var(--color-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    transition: background-color 1s ease;
+}
+
+#bloom-container {
+    position: relative;
+    width: 40vmin;
+    height: 40vmin;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(var(--bloom-zoom));
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* The Liquid Blobs */
+.bloom-blob {
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    border-radius: 40% 60% 60% 40% / 50% 50% 40% 60%;
+    mix-blend-mode: screen;
+    filter: blur(calc(8px * var(--bloom-glow)));
+    opacity: 0.8;
+    box-shadow: 0 0 calc(30px * var(--bloom-glow)) currentColor;
+    transition: color 1s ease, filter 0.5s ease;
+}
+
+/* Hours - Slowest, largest */
+#blob-hour {
+    color: var(--color-blob-h);
+    background: currentColor;
+    animation: morph 15s linear infinite, spin 25s linear infinite reverse;
+    width: 140%; height: 140%;
+}
+
+/* Minutes - Medium */
+#blob-min {
+    color: var(--color-blob-m);
+    background: currentColor;
+    animation: morph 12s linear infinite, spin 18s linear infinite;
+    width: 110%; height: 110%;
+}
+
+/* Seconds - Fastest, inner */
+#blob-sec {
+    color: var(--color-blob-s);
+    background: currentColor;
+    animation: morph 8s linear infinite, spin 10s linear infinite;
+    width: 90%; height: 90%;
+}
+
+/* The Elegant Glass Center */
+#bloom-glass {
+    position: relative;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 180px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(255,255,255,0.1);
+}
+
+/* Typography */
+#bloom-time {
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ,;
+    font-size: 3.5rem;
+    font-weight: 400;
+    color: #ffffff;
+    line-height: 1;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    letter-spacing: 2px;
+}
+
+#bloom-seconds {
+    font-family: 'Montserrat',  sans-serif;
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 5px;
+    letter-spacing: 4px;
+}
+
+/* Animations */
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes morph {
+    0% { border-radius: 40% 60% 60% 40% / 50% 50% 40% 60%; }
+    33% { border-radius: 60% 40% 50% 50% / 40% 60% 60% 40%; }
+    66% { border-radius: 50% 50% 40% 60% / 60% 40% 50% 50%; }
+    100% { border-radius: 40% 60% 60% 40% / 50% 50% 40% 60%; }
+}
+
+/* Mobile Adjustments */
+@media (max-width: 800px) {
+    #bloom-container {
+        width: 60vmin;
+        height: 60vmin;
+    }
+    #bloom-glass {
+        width: 140px;
+        height: 140px;
+    }
+    #bloom-time { font-size: 2.8rem; }
+}

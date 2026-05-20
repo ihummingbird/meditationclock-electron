@@ -1,0 +1,102 @@
+/* Container takes up the full viewport and centers content */
+#material-aura-container {
+    position: absolute; /* Changed to absolute */
+    top: 0;
+    left: 0;
+    width: 100vw;       /* Changed to viewport width */
+    height: 100vh;      /* Changed to viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-color); 
+    overflow: hidden;
+    z-index: 1;         /* Keep it behind the UI */
+
+    /* Default CSS Variables */
+    --clock-scale: 1;
+    --aura-color: #4285F4;
+    --aura-blur: 120px;
+    --aura-opacity: 0.6;
+}
+
+
+/* The ambient Google-style glowing orb */
+#material-aura-orb {
+    position: absolute;
+    width: 30vmax;
+    height: 30vmax;
+    border-radius: 50%;
+    background-color: var(--aura-color);
+    filter: blur(var(--aura-blur));
+    opacity: var(--aura-opacity);
+    
+    /* Apply user zoom scale to the orb as well */
+    transform: scale(var(--clock-scale));
+    transition: background-color 0.8s ease, filter 0.8s ease, opacity 0.8s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    /* Subtle breathing animation for a relaxing feel */
+    animation: material-breathe 8s infinite alternate ease-in-out;
+}
+
+/* The actual clock text */
+#material-aura-time {
+    position: relative;
+    z-index: 10;
+    font-family: 'Inter', sans-serif;
+    font-weight: 200; /* Extremely thin, elegant Google Sans style */
+    color: #ffffff;
+    font-size: 10vw; /* Fluid typography responsive to screen width */
+    line-height: 1;
+    
+    /* THE FIX: Force numbers to have equal widths */
+    font-variant-numeric: tabular-nums;
+    letter-spacing: normal; /* Override the previous -0.02em to ensure perfect monospace alignment */
+    
+    /* Transform scaling based on user slider */
+    transform: scale(var(--clock-scale));
+    transform-origin: center center;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    /* A very subtle drop shadow to ensure readability against the bright aura */
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+
+/* Colon styling for rhythm */
+#material-aura-time .colon {
+    font-weight: 300;
+    opacity: 0.7;
+    margin: 0 0.05em;
+    /* Soft pulsing of the colons */
+    animation: colon-pulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+/* --- Animations --- */
+
+@keyframes material-breathe {
+    0% {
+        transform: scale(calc(var(--clock-scale) * 0.95)) translateY(10px);
+    }
+    100% {
+        transform: scale(calc(var(--clock-scale) * 1.05)) translateY(-10px);
+    }
+}
+
+@keyframes colon-pulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 0.2; }
+}
+
+/* --- Responsive Overrides for Mobile --- */
+@media (max-width: 800px) {
+    #material-aura-orb {
+        width: 250px;
+        height: 250px;
+    }
+
+    #material-aura-time {
+        /* On narrow screens, make the base text size larger relative to width */
+        font-size: 18vw; 
+        font-weight: 300; /* Slightly thicker on mobile to maintain readability */
+    }
+}

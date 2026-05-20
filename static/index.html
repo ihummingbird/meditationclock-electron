@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Meditation Clock</title>
+    <link rel="stylesheet" href="core/global.css">
+    <link id="theme-stylesheet" rel="stylesheet" href="">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@700&family=Audiowide&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Cinzel:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    
+    <!-- Backup for international internet blackouts -->
+    <script src="
+                                    https://lib.arvancloud.ir/webfont/1.6.28/webfontloader.js
+                                " crossorigin="anonymous" referrerpolicy="no-referrer" onload="this.media='all'""></script>
+    <!-- FavIcon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preload" href="fonts/JetBrainsMono-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous" onload="this.media='all'"">
+</head>
+<body>
+
+    <!-- NAVBAR: Liquid Style, Old Layout -->
+    <nav id="navbar">
+        <div class="nav-left">
+            <button id="btn-library" class="nav-btn">
+                <span class="icon">❖</span> <span class="nav-text">Library</span>
+            </button>
+            <a href="stats.html" class="nav-btn">
+                <span class="icon">il.</span> <span class="nav-text">Stats</span>
+            </a>
+        </div>
+        <div class="nav-brand">Meditation Clock</div>
+        <div class="nav-right">
+            <button id="btn-fullscreen" class="nav-btn" title="Focus Mode">⛶</button>
+            <button id="btn-settings" class="nav-btn" title="Settings">⋯</button>
+        </div>
+    </nav>
+
+    <button id="btn-exit-fs">Exit Focus ×</button>
+
+    <div id="stage"></div>
+
+    <!-- LEFT DRAWER -->
+    <div id="library-drawer" class="drawer left-drawer">
+        <div class="drawer-header">
+            <h3>Atmospheres</h3>
+            <button id="btn-close-library" class="close-btn">×</button>
+        </div>
+        <div id="theme-grid" class="grid-container"></div>
+    </div>
+
+    <!-- RIGHT DRAWER -->
+    <div id="settings-panel" class="drawer right-drawer">
+        <div class="drawer-header">
+            <h3>Configuration</h3>
+            <button id="btn-close-settings" class="close-btn">×</button>
+        </div>
+        <div id="settings-content" class="grid-container"></div>
+    </div>
+
+    <!-- FOOTER: Liquid Visuals, Old "Neat" Structure -->
+    <div id="session-handle" class="session-handle">
+        <div class="handle-bar"></div>
+        <span id="session-status-text">Start Session</span>
+    </div>
+
+    <div id="session-panel" class="bottom-drawer">
+        <div class="session-content">
+            <div id="session-timer">00:00:00</div>
+            
+            <!-- CONTROLS ROW: Restored for neat alignment -->
+            <div id="controls-row">
+                <button id="btn-session-toggle">BEGIN MEDITATION</button>
+                
+                <div id="sync-group">
+                    <input type="text" id="user-input" placeholder="YOUR NAME" maxlength="12" autocomplete="off">
+                    <button id="btn-sync">SYNC ☁</button>
+                </div>
+            </div>
+
+            <div id="sync-msg"></div>
+        </div>
+    </div>
+
+    <!-- SECRET MODAL: Restored -->
+    <div id="secret-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Manual Override</h3>
+                <button id="btn-close-secret" class="close-btn">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label>USER ID</label>
+                    <input type="text" id="secret-username" placeholder="ANONYMOUS" class="sleek-input">
+                </div>
+                <div class="input-group">
+                    <label>DURATION (MINUTES)</label>
+                    <input type="number" id="secret-duration" placeholder="00" class="sleek-input">
+                </div>
+                <div id="secret-msg" class="status-msg"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-secret-submit" class="action-btn">UPLOAD ENTRY</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="core/engine.js"></script>
+</body>
+</html>

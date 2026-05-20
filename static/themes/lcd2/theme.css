@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+/* base layout same as theme 1 */
+
+.vfd {
+    font-family: 'Orbitron', 'Courier New', monospace;
+    background: #001b19;
+    color: #73ffcf;
+    --lcd-glow: rgba(115, 255, 207, 0.7);
+    --lcd-dim: rgba(115, 255, 207, 0.3);
+    text-shadow: 0 0 12px var(--lcd-glow), 0 0 30px rgba(115,255,207,0.9);
+}
+
+@import url('https://fonts.cdnfonts.com/css/ds-digital');
+
+.lcd-container { /* same base grid as theme 1 */ }
+/* (You can copy the base block from Theme 1 and reuse it.) */
+
+.retro-alarm {
+    font-family: 'DS-Digital', 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at top, #1b1b1b 0%, #000 70%);
+    color: #ff4242;
+    --lcd-glow: rgba(255, 66, 66, 0.7);
+    --lcd-dim: rgba(255, 66, 66, 0.3);
+    text-shadow: 0 0 12px var(--lcd-glow), 0 0 30px rgba(255,66,66,.8);
+}
+
+
+@font-face {
+    font-family: 'DS-Digital', 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("https://cdn.jsdelivr.net/gh/keshikan/DSEG@v0.46/dist/DSEG7Classic-Regular.woff2") format("woff2"),
+         url("https://cdn.jsdelivr.net/gh/keshikan/DSEG@v0.46/dist/DSEG7Classic-Regular.woff") format("woff");
+}
+
+/* base layout */
+.lcd-container {
+    display: grid;
+    grid-template-rows: 1fr 2fr 1fr;
+    grid-template-columns: 1fr 2fr 1fr;
+    height: 100vh;
+    width: 100vw;
+    padding: 5vw;
+    background: #000;
+    font-family: inherit;
+    color: var(--lcd-color, #00d5ff);
+}
+
+.lcd-glow { text-shadow: 0 0 10px var(--lcd-dim, #00d5ff40), 0 0 20px var(--lcd-glow, #00d5ff80); }
+.lcd-dim { opacity: 0.25; }
+.top-left, .top-right, .bottom-left, .bottom-right { font-size: 3vw; text-transform: uppercase; }
+.top-left, .bottom-left { text-align: left; }
+.top-right, .bottom-right { text-align: right; }
+.bottom-left, .bottom-right { align-self: end; }
+.clock-center { grid-column: 1 / 4; display: flex; justify-content: center; align-items: center; font-size: 25vw; }
+#lcd-ampm { font-size: 5vw; margin-left: 2vw; }
+#lcd-am.active, #lcd-pm.active { opacity: 1; }
+
+/* theme specifics */
+.segment {
+    font-family: 'DS-Digital', 'Segoe UI', sans-serif;
+    --lcd-color: #00d5ff;
+    --lcd-glow: #00d5ff80;
+    --lcd-dim: #00d5ff40;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+/* base layout same as theme 1 */
+
+.industrial {
+    font-family: 'Share Tech Mono', 'Consolas', monospace;
+    background: linear-gradient(135deg, #0b0c10 0%, #1f2833 100%);
+    color: #66fcf1;
+    --lcd-glow: rgba(102, 252, 241, 0.35);
+    --lcd-dim: rgba(102, 252, 241, 0.2);
+    text-shadow: none;
+    letter-spacing: 0.08em;
+}

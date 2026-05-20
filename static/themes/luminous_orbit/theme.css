@@ -1,0 +1,294 @@
+#stage {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.lo-root {
+    --lo-zoom: 1;
+    --lo-hue: 210;
+    --lo-glow: 0.7;
+    --lo-ambient: 0.35;
+    --lo-speed-mult: 1;
+    --lo-bg1: hsla(215, 60%, 10%, 1);
+    --lo-bg2: hsla(245, 65%, 13%, 1);
+    --lo-bg3: hsla(185, 65%, 12%, 1);
+    --lo-text: rgba(245,250,255,0.97);
+    --lo-sub: rgba(190,220,255,0.72);
+    --lo-accent: hsl(210, 85%, 68%);
+    --lo-accent-soft: hsla(210, 90%, 70%, 0.35);
+    --lo-accent-faint: hsla(210, 90%, 70%, 0.12);
+    --lo-shift-x: 0px;
+    --lo-shift-y: 0px;
+    --lo-pulse: 1;
+
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,0.05), transparent 32%),
+        radial-gradient(circle at 70% 65%, var(--lo-accent-faint), transparent 26%),
+        linear-gradient(135deg, var(--lo-bg1), var(--lo-bg2) 45%, var(--lo-bg3));
+    transform: scale(var(--lo-zoom));
+    transform-origin: center center;
+}
+
+.lo-bg {
+    position: absolute;
+    inset: -10%;
+    background:
+        radial-gradient(circle at 50% 50%, var(--lo-accent-soft), transparent 24%),
+        radial-gradient(circle at 35% 40%, hsla(calc(var(--lo-hue) + 30), 80%, 65%, calc(0.10 + var(--lo-ambient) * 0.18)), transparent 22%),
+        radial-gradient(circle at 65% 58%, hsla(calc(var(--lo-hue) - 25), 80%, 65%, calc(0.08 + var(--lo-ambient) * 0.16)), transparent 24%);
+    filter: blur(55px) saturate(130%);
+    transform: translate(var(--lo-shift-x), var(--lo-shift-y)) scale(var(--lo-pulse));
+    opacity: 0.95;
+    animation: loBgFloat 16s ease-in-out infinite alternate;
+}
+
+.lo-vignette {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at center, transparent 42%, rgba(0,0,0,0.18) 72%, rgba(0,0,0,0.48) 100%);
+    pointer-events: none;
+}
+
+.lo-particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.lo-particle {
+    position: absolute;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 35% 35%, rgba(255,255,255,0.95), rgba(255,255,255,0.35) 45%, transparent 75%);
+    box-shadow:
+        0 0 10px rgba(255,255,255,0.18),
+        0 0 18px var(--lo-accent-soft);
+    animation-name: loParticleFloat;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+
+.lo-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(78vmin, 620px);
+    height: min(78vmin, 620px);
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lo-core-glow {
+    position: absolute;
+    width: 38%;
+    height: 38%;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle, hsla(var(--lo-hue), 95%, 74%, calc(0.24 + var(--lo-glow) * 0.34)) 0%, hsla(var(--lo-hue), 95%, 68%, calc(0.12 + var(--lo-glow) * 0.20)) 35%, transparent 72%);
+    filter: blur(22px);
+    transform: scale(var(--lo-pulse));
+    animation: loCoreBreath 5.2s ease-in-out infinite;
+}
+
+.lo-orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.09);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.lo-orbit::before,
+.lo-orbit::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+}
+
+.lo-orbit-1 {
+    width: 52%;
+    height: 52%;
+    box-shadow:
+        inset 0 0 22px rgba(255,255,255,0.03),
+        0 0 20px rgba(255,255,255,0.02);
+    animation: loSpinCW 56s linear infinite;
+}
+
+.lo-orbit-1::before {
+    width: 12px;
+    height: 12px;
+    top: -6px;
+    left: calc(50% - 6px);
+    background: var(--lo-accent);
+    box-shadow:
+        0 0 12px var(--lo-accent),
+        0 0 30px var(--lo-accent-soft);
+}
+
+.lo-orbit-2 {
+    width: 72%;
+    height: 72%;
+    border-color: rgba(255,255,255,0.07);
+    border-style: dashed;
+    box-shadow: 0 0 30px rgba(255,255,255,0.02);
+    animation: loSpinCCW 82s linear infinite;
+}
+
+.lo-orbit-2::before {
+    width: 9px;
+    height: 9px;
+    top: calc(50% - 4.5px);
+    right: -4.5px;
+    background: rgba(255,255,255,0.85);
+    box-shadow:
+        0 0 10px rgba(255,255,255,0.5),
+        0 0 20px var(--lo-accent-soft);
+}
+
+.lo-orbit-3 {
+    width: 94%;
+    height: 94%;
+    border-color: rgba(255,255,255,0.06);
+    box-shadow:
+        inset 0 0 35px rgba(255,255,255,0.02),
+        0 0 40px rgba(255,255,255,0.02);
+    animation: loSpinCW 118s linear infinite;
+}
+
+.lo-orbit-3::before {
+    width: 6px;
+    height: 6px;
+    bottom: 8%;
+    left: 12%;
+    background: rgba(255,255,255,0.7);
+    box-shadow:
+        0 0 8px rgba(255,255,255,0.4),
+        0 0 16px var(--lo-accent-soft);
+}
+
+.lo-time-wrap {
+    position: relative;
+    z-index: 5;
+    width: 78%;
+    max-width: 460px;
+    text-align: center;
+    padding: 4vmin 2vmin;
+}
+
+.lo-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    font-size: clamp(2.3rem, 8vw, 5.8rem);
+    line-height: 0.95;
+    letter-spacing: 0.08em;
+    color: var(--lo-text);
+    text-shadow:
+        0 0 10px rgba(255,255,255,0.06),
+        0 0 24px hsla(var(--lo-hue), 90%, 75%, calc(0.16 + var(--lo-glow) * 0.25)),
+        0 0 60px hsla(var(--lo-hue), 90%, 70%, calc(0.08 + var(--lo-glow) * 0.12));
+    transform: translateZ(0);
+}
+
+.lo-sub {
+    margin-top: 1rem;
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.65rem, 1.8vw, 0.95rem);
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--lo-sub);
+    white-space: nowrap;
+}
+
+@keyframes loSpinCW {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes loSpinCCW {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+@keyframes loCoreBreath {
+    0%, 100% {
+        transform: scale(0.96);
+        opacity: 0.85;
+    }
+    50% {
+        transform: scale(1.06);
+        opacity: 1;
+    }
+}
+
+@keyframes loBgFloat {
+    0% {
+        transform: translate(-10px, -6px) scale(1);
+    }
+    100% {
+        transform: translate(10px, 8px) scale(1.04);
+    }
+}
+
+@keyframes loParticleFloat {
+    0%, 100% {
+        transform: translate3d(0, 0, 0) scale(0.9);
+    }
+    25% {
+        transform: translate3d(var(--drift-x), -12px, 0) scale(1);
+    }
+    50% {
+        transform: translate3d(calc(var(--drift-x) * -0.6), -24px, 0) scale(1.08);
+    }
+    75% {
+        transform: translate3d(calc(var(--drift-x) * 0.4), -10px, 0) scale(0.96);
+    }
+}
+
+@media (max-width: 800px) {
+    .lo-center {
+        width: min(88vmin, 520px);
+        height: min(88vmin, 520px);
+    }
+
+    .lo-time-wrap {
+        width: 88%;
+        padding: 5vmin 2vmin;
+    }
+
+    .lo-time {
+        font-size: clamp(2rem, 11vw, 4.2rem);
+        letter-spacing: 0.05em;
+    }
+
+    .lo-sub {
+        margin-top: 0.85rem;
+        font-size: clamp(0.58rem, 2.6vw, 0.85rem);
+        letter-spacing: 0.28em;
+    }
+
+    .lo-orbit-1::before {
+        width: 10px;
+        height: 10px;
+        top: -5px;
+        left: calc(50% - 5px);
+    }
+
+    .lo-orbit-2::before {
+        width: 8px;
+        height: 8px;
+        top: calc(50% - 4px);
+        right: -4px;
+    }
+}

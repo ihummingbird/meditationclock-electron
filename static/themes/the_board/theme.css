@@ -1,0 +1,124 @@
+:root {
+    --b-void: #b0b5ba;
+    --b-red: #cc2929;
+    --b-text: #1a1a1a;
+}
+
+/* HARD RESET */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--b-void);
+}
+
+.astral-stage {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+canvas#board-canvas {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Film Grain - Slightly reduced opacity */
+.astral-grain {
+    position: absolute;
+    inset: -100%;
+    width: 300%;
+    height: 300%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E");
+    opacity: 0.35;
+    mix-blend-mode: overlay;
+    animation: grain 0.2s steps(4) infinite;
+    pointer-events: none;
+    z-index: 5;
+}
+@keyframes grain {
+    0%, 100% { transform: translate(0,0); }
+    50% { transform: translate(-2%, 2%); }
+}
+
+/* --- UI LAYER --- */
+.ui-layer {
+    position: absolute;
+    bottom: 8%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
+    text-align: center;
+    font-family: 'Inter', Helvetica, sans-serif;
+    color: #111;
+}
+
+.clock-display {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    margin-bottom: 25px;
+    opacity: 0.4;
+    font-variant-numeric: tabular-nums;
+}
+
+/* 
+   Single Line Layout:
+   Flexbox row + alignment baseline 
+*/
+.board-container {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: center;
+    gap: 12px;
+    
+    padding: 18px 30px;
+    background: rgba(220, 225, 230, 0.5); 
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+    max-width: 90%;
+    border-left: 4px solid var(--b-red);
+
+    /* NEW: Start hidden, hard cut (no transition) */
+    opacity: 0; 
+}
+
+.speaker-label {
+    font-size: 1rem;
+    font-weight: 900;
+    color: var(--b-red);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap; /* Keep on one line */
+}
+
+.board-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--b-text);
+    text-align: left;
+    
+    
+}
+
+@media (max-width: 600px) {
+    /* On very small screens, let it wrap if needed, or keep row */
+    .board-container { flex-direction: column; align-items: center; gap: 5px; }
+    .board-text { font-size: 0.95rem; text-align: center; }
+}

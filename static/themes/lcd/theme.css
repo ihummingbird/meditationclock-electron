@@ -1,0 +1,122 @@
+@import url('https://fonts.cdnfonts.com/css/ds-digital');
+
+
+/* --- SAFE FONT DEFINITION (Matching the JS loader exactly) --- */
+@font-face {
+    font-family: 'DS-Digital', 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("https://cdn.jsdelivr.net/gh/keshikan/DSEG@v0.46/dist/DSEG7Classic-Regular.woff2") format("woff2"),
+         url("https://cdn.jsdelivr.net/gh/keshikan/DSEG@v0.46/dist/DSEG7Classic-Regular.woff") format("woff");
+}
+
+:root {
+    --lcd-color: #00d5ff;
+    --lcd-glow: rgba(0, 213, 255, 0.5);
+    --lcd-dim: rgba(0, 213, 255, 0.2);
+}
+
+body {
+    margin: 0;
+    background: #000;
+    overflow: hidden;
+}
+
+/* --- ROOT CONTAINER --- */
+#lcd-root {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    overflow: hidden;
+}
+
+/* --- 16:9 ASPECT RATIO BOX --- */
+/* This forces the container to always be 16:9, fitting within the screen */
+#lcd-aspect-box {
+    position: relative;
+    /* Logic: width is either full screen, or limited by height ratio */
+    width: min(100vw, 177.78vh); 
+    /* Logic: height is either full screen, or limited by width ratio */
+    height: min(56.25vw, 100vh);
+    
+    background: #000; /* Letterboxing color */
+}
+
+/* --- SCALER (Zoom Layer) --- */
+#lcd-scaler {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-origin: center center;
+    transition: transform 0.1s linear;
+}
+
+/* --- MAIN GRID LAYOUT --- */
+.lcd-container {
+    display: grid;
+    grid-template-rows: 1fr 2fr 1fr;
+    grid-template-columns: 1fr 2fr 1fr;
+    
+    width: 100%;
+    height: 100%;
+    
+    /* Padding is relative to the 16:9 box now, not the phone screen */
+    padding: 2%; 
+    box-sizing: border-box;
+    
+    /* Using the font loaded by JS */
+    font-family: 'DS-Digital', 'Segoe UI', sans-serif;
+    color: var(--lcd-color);
+}
+
+/* --- GLOWS --- */
+.lcd-glow { 
+    text-shadow: 0 0 10px var(--lcd-dim), 0 0 20px var(--lcd-glow); 
+}
+
+.lcd-dim { opacity: 0.25; }
+#lcd-am.active, #lcd-pm.active { opacity: 1; text-shadow: 0 0 15px var(--lcd-glow); }
+
+/* --- TEXT SIZES (Relative to the 16:9 box) --- */
+.top-left, .top-right, .bottom-left, .bottom-right { 
+    font-size: 3cqw; /* Container Query Width relative */
+    font-size: 3.5vmin; /* Fallback */
+    text-transform: uppercase; 
+    white-space: nowrap;
+}
+
+.top-left, .bottom-left { text-align: left; }
+.top-right, .bottom-right { text-align: right; }
+.bottom-left, .bottom-right { align-self: end; }
+
+/* Center Clock */
+.clock-center { 
+    grid-column: 1 / 4; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    font-size: 25vmin; /* Fits perfectly in 16:9 height */
+    line-height: 1;
+}
+
+#lcd-ampm { 
+    font-size: 5vmin; 
+    margin-left: 2vmin; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5vmin;
+}
+
+#lcd-seconds {
+    font-size: 5vmin;
+}

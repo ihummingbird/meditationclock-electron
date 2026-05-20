@@ -1,0 +1,106 @@
+:root {
+    --text-color: #ffffff;
+    
+    /* Variables used for safe zone padding inside the overlay */
+    --nav-height: 80px; 
+    --bottom-height: 80px;
+}
+
+body {
+    margin: 0;
+    background: #000;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* --- ROOT CONTAINER --- */
+/* This ensures everything stays centered on screen */
+#zen-root {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* --- THE SCALER DIV --- */
+/* This is what we resize with the slider */
+#zen-scaler {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-origin: center center;
+    transition: transform 0.1s linear; /* Smooth zooming */
+    will-change: transform;
+}
+
+/* --- CANVAS (Inside Scaler) --- */
+#zen-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* --- TEXT OVERLAY (Inside Scaler) --- */
+.zen-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    /* Padding is applied inside the scaler so relative positions stay correct */
+    padding-top: var(--nav-height);
+    padding-bottom: var(--bottom-height);
+    box-sizing: border-box;
+    
+    color: var(--text-color);
+    text-align: center;
+}
+
+/* --- TYPOGRAPHY --- */
+
+.zen-time {
+    font-size: 18vw;
+    font-weight: 200;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    text-shadow: 0 0 30px rgba(0,0,0,0.5);
+    margin-bottom: 10px;
+    font-feature-settings: "tnum";
+}
+
+@media (min-aspect-ratio: 16/9) {
+    .zen-time { font-size: 25vh; }
+}
+
+.zen-date {
+    font-size: 4vmin;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 5px;
+}
+
+.zen-label {
+    font-size: 2.5vmin;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+}

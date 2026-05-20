@@ -1,0 +1,259 @@
+/* Astral Tides - Bioluminescent Ocean Clock */
+/*@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400&display=swap');*/
+
+:root {
+    --deep-abyss: #020b16;
+    --midnight: #091a2f;
+    --biolum-cyan: #00f7ff;
+    --biolum-teal: #00c2cb;
+    --biolum-purple: #7b2cbf;
+    --filament-glow: rgba(0, 247, 255, 0.6);
+}
+
+body {
+    margin: 0;
+    background: var(--deep-abyss);
+    color: var(--biolum-cyan);
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden;
+}
+
+/* === FLUID BACKGROUND === */
+#astral-bg {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 50% 120%, var(--midnight) 0%, var(--deep-abyss) 80%);
+    z-index: 0;
+}
+
+/* Drifting Nebulas/Tides */
+.nebula {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    animation: drift 20s infinite alternate ease-in-out;
+}
+
+.nebula-1 {
+    top: -20%;
+    left: -10%;
+    width: 80vmin;
+    height: 80vmin;
+    background: radial-gradient(circle, var(--biolum-purple), transparent);
+    animation-duration: 25s;
+}
+
+.nebula-2 {
+    bottom: -20%;
+    right: -10%;
+    width: 90vmin;
+    height: 90vmin;
+    background: radial-gradient(circle, var(--biolum-teal), transparent);
+    animation-duration: 30s;
+}
+
+@keyframes drift {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        transform: translate(5%, 10%) scale(1.1);
+    }
+}
+
+/* === PARTICLES === */
+.particles-container {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(110vh) scale(0);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0.5;
+    }
+
+    80% {
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translateY(-10vh) scale(1);
+        opacity: 0;
+    }
+}
+
+/* === CLOCK CONTAINER === */
+#clock-root {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.clock-face {
+    position: relative;
+    width: min(70vmin, 500px);
+    height: min(70vmin, 500px);
+    border-radius: 50%;
+
+    /* Glassmorphism */
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 247, 255, 0.1);
+    box-shadow:
+        0 0 50px rgba(0, 247, 255, 0.05),
+        inset 0 0 30px rgba(0, 247, 255, 0.05);
+}
+
+/* Glowing Rim Pulse */
+.clock-face::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    border-top-color: var(--biolum-cyan);
+    border-bottom-color: var(--biolum-purple);
+    animation: spin-pulse 15s linear infinite;
+    opacity: 0.5;
+}
+
+@keyframes spin-pulse {
+    0% {
+        transform: rotate(0deg);
+        filter: hue-rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+        filter: hue-rotate(360deg);
+    }
+}
+
+/* === MARKERS === */
+.marker-ring {
+    position: absolute;
+    inset: 20px;
+    border-radius: 50%;
+}
+
+.marker {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.marker-dot {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 8px;
+    background: var(--biolum-teal);
+    border-radius: 2px;
+    box-shadow: 0 0 5px var(--biolum-teal);
+}
+
+.marker.major .marker-dot {
+    width: 4px;
+    height: 12px;
+    background: var(--biolum-cyan);
+    box-shadow: 0 0 10px var(--biolum-cyan);
+}
+
+/* === HANDS === */
+.center-point {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    transform: translate(-50%, -50%);
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 15px white, 0 0 30px var(--biolum-cyan);
+    z-index: 5;
+}
+
+.hand {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform-origin: bottom center;
+    border-radius: 100px;
+    z-index: 3;
+    transition: transform 0.05s cubic-bezier(0.4, 2, 0.6, 1);
+    /* Bouncy tick */
+}
+
+.hour-hand {
+    width: 6px;
+    height: 25%;
+    background: linear-gradient(to top, var(--biolum-purple), white);
+    margin-left: -3px;
+    box-shadow: 0 0 10px var(--biolum-purple);
+}
+
+.minute-hand {
+    width: 4px;
+    height: 38%;
+    background: linear-gradient(to top, var(--biolum-cyan), white);
+    margin-left: -2px;
+    box-shadow: 0 0 10px var(--biolum-cyan);
+    z-index: 4;
+}
+
+.second-hand {
+    width: 2px;
+    height: 42%;
+    background: #ff0055;
+    margin-left: -1px;
+    box-shadow: 0 0 10px #ff0055;
+    z-index: 4;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Smooth sweep-like tick */
+}
+
+/* === DIGITAL DATE === */
+.date-display {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-shadow: 0 0 10px var(--biolum-cyan);
+}
+
+@media (max-width: 600px) {
+    .clock-face {
+        width: 85vmin;
+        height: 85vmin;
+    }
+}
