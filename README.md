@@ -1,10 +1,10 @@
 # Meditation Clock (Electron)
 
 A desktop port of the [Meditation Clock web app](https://github.com/ihummingbird/meditationclock) built with Electron.  
-I created this so I could keep using my meditation timer during the international internet blackout in Iran when the website was unreachable.
+I created this so I could keep using my meditation timer during the **international internet blackout in Iran** when the website was unreachable.
 
 <p align="center">
-  <img src="static/Demo.png" alt="Meditation Clock icon" />
+  <img src="Demo.png" alt="Meditation Clock icon" />
 </p>
 
 ##  Features
