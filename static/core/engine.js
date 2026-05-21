@@ -68,6 +68,11 @@ const Engine = {
     currentThemeObj: null,
 
     dom: {
+        
+        // The pip part:
+        btnPip: document.getElementById('btn-pip'),
+        stage: document.getElementById('stage'),
+
         stage: document.getElementById('stage'),
         cssLink: document.getElementById('theme-stylesheet'),
         libraryDrawer: document.getElementById('library-drawer'),
@@ -108,6 +113,10 @@ const Engine = {
     },
 
     initListeners: function () {
+
+        // PIP Part:
+        if (this.dom.btnPip) this.dom.btnPip.onclick = () => this.togglePiP();
+
         document.getElementById('btn-library').onclick = () => this.toggleDrawer('library');
         document.getElementById('btn-close-library').onclick = () => this.closeDrawers();
         document.getElementById('btn-settings').onclick = () => this.toggleDrawer('settings');
@@ -518,6 +527,80 @@ const Engine = {
         if (document.exitFullscreen) document.exitFullscreen();
         document.body.classList.remove('fullscreen-mode'); 
     },
+
+
+
+        //The PIP function
+
+
+           togglePiP: async function () {
+        // 1. ELECTRON NATIVE PIP (Preserved)
+        if (typeof require !== 'undefined') {
+            const { ipcRenderer } = require('electron');
+            ipcRenderer.send('toggle-pip');
+            return;
+        }
+
+        // 2. MODERN DOCUMENT PIP API (Replaces old Canvas hack)
+        
+        // If PiP is already open, close it
+        if (window.documentPictureInPicture && window.documentPictureInPicture.window) {
+            window.documentPictureInPicture.window.close();
+            return;
+        }
+
+        // Check if the browser supports Document PiP
+        if (!('documentPictureInPicture' in window)) {
+            alert("Your browser doesn't support Document PiP. Try a modern Chromium browser like Chrome/Edge 116+ on Desktop.");
+            return;
+        }
+
+        try {
+            // Request the PiP window
+            const pipWindow = await documentPictureInPicture.requestWindow({
+                width: 350,
+                height: 250,
+            });
+
+            // Copy all CSS styles and fonts from the main window to the PiP window
+            [...document.styleSheets].forEach((styleSheet) => {
+                try {
+                    // For local stylesheets
+                    const cssRules = [...styleSheet.cssRules].map((rule) => rule.cssText).join('');
+                    const style = document.createElement('style');
+                    style.textContent = cssRules;
+                    pipWindow.document.head.appendChild(style);
+                } catch (e) {
+                    // For external stylesheets (like Google Fonts) that have CORS restrictions
+                    const link = document.createElement('link');
+                    link.rel = 'stylesheet';
+                    link.href = styleSheet.href;
+                    pipWindow.document.head.appendChild(link);
+                }
+            });
+
+            // Move the main stage into the PiP window
+            const stageElement = this.dom.stage;
+            const originalParent = stageElement.parentNode;
+            
+            // Add a class to the body so you can apply PiP-specific CSS if needed
+            pipWindow.document.body.classList.add('is-pip-mode');
+            
+            // Move the element
+            pipWindow.document.body.appendChild(stageElement);
+
+            // When the PiP window is closed, move the stage back to the main window
+            pipWindow.addEventListener('pagehide', () => {
+                originalParent.appendChild(stageElement);
+            });
+
+        } catch (error) {
+            console.error("Failed to open Document PiP:", error);
+        }
+    },
+
+
+
 
     formatTime: function (ms) {
         const s = Math.floor(ms / 1000);
