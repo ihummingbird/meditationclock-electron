@@ -1,10 +1,10 @@
 # Meditation Clock (Electron)
 
 A desktop port of the [Meditation Clock web app](https://github.com/ihummingbird/meditationclock) built with Electron.  
-I created this so I could keep using my meditation timer during the international internet blackout in Iran when the website was unreachable.
+I created this so I could keep using my meditation timer during the **international internet blackout in Iran** when the website was unreachable.
 
 <p align="center">
-  <img src="static/Demo.png" alt="Meditation Clock icon" />
+  <img src="Demo.png" alt="Meditation Clock icon" />
 </p>
 
 ##  Features
@@ -22,7 +22,6 @@ I do meditation daily. When I temporarily lost internet access, I needed a way t
 ##  Download
 
 Grab the latest Windows installer from the [Releases page](https://github.com/ihummingbird/meditationclock-electron/releases).  
-No installation wizard tricks – just a straightforward setup.
 
 ## OR Build it youself from source (offline)
 
@@ -47,7 +46,7 @@ If you want to rebuild the app yourself (e.g., after making changes):
    
    The output `.exe` will be inside the `dist/` folder.
 
-   Ignore the ```build:offline``` part, I had to use it in my case. Getting any kind of a build with an outdated electron binary without any services working. 
+   Ignore the ```build:offline``` part, I had to use it in my case. Getting any kind of a build with an outdated electron binary without any service mirrors working. 
 
 
 ##  License
