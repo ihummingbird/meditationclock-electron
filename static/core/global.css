@@ -533,7 +533,7 @@ input:checked + .slider:before {
 
 /* Triggers when the window is shaped like a small PiP box */
 /* --- PiP / EXTREMELY SMALL SCREEN OVERRIDES --- */
-@media (max-height: 320px), (max-width: 480px) {
+@media (max-height: 320px), (max-width: 320px) {
     #navbar, .drawer, .bottom-drawer, #btn-exit-fs { 
         display: none !important; 
     }
@@ -552,4 +552,63 @@ input:checked + .slider:before {
         font-size: 15vmin !important; 
     }
 }
+
+/* --- Hides the PIP button if a phone --- */
+@media (max-height: 450px), (max-width: 450px) {
+    #btn-pip {
+        display: none !important;
+    } 
+}
+
+/* --- NEW: Inactivity Fullscreen Fade Effect --- */
+.fullscreen-btn {
+    transition: opacity 0.5s ease, visibility 0.5s ease, background 0.3s ease;
+}
+
+/* FIX: Target the ID inside fullscreen-mode to beat the specificity of your earlier rules */
+body.fullscreen-mode #btn-exit-fs.idle-hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+
+
+/* --- NEW: Effect for the Session Completed Text --- */
+@keyframes elaboratePopAndGlow {
+    0% {
+        opacity: 0;
+        /* Starts lower and smaller */
+        transform: translateY(15px) scale(0.8); 
+        text-shadow: 0 0 0 transparent;
+    }
+    40% {
+        opacity: 1;
+        /* Overshoots the normal size for a "pop" effect */
+        transform: translateY(0) scale(1.15); 
+        /* Adds a bright glow using your success color */
+        text-shadow: 0 0 12px var(--success, #4caf50); 
+    }
+    70% {
+        /* Settles back to normal size */
+        transform: translateY(0) scale(1); 
+        /* Glow softens */
+        text-shadow: 0 0 6px var(--success, #4caf50); 
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        /* Glow disappears, leaving clean text */
+        text-shadow: 0 0 0 transparent; 
+    }
+}
+
+.msg-pop-in {
+    /* Increased duration to 2s and used cubic-bezier for a smooth, springy feel */
+    animation: elaboratePopAndGlow 2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    display: inline-block; /* Required for transform */
+    transform-origin: center center;
+}
+
+
 

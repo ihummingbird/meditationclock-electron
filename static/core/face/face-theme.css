@@ -1,0 +1,32 @@
+.nav-brand {
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Ensure the container takes up the full height of the navbar */
+    height: 100% !important; 
+}
+
+/* Square-LED dot-matrix face (Herman style) */
+.digital-face-canvas {
+    display: block;
+    /* Extra bloom on top of the per-pixel canvas glow */
+    filter: drop-shadow(0 0 3px rgba(55, 230, 255, 0.55));
+    animation: face-flicker 4s infinite steps(1);
+
+    /* Scale to the navbar height, slightly smaller (80%) for breathing room */
+    height: 95% !important; 
+    width: auto !important; /* Let aspect-ratio calculate the width automatically */
+    aspect-ratio: 16 / 9 !important; /* Enforce the Herman 16:9 orientation */
+
+}
+
+
+
+/* Subtle CRT-style flicker so it reads as a live screen */
+@keyframes face-flicker {
+    0%, 96%, 100% { opacity: 1; }
+    97%           { opacity: 0.86; }
+    98%           { opacity: 0.97; }
+}

@@ -15,9 +15,15 @@
     <script src="
                                     https://lib.arvancloud.ir/webfont/1.6.28/webfontloader.js
                                 " crossorigin="anonymous" referrerpolicy="no-referrer" onload="this.media='all'""></script>
-    <!-- FavIcon -->
+    
+                                <!-- FavIcon -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <!-- Added the font this way so it doesnt crash the website if no international internet -->
     <link rel="preload" href="fonts/JetBrainsMono-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous" onload="this.media='all'"">
+
+    <!-- The css file for the face animation -->
+    <link rel="stylesheet" href="core/face/face-theme.css"> 
 </head>
 <body>
 
@@ -31,7 +37,10 @@
                 <span class="icon">il.</span> <span class="nav-text">Stats</span>
             </a>
         </div>
+
+        <!-- the meditation clock title -->
         <div class="nav-brand">Meditation Clock</div>
+
         <div class="nav-right">
             <button id="btn-pip" class="nav-btn" title="Picture in Picture">◱</button>
             <button id="btn-fullscreen" class="nav-btn" title="Focus Mode">⛶</button>
@@ -110,7 +119,13 @@
     </div>
 
 
-
+    <!-- Core Logic of the Website -->
     <script src="core/engine.js"></script>
+
+
+    <!-- The face emoji -->
+    <script src="core/face/face-animations.js"></script>
+    <script src="core/face/face-logic.js"></script>
+    
 </body>
 </html>

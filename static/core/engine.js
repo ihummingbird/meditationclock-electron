@@ -4,61 +4,75 @@ const Engine = {
     themes: [
         { id: 'simple', name: 'Simple Digital' },
         { id: 'ios', name: '☆ Standby Mode' },
-        { id: 'analog', name: '☆ Analog Standby' },
-        
         { id: 'cyberpunk_digital', name: '☆ Cyberpunk' },
         { id: 'ethereal_tides', name: '☆ Ethereal Tides' },
         { id: 'astral_tides', name: '☆ Astral Tides' },
         { id: 'zen_orbit', name: '☆ Zen Orbit' },
-        { id: 'horizon_loom', name: 'Horizon Loom' },
         { id: 'chronos_gyre', name: 'Chronos Gyre' },
         { id: 'the_board', name: '☆ The Board' },
         { id: 'breathe', name: '☆ Deep Breathing' },
-
-
-
-        { id: 'circular', name: '☆ Circular' },
-        { id: 'circularReborn', name: 'Circular Reborn' },
-
+        { id: 'breatheReborn', name: '☆ Deep Breathing Reborn' },
+        { id: 'circularReborn', name: '☆ Circular Reborn' },
+        { id: 'harmonic_orbits', name: '☆ Harmonic Orbits' },
+        { id: 'fluent', name: '☆ Fluent' },
         { id: 'machina_core', name: '☆ Machina Core' },
+        { id: 'luminous_orbit', name: '☆ Luminous Orbit' },
+        { id: 'moonwater', name: '☆ Moonwater' },
+        { id: 'auroras_glass_reborn', name: '☆ Auroras Glass Reborn' },
+        { id: 'vision_os_reborn', name: '☆ Vision OS Reborn' },
+        { id: 'spatial_aura_reborn', name: '☆ Spatial Aura Reborn' },
+        { id: 'vision_os', name: '☆ Vision OS' },
+
+
+        
+
+        { id: 'machinarium', name: '☆ Machinarium' },
+        { id: 'zenenso', name: '☆ Zen Enso' },
+        { id: 'lumen_bloom', name: '☆ Lumen Bloom' },
         
 
         { id: 'lcd', name: 'Retro LCD' },
         { id: 'vision_glass', name: 'Vision Glass' },
-        { id: 'machinarium', name: '☆ Machinarium' },
-        { id: 'auroras_glass', name: '☆ Auroras Glass' },
-        { id: 'auroras_glass_reborn', name: '☆ Auroras Glass Reborn' },
+        
+       
+        
+        { id: 'analog', name: 'Analog Standby' },
+        { id: 'horizon_loom', name: 'Horizon Loom' },
+        
 
-
-        { id: 'industrial_digital_clock', name: 'Industrial Clock' },
-
-        { id: 'vision_os', name: 'Vision OS' },
-        { id: 'vision_os_reborn', name: 'Vision OS Reborn' },
-
+        
+        
+        
+  
 
         { id: 'spatial_aura', name: 'Spatial Aura' },
-        { id: 'spatial_aura_reborn', name: 'Spatial Aura Reborn' },
+        
 
 
-        { id: 'harmonic_orbits', name: 'Harmonic Orbits' },
+        { id: 'circular', name: '☆ Circular' },
         { id: 'something_google_would_create', name: 'Material Theme' },
-        { id: 'fluent', name: 'Fluent' },
+        
         { id: 'astral_geometry', name: 'Astral Geometry' },
         { id: 'etherial_bloom', name: 'Etherial Bloom' },
+        
+        
+        
 
         //{ id: 'seven_segment_2', name: 'Digital Display' },  --deprecated
-        { id: 'luminous_orbit', name: '☆ Luminous Orbit' },
-        { id: 'moonwater', name: 'Moonwater' },
-        { id: 'lumen_bloom', name: '☆ Lumen Bloom' },
+        
+        
+        
 
-        { id: 'circlulartry', name: '☆ Circlular Try' },
-        { id: 'zenenso', name: 'Zen Enso' },
-        { id: 'breatheReborn', name: '☆ Deep Breathing Reborn' },
+        { id: 'circlulartry', name: 'Circlular Drop' },
+        
 
-
+        
+        { id: 'auroras_glass', name: '☆ Auroras Glass' },
+        
         { id: 'solstice_prism', name: 'Solstice Prism' },
         { id: 'celestial_chronos', name: 'Celestial' },
-        { id: 'mail', name: 'Mail' }
+        { id: 'mail', name: 'Mail' },
+        { id: 'industrial_digital_clock', name: 'Industrial Clock' }
         
         
         
@@ -66,6 +80,8 @@ const Engine = {
     state: { activeThemeId: 'simple', themeSettings: {}, stopwatchMode: false },
     session: { active: false, finished: false, startTime: null, elapsed: 0 },
     currentThemeObj: null,
+    idleTimer: null,
+
 
     dom: {
         
@@ -138,6 +154,35 @@ const Engine = {
 
         this.dom.sessionBtn.onclick = () => this.handleSessionClick();
         this.dom.syncBtn.onclick = () => this.uploadSession();
+
+        // --- NEW: Track user activity for auto-hiding fullscreen button ---
+        const activityEvents = ['mousemove', 'touchstart', 'keydown', 'click'];
+        activityEvents.forEach(eventType => {
+            document.addEventListener(eventType, () => this.resetIdleTimer());
+        });
+
+
+        // --- NEW: Close drawers when clicking outside of them ---
+        document.addEventListener('click', (event) => {
+            const lib = this.dom.libraryDrawer;
+            const set = this.dom.settingsDrawer;
+            
+            // Only do this if one of the drawers is actually open
+            if (lib.classList.contains('active') || set.classList.contains('active')) {
+                
+                // Check if the click was inside the drawers or on the buttons that open them
+                const clickedInLib = lib.contains(event.target);
+                const clickedInSet = set.contains(event.target);
+                const clickedLibBtn = document.getElementById('btn-library').contains(event.target);
+                const clickedSetBtn = document.getElementById('btn-settings').contains(event.target);
+
+                // If they clicked outside of everything related to the menus, close them
+                if (!clickedInLib && !clickedInSet && !clickedLibBtn && !clickedSetBtn) {
+                    this.closeDrawers();
+                }
+            }
+        });
+
     },
 
         restoreSession: function () {
@@ -292,10 +337,11 @@ const Engine = {
     },
 
 
-    uploadSession: function () {
+        uploadSession: function () {
         const user = this.dom.userInput.value.trim() || 'ANONYMOUS';
         localStorage.setItem('meditation_user', user);
         this.dom.syncBtn.innerText = "...";
+        
         fetch(this.API_URL, {
             method: 'POST', mode: 'no-cors',
             body: JSON.stringify({ username: user, duration: Math.floor(this.session.elapsed / 1000) })
@@ -303,12 +349,35 @@ const Engine = {
             this.dom.syncBtn.innerText = "✓";
             this.dom.syncMsg.innerText = "Session Saved";
             this.dom.syncMsg.style.color = "var(--success)";
+
+            // Add the animation class
+            this.dom.syncMsg.classList.add("msg-pop-in");
+            
+            // --- NEW: Track submission count and auto-reset ---
+            let submitCount = parseInt(localStorage.getItem('meditation_submit_count') || '0', 10);
+            submitCount++;
+            localStorage.setItem('meditation_submit_count', submitCount);
+
+            // If this is the 2nd submission (or more), and we are in the finished state, reset the UI
+            if (submitCount >= 2 && this.session.finished) {
+                // This clears the finished session and resets the clock to 00:00:00
+                this.handleSessionClick(); 
+                
+                // Optional: If you want it to instantly START counting the next session automatically 
+                // without the user clicking "BEGIN MEDITATION", uncomment the line below:
+                // this.handleSessionClick(); 
+            }
+            // --------------------------------------------------
+
             setTimeout(() => {
                 this.dom.syncBtn.innerText = "SYNC ☁";
                 this.dom.syncMsg.innerText = "";
-            }, 3000);
+                // Remove the animation class so it can play again next time
+                this.dom.syncMsg.classList.remove("msg-pop-in"); 
+            }, 10000); 
         });
     },
+
 
     loadTheme: function (themeId) {
         if (this.currentThemeObj?.destroy) this.currentThemeObj.destroy();
@@ -503,6 +572,19 @@ const Engine = {
         if (type === 'library') { lib.classList.add('active'); set.classList.remove('active'); }
         else { set.classList.add('active'); lib.classList.remove('active'); }
         this.dom.sessionPanel.classList.remove('active');
+
+        // ---  Scroll to active theme when library opens ---
+        if (type === 'library' && this.dom.libraryDrawer.classList.contains('active')) {
+            // Slight timeout ensures the drawer is visible before calculating scroll position
+            setTimeout(() => {
+                const activeTile = this.dom.themeGrid.querySelector('.theme-tile.active');
+                if (activeTile) {
+                    activeTile.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 150); 
+        }
+        
+
     },
 
     closeDrawers: function () {
@@ -520,12 +602,20 @@ const Engine = {
         // Just apply the CSS, no browser API call
         document.body.classList.add('fullscreen-mode');
         this.closeDrawers();
+
+        // --- NEW: Start the idle timer immediately ---
+        this.resetIdleTimer();
     },
 
     exitFullscreen: function () { 
         // Just remove the CSS, no browser API call
         if (document.exitFullscreen) document.exitFullscreen();
         document.body.classList.remove('fullscreen-mode'); 
+
+        // --- NEW: Clean up timer and ensure button is visible ---
+        if (this.idleTimer) clearTimeout(this.idleTimer);
+        this.dom.btnExitFs.classList.remove('idle-hidden');
+
     },
 
 
@@ -643,10 +733,18 @@ const Engine = {
         // Send to Theme
         this.currentThemeObj?.update(timeObj);
 
-        // Always update the footer timer separately (logic remains same)
+                // Always update the footer timer separately (logic remains same)
         if (this.session.active) {
-            this.dom.sessionTimer.innerText = this.formatTime(Date.now() - this.session.startTime);
+            const currentElapsed = Date.now() - this.session.startTime;
+            this.dom.sessionTimer.innerText = this.formatTime(currentElapsed);
+
+            // --- NEW: 2-Hour Auto-Reset Check ---
+            if (currentElapsed >= 7200000) { 
+                this.handleSessionClick(); // 1st call: Stops the session and saves to 'Finished' state
+                this.handleSessionClick(); // 2nd call: Completely wipes and resets back to 00:00:00
+            }
         }
+
     },
 
     saveState: function () { localStorage.setItem('meditation_os_state', JSON.stringify(this.state)); },
@@ -705,7 +803,32 @@ const Engine = {
             const savedUser = localStorage.getItem('meditation_user');
             if (savedUser) document.getElementById('secret-username').value = savedUser;
         }
-    }
+    },
+
+
+    resetIdleTimer: function () {
+        const exitBtn = this.dom.btnExitFs; 
+        if (!exitBtn) return;
+
+        // 1. Instantly show the button when user interacts
+        exitBtn.classList.remove('idle-hidden');
+
+        // 2. Clear the old timer
+        if (this.idleTimer) {
+            clearTimeout(this.idleTimer);
+        }
+
+        // 3. If we are in fullscreen, start the countdown to hide it again
+        if (document.body.classList.contains('fullscreen-mode')) {
+            this.idleTimer = setTimeout(() => {
+                exitBtn.classList.add('idle-hidden');
+            }, 2500);
+        }
+    },
+
+
+    
+
 };
 
 
