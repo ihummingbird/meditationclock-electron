@@ -1,3 +1,7 @@
+##  DEPRECATED: As of 6/18/2026 [Iran has promised that they WON'T cut the international internet anymore in the upcoming instances of crises in the country](https://www.asianewsiran.com/fa/newsagency/39098/internet-no-shutdown-crisis) 
+
+### Although I highly doubt that, if it's true, there won't be any need for this electron app or repo anymore. Hence I updated the json and got a fully updated signed build from the project today. Before deprecating the repo. However, I know no one uses this build other than me. :P 
+
 # Meditation Clock (Electron)
 
 A desktop port of the [Meditation Clock web app](https://github.com/ihummingbird/meditationclock) built with Electron.  
