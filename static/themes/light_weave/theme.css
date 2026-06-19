@@ -1,0 +1,247 @@
+.lw-stage {
+    --lw-c1: hsl(200, 85%, 65%);
+    --lw-c2: hsl(260, 80%, 60%);
+    --lw-c3: hsl(340, 80%, 65%);
+    --lw-glow: hsl(200, 90%, 75%);
+    --lw-speed: 1;
+    --lw-scale: 1;
+
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at 50% 50%, #080a14 0%, #040610 50%, #020308 100%);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* --- Ambient Glow --- */
+.lw-ambient {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.lw-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.12;
+    mix-blend-mode: screen;
+}
+
+.lw-orb:nth-child(1) { width: 60vmax; height: 60vmax; background: var(--lw-c1); top: -15%; left: -10%; }
+.lw-orb:nth-child(2) { width: 50vmax; height: 50vmax; background: var(--lw-c2); bottom: -20%; right: -10%; }
+.lw-orb:nth-child(3) { width: 40vmax; height: 40vmax; background: var(--lw-c3); top: 40%; left: 45%; }
+
+/* --- Particles --- */
+.lw-particles {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.lw-dot {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--lw-glow);
+    opacity: 0;
+}
+
+/* --- Mandala Container --- */
+.lw-mandala {
+    position: relative;
+    z-index: 5;
+    width: min(72vmin, 390px);
+    height: min(72vmin, 390px);
+    transform: scale(var(--lw-scale));
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- Mandala Ring Layers (SVG) --- */
+.lw-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.lw-ring-group {
+    position: absolute;
+    inset: 0;
+    transform-box: view-box;
+    transform-origin: 200px 200px;
+}
+
+.lw-ring-group:nth-child(1) { animation: lwSpin calc(30s / var(--lw-speed)) linear infinite; }
+.lw-ring-group:nth-child(2) { animation: lwSpin calc(45s / var(--lw-speed)) linear infinite reverse; }
+.lw-ring-group:nth-child(3) { animation: lwSpin calc(25s / var(--lw-speed)) linear infinite; }
+
+@keyframes lwSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.lw-arc {
+    fill: none;
+    stroke-linecap: round;
+    opacity: 0.4;
+}
+
+.lw-arc-c1 { stroke: var(--lw-c1); filter: drop-shadow(0 0 4px var(--lw-c1)); }
+.lw-arc-c2 { stroke: var(--lw-c2); filter: drop-shadow(0 0 4px var(--lw-c2)); }
+.lw-arc-c3 { stroke: var(--lw-c3); filter: drop-shadow(0 0 4px var(--lw-c3)); }
+
+/* --- Orbit Ring --- */
+.lw-orbit-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.04);
+}
+
+.lw-orbit-ring:nth-of-type(1) { width: 100%; height: 100%; }
+.lw-orbit-ring:nth-of-type(2) { width: 78%; height: 78%; }
+.lw-orbit-ring:nth-of-type(3) { width: 56%; height: 56%; }
+
+/* --- Orbiting Dot --- */
+.lw-orbit-dot {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--lw-glow);
+    box-shadow: 0 0 8px var(--lw-glow), 0 0 16px var(--lw-glow);
+    top: 50%;
+    left: 50%;
+    margin: -3px 0 0 -3px;
+    z-index: 6;
+}
+
+/* --- Seconds Arc --- */
+.lw-sec-arc {
+    position: absolute;
+    inset: -3%;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.lw-sec-arc svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.lw-arc-track {
+    fill: none;
+    stroke: rgba(255,255,255,0.03);
+    stroke-width: 2;
+}
+
+.lw-arc-fill {
+    fill: none;
+    stroke: var(--lw-glow);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    filter: drop-shadow(0 0 5px var(--lw-glow));
+    transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Glass Capsule --- */
+.lw-capsule {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48%;
+    height: 48%;
+    border-radius: 50%;
+    background: rgba(6, 8, 16, 0.7);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow:
+        0 24px 60px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.05),
+        inset 0 0 30px rgba(255,255,255,0.015);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+}
+
+/* --- Time Typography --- */
+.lw-time {
+    text-align: center;
+    line-height: 1;
+}
+
+.lw-hours {
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(160deg, #fff 0%, rgba(255,255,255,0.5) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+}
+
+.lw-minutes {
+    font-size: 3.5rem;
+    font-weight: 200;
+    letter-spacing: -0.02em;
+    color: rgba(255,255,255,0.8);
+}
+
+.lw-sep {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--lw-glow);
+    margin: 4px auto 10px;
+    box-shadow: 0 0 8px var(--lw-glow), 0 0 18px var(--lw-glow);
+    animation: lwSepPulse 1s ease-in-out infinite;
+}
+
+@keyframes lwSepPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(0.6); }
+}
+
+.lw-seconds-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--lw-glow);
+    opacity: 0.8;
+    text-transform: uppercase;
+}
+
+.lw-date {
+    position: absolute;
+    bottom: 18%;
+    font-size: 0.55rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.28);
+    text-transform: uppercase;
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+    .lw-hours, .lw-minutes { font-size: 2.6rem; }
+    .lw-capsule { width: 54%; height: 54%; }
+    .lw-mandala { width: min(68vmin, 300px); height: min(68vmin, 300px); }
+}

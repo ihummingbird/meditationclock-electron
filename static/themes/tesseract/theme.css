@@ -1,0 +1,120 @@
+.tess-stage {
+    --hue: 190;
+    --c1: hsl(190, 95%, 65%);
+    --c2: hsl(230, 90%, 60%);
+    --c-glow: hsla(190, 95%, 65%, 0.55);
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 50% 45%, #101826 0%, #080c16 55%, #02030a 100%);
+}
+
+/* perspective container */
+.tess-scene {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1px;
+    height: 1px;
+    perspective: 1100px;
+    perspective-origin: 50% 50%;
+}
+
+.tess-rig {
+    position: absolute;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+/* a cube = nested faces sharing center */
+.tess-cube {
+    position: absolute;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.tess-face {
+    position: absolute;
+    border: 1.5px solid var(--c1);
+    background: linear-gradient(135deg,
+        hsla(var(--hue), 80%, 60%, 0.05),
+        hsla(var(--hue), 80%, 60%, 0.12));
+    box-shadow:
+        inset 0 0 22px var(--c-glow),
+        0 0 14px var(--c-glow);
+    backface-visibility: visible;
+}
+
+/* per-cube color/intensity tweaks */
+.tess-h { border-color: var(--c1);  opacity: 0.45; }
+.tess-m { border-color: var(--c2);  opacity: 0.7; }
+.tess-s {
+    border-color: #fff;
+    opacity: 0.85;
+    box-shadow: inset 0 0 18px #fff, 0 0 20px var(--c-glow);
+}
+
+/* center holographic readout — counter-flat so it always faces viewer */
+.tess-core {
+    position: absolute;
+    top: 0; left: 0;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+    pointer-events: none;
+    /* keep readout flat to the screen, not tumbling with cubes */
+    transform-style: flat;
+    will-change: transform;
+}
+
+.tess-time {
+    font-family: ui-monospace, "SFMono-Regular", "Roboto Mono", monospace;
+    font-size: 64px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    line-height: 1;
+    text-shadow:
+        0 0 12px var(--c-glow),
+        0 0 28px var(--c-glow);
+}
+
+.tess-sec {
+    font-family: ui-monospace, monospace;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 6px;
+    margin-top: 6px;
+    opacity: 0.8;
+    color: var(--c1);
+    text-shadow: 0 0 10px var(–c1);
+
+}
+
+.tess-date {
+
+font-size: 11px;
+
+font-weight: 500;
+
+margin-top: 24px;
+
+letter-spacing: 3px;
+
+opacity: 0.55;
+
+text-transform: uppercase;
+
+}
+
+/* mobile styling */
+
+@media (max-width: 600px) {
+
+.tess-time { font-size: 48px; }
+
+.tess-sec { font-size: 18px; }
+
+}

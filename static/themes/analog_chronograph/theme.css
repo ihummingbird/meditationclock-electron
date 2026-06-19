@@ -1,0 +1,116 @@
+/* Aether Glass Theme - Apple Spatial Aesthetic */
+.aether-stage {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(circle at center, #15151e 0%, #030305 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    perspective: 1200px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    
+    /* Default variables overridden by JS settings */
+    --aether-color: #0071e3; 
+    --aether-zoom: 1;
+}
+
+/* 3D Scene Wrapper */
+.aether-scene {
+    position: relative;
+    width: 450px; 
+    height: 450px;
+    transform-style: preserve-3d;
+    transform: scale(var(--aether-zoom));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Glass Gyroscope Rings */
+.aether-rings-container {
+    position: absolute;
+    width: 100%; 
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+.aether-ring {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform-style: preserve-3d;
+    border-radius: 50%;
+    /* Premium frosted glass effect */
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01));
+    box-shadow: 
+        inset 0 0 30px rgba(255,255,255,0.02),
+        0 0 20px var(--aether-color);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    opacity: 0; /* Animated in via JS */
+}
+
+/* Central Volumetric Glow */
+.aether-core {
+    position: absolute;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--aether-color) 0%, transparent 65%);
+    opacity: 0.12;
+    filter: blur(25px);
+    transform: translateZ(0);
+}
+
+/* Floating Clock UI */
+.aether-clock-ui {
+    position: absolute;
+    z-index: 10;
+    text-align: center;
+    transform: translateZ(80px); /* Floats significantly above the rings */
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.aether-time {
+    font-size: 5.5rem;
+    font-weight: 200;
+    letter-spacing: -3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.aether-colon {
+    opacity: 0.6;
+    font-weight: 300;
+    margin: 0 4px;
+    transform: translateY(-4px);
+}
+
+.aether-sec-container {
+    margin-top: 5px;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--aether-color);
+    letter-spacing: 2px;
+    text-shadow: 0 0 15px var(--aether-color);
+    opacity: 0.8;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+    .aether-scene {
+        width: 320px; 
+        height: 320px;
+    }
+    .aether-time { font-size: 4rem; letter-spacing: -2px; }
+    .aether-sec-container { font-size: 1.2rem; }
+}

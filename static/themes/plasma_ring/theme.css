@@ -1,0 +1,290 @@
+.pr-stage {
+    --pr-hue: 260;
+    --pr-c1: hsl(260, 90%, 65%);
+    --pr-c2: hsl(310, 85%, 60%);
+    --pr-c3: hsl(200, 90%, 65%);
+    --pr-glow: hsl(260, 100%, 75%);
+    --pr-speed: 1;
+    --pr-scale: 1;
+
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at 50% 50%, #0a0814 0%, #05030c 50%, #020106 100%);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* --- Ambient Background --- */
+.pr-ambient {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.pr-ambient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.2;
+    mix-blend-mode: screen;
+}
+
+.pr-ambient-orb:nth-child(1) {
+    width: 60vmax;
+    height: 60vmax;
+    background: var(--pr-c1);
+    top: -20%;
+    left: -10%;
+}
+
+.pr-ambient-orb:nth-child(2) {
+    width: 50vmax;
+    height: 50vmax;
+    background: var(--pr-c2);
+    bottom: -25%;
+    right: -10%;
+}
+
+.pr-ambient-orb:nth-child(3) {
+    width: 35vmax;
+    height: 35vmax;
+    background: var(--pr-c3);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* --- The Plasma Ring --- */
+.pr-ring-container {
+    position: relative;
+    z-index: 5;
+    width: min(70vmin, 380px);
+    height: min(70vmin, 380px);
+    transform: scale(var(--pr-scale));
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Outer glow halo */
+.pr-ring-halo {
+    position: absolute;
+    inset: -15%;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        var(--pr-c1),
+        var(--pr-c2),
+        var(--pr-c3),
+        var(--pr-c1)
+    );
+    filter: blur(60px);
+    opacity: 0.15;
+    animation: prHaloSpin calc(8s / var(--pr-speed)) linear infinite;
+}
+
+@keyframes prHaloSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* The ring border itself */
+.pr-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    padding: 3px;
+    background: conic-gradient(
+        from 0deg,
+        var(--pr-c1),
+        var(--pr-c2),
+        var(--pr-c3),
+        var(--pr-c1),
+        var(--pr-c2),
+        var(--pr-c3),
+        var(--pr-c1)
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: prRingSpin calc(12s / var(--pr-speed)) linear infinite;
+    will-change: transform;
+}
+
+@keyframes prRingSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* Inner subtle ring */
+.pr-ring-inner {
+    position: absolute;
+    inset: 12%;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    animation: prRingSpin calc(18s / var(--pr-speed)) linear infinite reverse;
+}
+
+/* Seconds tick marks */
+.pr-ticks {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+}
+
+.pr-tick {
+    position: absolute;
+    width: 2px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    left: 50%;
+    top: 1px;
+    transform-origin: 50% calc(min(35vmin, 190px));
+    border-radius: 2px;
+}
+
+.pr-tick.active {
+    background: var(--pr-glow);
+    box-shadow: 0 0 6px var(--pr-glow);
+    height: 8px;
+}
+
+/* --- Orbiting Particles --- */
+.pr-orbit-particles {
+    position: absolute;
+    inset: -20%;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.pr-orbit-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--pr-glow);
+    box-shadow: 0 0 8px var(--pr-glow), 0 0 16px var(--pr-glow);
+    opacity: 0;
+}
+
+/* --- Glass Capsule --- */
+.pr-capsule {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 60%;
+    border-radius: 50%;
+    background: rgba(8, 6, 16, 0.65);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow:
+        0 30px 60px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        inset 0 0 40px rgba(255, 255, 255, 0.02);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+}
+
+/* --- Time Typography --- */
+.pr-time {
+    text-align: center;
+    line-height: 1;
+}
+
+.pr-hours {
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(160deg, #fff 0%, rgba(255, 255, 255, 0.5) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+}
+
+.pr-minutes {
+    font-size: 4rem;
+    font-weight: 200;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.pr-sep {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--pr-glow);
+    margin: 4px auto 10px;
+    box-shadow: 0 0 8px var(--pr-glow), 0 0 20px var(--pr-glow);
+    animation: prSepPulse 1s ease-in-out infinite;
+}
+
+@keyframes prSepPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.35; transform: scale(0.65); }
+}
+
+.pr-seconds-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--pr-glow);
+    opacity: 0.8;
+    text-transform: uppercase;
+}
+
+.pr-date {
+    position: absolute;
+    bottom: 18%;
+    font-size: 0.55rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+}
+
+/* --- Seconds Progress Arc (SVG) --- */
+.pr-sec-arc {
+    position: absolute;
+    inset: -4%;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.pr-sec-arc svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.pr-arc-track {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.04);
+    stroke-width: 2;
+}
+
+.pr-arc-fill {
+    fill: none;
+    stroke: var(--pr-glow);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    filter: drop-shadow(0 0 6px var(--pr-glow));
+    transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+    .pr-hours, .pr-minutes { font-size: 2.8rem; }
+    .pr-capsule { width: 64%; height: 64%; }
+    .pr-ring-container { width: min(65vmin, 300px); height: min(65vmin, 300px); }
+}

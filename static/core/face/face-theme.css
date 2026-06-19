@@ -13,10 +13,10 @@
     display: block;
     /* Extra bloom on top of the per-pixel canvas glow */
     filter: drop-shadow(0 0 3px rgba(55, 230, 255, 0.55));
-    animation: face-flicker 4s infinite steps(1);
+    /*animation: face-flicker 4s infinite steps(1); //Caused the freaking flicker I couldn't find in the js file*/
 
     /* Scale to the navbar height, slightly smaller (80%) for breathing room */
-    height: 95% !important; 
+    height: 85% !important; 
     width: auto !important; /* Let aspect-ratio calculate the width automatically */
     aspect-ratio: 16 / 9 !important; /* Enforce the Herman 16:9 orientation */
 

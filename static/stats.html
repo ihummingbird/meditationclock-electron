@@ -22,7 +22,13 @@
         <!-- NAV -->
         <div class="nav">
             <a href="index.html" class="back-link">← Clock</a>
-            <div class="version-tag">SYNCED CLOUD v1.0</div>
+            <div class="version-tag">SYNCED CLOUD v1.1</div>
+        </div>
+
+        <!-- CONNECTION STATUS -->
+        <div id="status-banner" class="status-banner hidden" title="Tap to retry now">
+            <span class="status-spinner"></span>
+            <span id="status-text">Connecting…</span>
         </div>
 
         <!-- PROFILE -->
@@ -56,20 +62,31 @@
         </div>
 
         <!-- CHART -->
-        <div class="chart-container">
+        <div class="chart-container" style="height: 220px;">
             <canvas id="activityChart"></canvas>
         </div>
+
+
+
 
         <!-- NEW: DISTRIBUTION CHART -->
         <div class="distribution-section" style="margin-top: 20px; margin-bottom: 20px;">
             <div class="dist-header"
-                style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; gap:10px; flex-wrap:wrap;">
                 <h3 style="margin:0; font-size:12px; color:#666; text-transform:uppercase; letter-spacing:1px;">
                     Distribution</h3>
-                <div class="toggle-group"
-                    style="background:#111; padding:4px; border-radius:8px; border:1px solid #333;">
-                    <button id="btn-daily" class="toggle-btn active">Daily</button>
-                    <button id="btn-hourly" class="toggle-btn">Hourly</button>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <div class="toggle-group"
+                        style="background:#111; padding:4px; border-radius:8px; border:1px solid #333;">
+                        <button id="btn-daily" class="toggle-btn active">Daily</button>
+                        <button id="btn-hourly" class="toggle-btn">Hourly</button>
+                    </div>
+                    <div class="toggle-group range-group" data-target="dist"
+                        style="background:#111; padding:4px; border-radius:8px; border:1px solid #333; display:inline-flex;">
+                        <button class="toggle-btn range-btn active" data-range="all">All</button>
+                        <button class="toggle-btn range-btn" data-range="3m">3M</button>
+                        <button class="toggle-btn range-btn" data-range="1m">1M</button>
+                    </div>
                 </div>
             </div>
             <div class="chart-container" style="height: 180px;">
@@ -79,30 +96,88 @@
 
 
 
+
+
+        
         <!-- RECORD DURATION DISTRIBUTION -->
         <div class="distribution-section" style="margin-top: 20px; margin-bottom: 20px;">
-            <div class="dist-header" style="margin-bottom:15px;">
+            <div class="dist-header"
+                style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
                 <h3 style="margin:0; font-size:12px; color:#666; text-transform:uppercase; letter-spacing:1px;">Session
                     Length</h3>
+                <div class="toggle-group range-group" data-target="dur"
+                    style="background:#111; padding:4px; border-radius:8px; border:1px solid #333; display:inline-flex;">
+                    <button class="toggle-btn range-btn active" data-range="all">All</button>
+                    <button class="toggle-btn range-btn" data-range="3m">3M</button>
+                    <button class="toggle-btn range-btn" data-range="1m">1M</button>
+                </div>
+
             </div>
             <div class="chart-container" style="height: 180px;">
                 <canvas id="durationChart"></canvas>
             </div>
         </div>
 
+
         <!-- NEW: DAILY SCROLLER -->
         <div class="scroller-section">
-            <h3>Daily Overview</h3>
-            <div id="day-scroller" class="day-scroller">
-                <!-- JS will populate -->
+            <h3>Daily Overview <span class="scroll-hint">← swipe →</span></h3>
+            <div class="scroller-wrap">
+                <div id="day-scroller" class="day-scroller">
+                    <!-- JS will populate -->
+                </div>
+                <div class="fade-edge fade-left"></div>
+                <div class="fade-edge fade-right"></div>
             </div>
         </div>
+
 
         <!-- NEW: ACTIVITY HEATMAP -->
         <div class="heatmap-section" style="margin-bottom: 30px;">
             <h3>Yearly Activity</h3>
             <div id="activity-heatmap" class="heatmap-grid"></div>
         </div>
+
+        <!-- PROGRESS STATS -->
+        <h3 class="section-label">Your Progress</h3>
+        <div class="grid grid-mini">
+            <div class="stat-card mini">
+                <span class="stat-num" id="days-this-month">0</span>
+                <span class="stat-label">Days This Month</span>
+                <span class="stat-sub" id="days-this-month-sub"></span>
+            </div>
+            <div class="stat-card mini">
+                <span class="stat-num" id="avg-7day">0m</span>
+                <span class="stat-label">7-Day Avg Mins</span>
+                <span class="stat-sub">per day</span>
+            </div>
+            <div class="stat-card mini">
+                <span class="stat-num" id="sessions-week">0</span>
+                <span class="stat-label">Sessions This Week</span>
+                <span class="stat-sub"></span>
+            </div>
+            <div class="stat-card mini">
+                <span class="stat-num" id="week-compare">0m</span>
+                <span class="stat-label">Mins Meditated This Week</span>
+                <span class="stat-sub" id="week-compare-sub" style="color:#141414 !important; display:none !important;"></span>
+            </div>
+            <div class="stat-card mini">
+                <span class="stat-num" id="month-compare">0m</span>
+                <span class="stat-label">Mins Meditated This Month</span>
+                <span class="stat-sub" id="month-compare-sub" style="color:#141414 !important; display:none !important;"></span>
+            </div>
+            <div class="stat-card mini">
+                <span class="stat-num" id="avg-day-month">0m</span>
+                <span class="stat-label">Avg Mins/Day This Month</span>
+                <span class="stat-sub" id="avg-day-month-sub" style="color:#141414 !important; display:none !important;"></span>
+            </div>
+        </div>
+
+
+
+
+
+
 
         <!-- HISTORY -->
         <div class="history-section">

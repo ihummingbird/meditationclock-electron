@@ -149,6 +149,7 @@ body {
 }
 
 .stat-label {
+    padding-top: 5px;
     font-size: 10px;
     color: var(--text-dim);
     text-transform: uppercase;
@@ -280,8 +281,8 @@ body {
 }
 
 .day-tile {
-    min-width: 28px;
-    height: 40px;
+    min-width: 34px;
+    height: 48px;
     background: #111;
     border: 1px solid #222;
     border-radius: 4px;
@@ -293,6 +294,17 @@ body {
     font-size: 9px;
     transition: all 0.2s;
 }
+
+.day-tile .day-mins {
+    font-size: 8px;
+    font-weight: 700;
+    margin-top: 2px;
+    min-height: 9px;
+    color: inherit;
+    opacity: 0.85;
+}
+
+
 
 .day-tile .day-name {
     font-weight: 700;
@@ -348,3 +360,204 @@ body {
     z-index: 10;
     border: 1px solid #fff;
 }
+
+.scroller-section h3 {
+    font-size: 12px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.scroll-hint {
+    font-size: 9px;
+    color: rgb(168, 85, 247);
+    letter-spacing: 1px;
+    opacity: 0.7;
+    
+}
+
+@keyframes hintPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+}
+
+.scroller-wrap {
+    position: relative;
+}
+
+.fade-edge {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 30px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.fade-left {
+    left: 0;
+    background: linear-gradient(to right, var(--bg), transparent);
+}
+
+.fade-right {
+    right: 0;
+    background: linear-gradient(to left, var(--bg), transparent);
+}
+
+.chart-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.chart-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.chart-inner {
+    height: 100%;
+    min-width: 100%;
+}
+
+/* Give the chart breathing room on small screens */
+@media (max-width: 480px) {
+    .chart-inner {
+        min-width: 560px;
+    }
+}
+
+.section-label {
+    font-size: 12px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    margin-top: 30px;
+}
+
+.stat-card.mini {
+    padding: 10px 6px;
+    min-height: 76px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1px;
+}
+
+.stat-card.mini .stat-num {
+    font-size: 17px;
+    margin-bottom: 0;
+}
+
+.stat-card.mini .stat-label {
+    font-size: 8px;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+}
+
+.stat-card.mini .stat-sub {
+    font-size: 9px;
+    font-weight: 700;
+    color: #666;
+    margin-top: 3px;
+    min-height: 11px;
+}
+
+/* CONNECTION STATUS BANNER */
+.status-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    color: #aaa;
+    animation: fadeIn 0.4s ease;
+}
+
+.status-banner.hidden {
+    display: none;
+}
+
+.status-banner.error {
+    border-color: #ef535055;
+    color: #ef9a9a;
+    cursor: pointer;
+}
+
+.status-spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid #333;
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
+}
+
+.status-banner.error .status-spinner {
+    border-top-color: #ef5350;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+
+.grid-mini {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+.stat-card.mini {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 76px;              /* uniform height for all six */
+    padding: 6px;
+    background: #141414;
+    border: 1px solid #222;
+    border-radius: 10px;
+    text-align: center;
+}
+.stat-card.mini .stat-num   { font-size: 15px; font-weight: 700; line-height: 1.1; color: #fff; }
+.stat-card.mini .stat-label { font-size: 10px; font-weight: 600; color: #aaa; margin-top: 3px; }
+.stat-card.mini .stat-sub   { font-size: 9px;  color: #666; margin-top: 1px; }
+
+
+#status-banner {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 8px 12px; margin: 8px 0; border-radius: 8px;
+    background: #1a1a1a; border: 1px solid #333;
+    color: #bbb; font-size: 13px; cursor: pointer;
+}
+#status-banner.hidden { display: none; }
+#status-banner.error  { background: #1f1414; border-color: #5a2a2a; color: #ff8a8a; }
+#status-banner .spinner {
+    width: 14px; height: 14px; border: 2px solid #444;
+    border-top-color: #aaa; border-radius: 50%;
+    animation: spin .8s linear infinite;
+}
+#status-banner.error .spinner { border-color: #5a2a2a; border-top-color: #ff8a8a; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+
+.chart-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+.chart-scroll .chart-inner {
+    min-width: 520px;   /* forces horizontal scroll, gives each "15m" label room */
+    height: 220px;
+    position: relative;
+}
+.chart-scroll canvas { height: 100% !important; }

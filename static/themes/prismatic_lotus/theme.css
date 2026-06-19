@@ -1,0 +1,388 @@
+.lotus-stage {
+    --lotus-hue: 280;
+    --lotus-p1: hsl(280, 80%, 65%);
+    --lotus-p2: hsl(320, 75%, 60%);
+    --lotus-p3: hsl(200, 80%, 65%);
+    --lotus-glow: hsl(280, 90%, 75%);
+    --lotus-bloom: 1;
+    --lotus-speed: 1;
+    --lotus-scale: 1;
+
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at 50% 40%, #0d0b1a 0%, #06050e 50%, #020206 100%);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* --- Ambient Background Glow --- */
+.lotus-ambient {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.lotus-nebula {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.3;
+    mix-blend-mode: screen;
+}
+
+.lotus-nebula-1 {
+    width: 60vmax;
+    height: 60vmax;
+    background: var(--lotus-p1);
+    top: -15%;
+    left: -10%;
+    animation: lotusFloat1 calc(25s / var(--lotus-speed)) ease-in-out infinite;
+}
+
+.lotus-nebula-2 {
+    width: 50vmax;
+    height: 50vmax;
+    background: var(--lotus-p2);
+    bottom: -20%;
+    right: -10%;
+    animation: lotusFloat2 calc(30s / var(--lotus-speed)) ease-in-out infinite;
+}
+
+.lotus-nebula-3 {
+    width: 40vmax;
+    height: 40vmax;
+    background: var(--lotus-p3);
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: lotusFloat3 calc(20s / var(--lotus-speed)) ease-in-out infinite;
+}
+
+@keyframes lotusFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(8vw, 6vh) scale(1.1); }
+    66% { transform: translate(-4vw, 10vh) scale(0.95); }
+}
+
+@keyframes lotusFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1.05); }
+    50% { transform: translate(-10vw, -8vh) scale(0.9); }
+}
+
+@keyframes lotusFloat3 {
+    0%, 100% { transform: translateX(-50%) translate(0, 0) scale(1); }
+    50% { transform: translateX(-50%) translate(5vw, -12vh) scale(1.15); }
+}
+
+/* --- Floating Particles --- */
+.lotus-particles {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.lotus-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--lotus-glow);
+    opacity: 0;
+    animation: particleDrift linear infinite;
+}
+
+@keyframes particleDrift {
+    0% {
+        opacity: 0;
+        transform: translateY(0) scale(0.5);
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100vh) scale(1.2);
+    }
+}
+
+/* --- Central Mandala --- */
+.lotus-mandala {
+    position: relative;
+    z-index: 5;
+    width: min(80vmin, 420px);
+    height: min(80vmin, 420px);
+    transform: scale(var(--lotus-scale));
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Petal Layers */
+.lotus-petal-ring {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lotus-petal-ring:nth-child(1) { animation: lotusSpin calc(40s / var(--lotus-speed)) linear infinite; }
+.lotus-petal-ring:nth-child(2) { animation: lotusSpin calc(55s / var(--lotus-speed)) linear infinite reverse; }
+.lotus-petal-ring:nth-child(3) { animation: lotusSpin calc(35s / var(--lotus-speed)) linear infinite; }
+
+@keyframes lotusSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Individual Petals */
+.lotus-petal {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.lotus-petal::before {
+    content: '';
+    position: absolute;
+    top: 4%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 18%;
+    height: 28%;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    background: linear-gradient(
+        180deg,
+        var(--lotus-glow) 0%,
+        transparent 100%
+    );
+    opacity: calc(0.25 * var(--lotus-bloom));
+    filter: blur(2px);
+    animation: petalPulse calc(4s / var(--lotus-speed)) ease-in-out infinite;
+}
+
+/* Ring 1: 8 petals */
+.lotus-petal-ring:nth-child(1) .lotus-petal:nth-child(1) { transform: rotate(0deg); }
+.lotus-petal-ring:nth-child(1) .lotus-petal:nth-child(2) { transform: rotate(45deg); }
+.lotus-petal-ring:nth-child(1) .lotus-petal:nth-child(3) { transform: rotate(90deg); }
+.lotus-petal-ring:nth-child(1) .lotus-petal:nth-child(4) { transform: rotate(135deg); }
+.lotus-petal-ring:nth-child(1) .lotus-petal:nth-child(5) { transform: rotate(180deg); }
+.lotus-petal-ring:nth-child(1) .lotus-petal:nth-child(6) { transform: rotate(225deg); }
+.lotus-petal-ring:nth-child(1) .lotus-petal:nth-child(7) { transform: rotate(270deg); }
+.lotus-petal-ring:nth-child(1) .lotus-petal:nth-child(8) { transform: rotate(315deg); }
+
+/* Ring 2: 6 petals (offset 30deg, larger, different color) */
+.lotus-petal-ring:nth-child(2) .lotus-petal::before {
+    width: 14%;
+    height: 32%;
+    top: 2%;
+    background: linear-gradient(180deg, var(--lotus-p2) 0%, transparent 100%);
+    opacity: calc(0.2 * var(--lotus-bloom));
+    animation-delay: -1.5s;
+}
+
+.lotus-petal-ring:nth-child(2) .lotus-petal:nth-child(1) { transform: rotate(0deg); }
+.lotus-petal-ring:nth-child(2) .lotus-petal:nth-child(2) { transform: rotate(60deg); }
+.lotus-petal-ring:nth-child(2) .lotus-petal:nth-child(3) { transform: rotate(120deg); }
+.lotus-petal-ring:nth-child(2) .lotus-petal:nth-child(4) { transform: rotate(180deg); }
+.lotus-petal-ring:nth-child(2) .lotus-petal:nth-child(5) { transform: rotate(240deg); }
+.lotus-petal-ring:nth-child(2) .lotus-petal:nth-child(6) { transform: rotate(300deg); }
+
+/* Ring 3: 10 petals (smallest, closest to center, third color) */
+.lotus-petal-ring:nth-child(3) .lotus-petal::before {
+    width: 12%;
+    height: 24%;
+    top: 8%;
+    background: linear-gradient(180deg, var(--lotus-p3) 0%, transparent 100%);
+    opacity: calc(0.2 * var(--lotus-bloom));
+    animation-delay: -3s;
+}
+
+.lotus-petal-ring:nth-child(3) .lotus-petal:nth-child(1) { transform: rotate(0deg); }
+.lotus-petal-ring:nth-child(3) .lotus-petal:nth-child(2) { transform: rotate(36deg); }
+.lotus-petal-ring:nth-child(3) .lotus-petal:nth-child(3) { transform: rotate(72deg); }
+.lotus-petal-ring:nth-child(3) .lotus-petal:nth-child(4) { transform: rotate(108deg); }
+.lotus-petal-ring:nth-child(3) .lotus-petal:nth-child(5) { transform: rotate(144deg); }
+.lotus-petal-ring:nth-child(3) .lotus-petal:nth-child(6) { transform: rotate(180deg); }
+.lotus-petal-ring:nth-child(3) .lotus-petal:nth-child(7) { transform: rotate(216deg); }
+.lotus-petal-ring:nth-child(3) .lotus-petal:nth-child(8) { transform: rotate(252deg); }
+.lotus-petal-ring:nth-child(3) .lotus-petal:nth-child(9) { transform: rotate(288deg); }
+.lotus-petal-ring:nth-child(3) .lotus-petal:nth-child(10) { transform: rotate(324deg); }
+
+@keyframes petalPulse {
+    0%, 100% { opacity: calc(0.25 * var(--lotus-bloom)); transform: translateX(-50%) scale(1); }
+    50% { opacity: calc(0.4 * var(--lotus-bloom)); transform: translateX(-50%) scale(1.08); }
+}
+
+/* --- Orbit Rings (subtle geometric circles) --- */
+.lotus-orbit {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.lotus-orbit-1 {
+    width: 92%;
+    height: 92%;
+    animation: orbitPulse calc(6s / var(--lotus-speed)) ease-in-out infinite;
+}
+
+.lotus-orbit-2 {
+    width: 72%;
+    height: 72%;
+    border-color: rgba(255, 255, 255, 0.04);
+    animation: orbitPulse calc(8s / var(--lotus-speed)) ease-in-out infinite reverse;
+}
+
+.lotus-orbit-3 {
+    width: 52%;
+    height: 52%;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+@keyframes orbitPulse {
+    0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.03); }
+}
+
+/* --- Seconds Progress Ring --- */
+.lotus-seconds-ring {
+    position: absolute;
+    width: 96%;
+    height: 96%;
+    top: 2%;
+    left: 2%;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.lotus-seconds-ring svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.lotus-seconds-track {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.06);
+    stroke-width: 2;
+}
+
+.lotus-seconds-progress {
+    fill: none;
+    stroke: var(--lotus-glow);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    filter: drop-shadow(0 0 4px var(--lotus-glow));
+    transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Glass Time Capsule --- */
+.lotus-capsule {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 55%;
+    height: 55%;
+    border-radius: 50%;
+    background: rgba(12, 10, 24, 0.55);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        inset 0 0 30px rgba(255, 255, 255, 0.02);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+/* --- Time Display --- */
+.lotus-time {
+    text-align: center;
+    line-height: 1;
+}
+
+.lotus-hours {
+    font-size: 4.2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.6) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+}
+
+.lotus-minutes {
+    font-size: 4.2rem;
+    font-weight: 200;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.lotus-separator {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--lotus-glow);
+    margin: 0 auto 8px;
+    box-shadow: 0 0 8px var(--lotus-glow), 0 0 16px var(--lotus-glow);
+    animation: separatorPulse 1s ease-in-out infinite;
+}
+
+@keyframes separatorPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+.lotus-seconds-display {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--lotus-glow);
+    text-transform: uppercase;
+    margin-top: 6px;
+    opacity: 0.85;
+}
+
+.lotus-date {
+    position: absolute;
+    bottom: 18%;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.35);
+    text-transform: uppercase;
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+    .lotus-hours, .lotus-minutes { font-size: 3rem; }
+    .lotus-capsule { width: 60%; height: 60%; }
+    .lotus-mandala { width: min(75vmin, 320px); height: min(75vmin, 320px); }
+}
+
+@media (max-height: 320px) {
+    .lotus-mandala { display: none; }
+}

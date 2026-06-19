@@ -1,0 +1,282 @@
+.cc-stage {
+    --cc-hue: 220;
+    --cc-accent: hsl(220, 80%, 60%);
+    --cc-glow: hsl(220, 90%, 70%);
+    --cc-speed: 1;
+
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at 50% 45%, #0d0f1a 0%, #06070e 55%, #020306 100%);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* --- Ambient Glow --- */
+.cc-ambient {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.cc-ambient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.15;
+    mix-blend-mode: screen;
+}
+
+.cc-ambient-orb:nth-child(1) {
+    width: 55vmax;
+    height: 55vmax;
+    background: var(--cc-accent);
+    top: -20%;
+    left: -10%;
+}
+
+.cc-ambient-orb:nth-child(2) {
+    width: 45vmax;
+    height: 45vmax;
+    background: var(--cc-glow);
+    bottom: -25%;
+    right: -10%;
+}
+
+/* --- Watch Face Container --- */
+.cc-watch {
+    position: relative;
+    z-index: 5;
+    width: min(75vmin, 400px);
+    height: min(75vmin, 400px);
+}
+
+/* --- Outer Ring (Bezel) --- */
+.cc-bezel {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        rgba(255,255,255,0.06),
+        rgba(255,255,255,0.02),
+        rgba(255,255,255,0.06),
+        rgba(255,255,255,0.02),
+        rgba(255,255,255,0.06),
+        rgba(255,255,255,0.02),
+        rgba(255,255,255,0.06)
+    );
+    padding: 4px;
+}
+
+.cc-bezel-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #0a0c14;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow:
+        0 0 0 1px rgba(0,0,0,0.5),
+        inset 0 0 60px rgba(0,0,0,0.6),
+        0 30px 60px rgba(0,0,0,0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle radial sheen on the face */
+.cc-bezel-inner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(
+        ellipse at 35% 30%,
+        rgba(255,255,255,0.04) 0%,
+        transparent 60%
+    );
+    pointer-events: none;
+    z-index: 15;
+}
+
+/* --- Minute / Hour Markers --- */
+.cc-markers {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+}
+
+.cc-marker {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: 50% 0%;
+    width: 1.5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+}
+
+.cc-marker.minute {
+    height: 5%;
+    transform: translateX(-50%) translateY(-100%) rotate(var(--cc-rot));
+    transform-origin: 50% 100%;
+}
+
+.cc-marker.hour {
+    height: 8%;
+    width: 2.5px;
+    background: rgba(255,255,255,0.5);
+    transform: translateX(-50%) translateY(-100%) rotate(var(--cc-rot));
+    transform-origin: 50% 100%;
+}
+
+/* --- Hour Numbers --- */
+.cc-numbers {
+    position: absolute;
+    inset: 14%;
+    pointer-events: none;
+}
+
+.cc-num {
+    position: absolute;
+    font-size: clamp(10px, 2.5vmin, 16px);
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.02em;
+    width: 20px;
+    text-align: center;
+    transform: translate(-50%, -50%);
+}
+
+/* --- Date Window --- */
+.cc-date-window {
+    position: absolute;
+    right: 15%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(40px, 9vmin, 52px);
+    height: clamp(18px, 4vmin, 22px);
+    background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(8px, 2vmin, 11px);
+    font-weight: 600;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.05em;
+    z-index: 12;
+}
+
+/* --- Clock Hands --- */
+.cc-hand-container {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    z-index: 10;
+}
+
+.cc-hand {
+    position: absolute;
+    left: 50%;
+    bottom: 50%;
+    transform-origin: 50% 100%;
+    border-radius: 4px;
+}
+
+.cc-hand-hour {
+    width: clamp(5px, 1.2vmin, 7px);
+    height: 25%;
+    background: linear-gradient(to top, rgba(255,255,255,0.9), rgba(255,255,255,0.6));
+    transform: translateX(-50%) rotate(0deg);
+    z-index: 12;
+    border-radius: 4px 4px 2px 2px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+.cc-hand-minute {
+    width: clamp(3px, 0.8vmin, 5px);
+    height: 33%;
+    background: linear-gradient(to top, rgba(255,255,255,0.85), rgba(255,255,255,0.5));
+    transform: translateX(-50%) rotate(0deg);
+    z-index: 13;
+    border-radius: 3px 3px 1px 1px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.3);
+}
+
+.cc-hand-second {
+    width: 1.5px;
+    height: 38%;
+    background: var(--cc-accent);
+    transform: translateX(-50%) rotate(0deg);
+    z-index: 14;
+    border-radius: 2px;
+    box-shadow: 0 0 8px var(--cc-glow), 0 0 16px var(--cc-glow);
+}
+
+/* Second hand tail (counterweight) */
+.cc-hand-second::after {
+    content: '';
+    position: absolute;
+    bottom: -15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 15%;
+    background: var(--cc-accent);
+    border-radius: 2px;
+    box-shadow: 0 0 6px var(--cc-glow);
+}
+
+/* Center cap */
+.cc-center-cap {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: clamp(8px, 2vmin, 12px);
+    height: clamp(8px, 2vmin, 12px);
+    border-radius: 50%;
+    background: var(--cc-accent);
+    box-shadow: 0 0 8px var(--cc-glow), 0 0 16px var(--cc-glow);
+    z-index: 20;
+}
+
+/* --- Glass Crystal Overlay --- */
+.cc-crystal {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    z-index: 16;
+    pointer-events: none;
+    background: radial-gradient(
+        ellipse at 35% 25%,
+        rgba(255,255,255,0.06) 0%,
+        transparent 50%
+    );
+}
+
+/* --- Brand Text --- */
+.cc-brand {
+    position: absolute;
+    top: 33%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(6px, 1.5vmin, 9px);
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    z-index: 12;
+    white-space: nowrap;
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+    .cc-watch { width: min(72vmin, 320px); height: min(72vmin, 320px); }
+    .cc-date-window { display: none; }
+}

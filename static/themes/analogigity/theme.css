@@ -1,0 +1,182 @@
+/* Core 3D Stage Setup */
+.mech-stage {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(circle at center, #11141d 0%, #050608 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px; /* Defines the 3D depth of the scene */
+    overflow: hidden;
+    font-family: 'JetBrains Mono', 'Inter', monospace;
+    --theme-accent: #ff4b4b; /* Default overridable by JS */
+    --theme-text: rgba(255, 255, 255, 0.8);
+    z-index: 1;
+}
+
+/* Background floating dot grid */
+.mech-grid {
+    position: absolute;
+    width: 150vw;
+    height: 150vh;
+    background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 40px 40px;
+    transform: translateZ(-300px);
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* The primary 3D Rotator */
+.mech-assembly {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    transform-style: preserve-3d;
+    transform: rotateX(25deg) rotateY(-20deg); /* Initial Isometric Tilt */
+}
+
+/* Layered Concentric Rings */
+.mech-ring {
+    position: absolute;
+    top: 50%; left: 50%;
+    border-radius: 50%;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+}
+
+.ring-1 { /* Outer boundary */
+    width: 380px; height: 380px;
+    margin: -190px 0 0 -190px;
+    border: 1px solid rgba(255,255,255,0.05);
+    transform: translateZ(-20px);
+}
+
+.ring-2 { /* Dashed orbit */
+    width: 320px; height: 320px;
+    margin: -160px 0 0 -160px;
+    border: 2px dashed rgba(255,255,255,0.15);
+    transform: translateZ(0px);
+}
+
+.ring-3 { /* Core glow orbit */
+    width: 120px; height: 120px;
+    margin: -60px 0 0 -60px;
+    border: 1px solid var(--theme-accent);
+    box-shadow: 0 0 30px var(--theme-accent) inset, 0 0 20px var(--theme-accent);
+    opacity: 0.2;
+    transform: translateZ(20px);
+}
+
+/* Staggered Ticks Container */
+.mech-ticks-container {
+    position: absolute;
+    width: 100%; height: 100%;
+    top: 0; left: 0;
+    transform-style: preserve-3d;
+    transform: translateZ(10px);
+}
+
+.mech-tick {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 2px; height: 12px;
+    background: var(--theme-text);
+    transform-origin: center calc(100% + 150px);
+    margin-left: -1px;
+    margin-top: -156px;
+    opacity: 0; /* Hidden initially for intro animation */
+}
+
+.mech-tick.hour-tick {
+    width: 4px; height: 18px;
+    background: var(--theme-accent);
+    margin-left: -2px;
+    margin-top: -159px;
+    box-shadow: 0 0 10px var(--theme-accent);
+}
+
+/* Hands Assembly */
+.mech-hands {
+    position: absolute;
+    width: 100%; height: 100%;
+    top: 0; left: 0;
+    transform-style: preserve-3d;
+}
+
+.m-hand {
+    position: absolute;
+    bottom: 50%; left: 50%;
+    transform-origin: bottom center;
+    border-radius: 4px;
+    opacity: 0; /* Hidden for intro */
+}
+
+.m-hand-h {
+    width: 8px; margin-left: -4px;
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateZ(30px);
+}
+
+.m-hand-m {
+    width: 4px; margin-left: -2px;
+    background: rgba(255, 255, 255, 0.7);
+    transform: translateZ(45px);
+}
+
+.m-hand-s {
+    width: 2px; margin-left: -1px;
+    background: var(--theme-accent);
+    box-shadow: 0 0 15px var(--theme-accent);
+    transform: translateZ(60px);
+}
+
+/* Center Pivot Caps */
+.mech-pivot {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 20px; height: 20px;
+    margin: -10px 0 0 -10px;
+    background: #111;
+    border: 2px solid var(--theme-accent);
+    border-radius: 50%;
+    transform: translateZ(70px);
+}
+
+.mech-pivot-core {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 6px; height: 6px;
+    margin: -3px 0 0 -3px;
+    background: var(--theme-accent);
+    border-radius: 50%;
+    transform: translateZ(75px);
+    box-shadow: 0 0 10px var(--theme-accent);
+}
+
+/* Readout display floating above the clock */
+.mech-readout {
+    position: absolute;
+    bottom: -80px;
+    left: 50%;
+    transform: translateX(-50%) translateZ(80px);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--theme-accent);
+    text-shadow: 0 0 10px rgba(0,0,0,0.8);
+    opacity: 0;
+}
+
+/* Responsiveness for Tablets and Mobile */
+@media (max-width: 768px) {
+    .mech-assembly {
+        transform: scale(0.75) rotateX(25deg) rotateY(-20deg);
+    }
+}
+
+@media (max-width: 480px) {
+    .mech-assembly {
+        transform: scale(0.6) rotateX(20deg) rotateY(-15deg);
+    }
+}

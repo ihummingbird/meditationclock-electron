@@ -1,0 +1,153 @@
+:root {
+    --titan-bg: #050505;
+    --titan-metal: #1a1a1a;
+    --titan-highlight: #2a2a2a;
+    --titan-glow: #ff2a2a; /* Default brutal red */
+    --titan-shadow: #000000;
+}
+
+.titan-stage {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, #111 0%, var(--titan-bg) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: 'Audiowide', sans-serif;
+}
+
+/* Background Grate Overlay */
+.titan-stage::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+        45deg,
+        rgba(0,0,0,0.4) 0px,
+        rgba(0,0,0,0.4) 4px,
+        transparent 4px,
+        transparent 8px
+    );
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Massive background gears */
+.titan-gear {
+    position: absolute;
+    border-radius: 50%;
+    border: 20px dashed var(--titan-metal);
+    box-shadow: 
+        inset 0 0 50px var(--titan-shadow),
+        0 0 50px rgba(0,0,0,0.8);
+    opacity: 0.6;
+}
+
+.gear-primary {
+    width: 800px;
+    height: 800px;
+    border-width: 40px;
+    top: 50%;
+    left: 50%;
+    margin-top: -400px;
+    margin-left: -400px;
+    border-color: #151515;
+}
+
+.gear-secondary {
+    width: 400px;
+    height: 400px;
+    border-width: 30px;
+    top: -100px;
+    right: -100px;
+    border-color: #111;
+}
+
+/* The Vault/Gauge housing the time */
+.titan-vault {
+    position: relative;
+    z-index: 10;
+    background: linear-gradient(135deg, var(--titan-metal), #0a0a0a);
+    padding: 3rem 5rem;
+    border-radius: 15px;
+    border: 4px solid var(--titan-highlight);
+    box-shadow: 
+        0 20px 50px var(--titan-shadow),
+        inset 0 0 20px var(--titan-shadow),
+        0 0 15px var(--titan-glow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: perspective(600px) rotateX(5deg);
+}
+
+.titan-vault::before {
+    content: 'SYSTEM CORE // ONLINE';
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--titan-glow);
+    letter-spacing: 2px;
+    opacity: 0.7;
+}
+
+/* Time Typography */
+.titan-time {
+    display: flex;
+    align-items: flex-end;
+    font-size: 7rem;
+    color: #e0e0e0;
+    text-shadow: 0 5px 10px #000;
+    line-height: 1;
+}
+
+.titan-separator {
+    color: var(--titan-highlight);
+    margin: 0 10px;
+    animation: titanBlink 1s steps(2, start) infinite;
+}
+
+.titan-sec-box {
+    margin-left: 20px;
+    padding: 10px 15px;
+    background: #000;
+    border: 2px solid var(--titan-glow);
+    color: var(--titan-glow);
+    font-size: 3rem;
+    border-radius: 8px;
+    box-shadow: inset 0 0 10px var(--titan-glow);
+    
+    /* ADD THESE 4 LINES TO FIX THE JITTER: */
+    font-variant-numeric: tabular-nums;
+    width: 100px; 
+    text-align: center;
+    box-sizing: border-box;
+}
+
+
+/* Warning Strip */
+.titan-warning {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 15px;
+    background: repeating-linear-gradient(
+        -45deg,
+        #000,
+        #000 20px,
+        var(--titan-glow) 20px,
+        var(--titan-glow) 40px
+    );
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    opacity: 0.8;
+}
+
+@keyframes titanBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+}

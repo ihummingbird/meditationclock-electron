@@ -1,0 +1,59 @@
+/* Container perfectly centers everything and prevents out-of-bounds */
+.nova-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #050505; /* Deep space background */
+    font-family: 'JetBrains Mono', monospace;
+    transition: background-color 1s ease;
+}
+
+/* vmin ensures it fits on both mobile (portrait) and desktop (landscape) perfectly */
+.nova-stage {
+    width: 90vmin;
+    height: 90vmin;
+    overflow: visible; /* Allows glows to bleed outside the SVG box */
+    filter: drop-shadow(0 0 30px var(--nova-glow));
+}
+
+/* SVG Text centering */
+.n-text-h {
+    font-size: 160px;
+    font-weight: 800;
+    fill: #ffffff;
+    text-anchor: middle;
+    dominant-baseline: central;
+    letter-spacing: -5px;
+}
+
+.n-text-m {
+    font-size: 50px;
+    font-weight: 400;
+    fill: #ffffff;
+    opacity: 0.7;
+    text-anchor: middle;
+    dominant-baseline: central;
+    letter-spacing: 10px;
+}
+
+/* Particle base styles */
+.n-particle {
+    fill: none;
+    stroke: var(--nova-color-1);
+    stroke-linecap: round;
+    transform-origin: center;
+}
+
+.n-hour-mark {
+    stroke: var(--nova-color-2);
+    stroke-width: 6;
+    stroke-linecap: round;
+}
+
+.n-ambient {
+    fill: var(--nova-color-3);
+    opacity: 0.5;
+}

@@ -1,0 +1,223 @@
+.vc-stage {
+    --vc-c1: hsl(260, 90%, 60%);
+    --vc-c2: hsl(310, 80%, 55%);
+    --vc-c3: hsl(200, 90%, 65%);
+    --vc-c4: hsl(180, 85%, 55%);
+    --vc-glow: hsl(260, 100%, 75%);
+    --vc-speed: 1;
+    --vc-scale: 1;
+
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at 50% 50%, #0a0612 0%, #050310 40%, #020108 70%, #010005 100%);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* --- Dramatic Ambient --- */
+.vc-ambient {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.vc-ambient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    mix-blend-mode: screen;
+}
+
+.vc-ambient-orb:nth-child(1) {
+    width: 80vmax;
+    height: 80vmax;
+    background: var(--vc-c1);
+    opacity: 0.1;
+    top: -30%;
+    left: -20%;
+}
+
+.vc-ambient-orb:nth-child(2) {
+    width: 70vmax;
+    height: 70vmax;
+    background: var(--vc-c2);
+    opacity: 0.08;
+    bottom: -30%;
+    right: -20%;
+}
+
+.vc-ambient-orb:nth-child(3) {
+    width: 50vmax;
+    height: 50vmax;
+    background: var(--vc-c4);
+    opacity: 0.06;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* --- Particles --- */
+.vc-particles {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.vc-dot {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--vc-glow);
+    opacity: 0;
+}
+
+/* --- The Cathedral Structure --- */
+.vc-cathedral {
+    position: relative;
+    z-index: 5;
+    width: min(90vmin, 500px);
+    height: min(90vmin, 500px);
+    transform: scale(var(--vc-scale));
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- SVG Mandala --- */
+.vc-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.vc-ring {
+    will-change: transform;
+}
+
+/* --- Seconds Arc --- */
+.vc-sec-arc {
+    position: absolute;
+    inset: -5%;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.vc-sec-arc svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.vc-arc-track {
+    fill: none;
+    stroke: rgba(255,255,255,0.03);
+    stroke-width: 2;
+}
+
+.vc-arc-fill {
+    fill: none;
+    stroke: var(--vc-glow);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 1200;
+    stroke-dashoffset: 1200;
+    filter: drop-shadow(0 0 8px var(--vc-glow));
+    transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Glass Capsule --- */
+.vc-capsule {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+    height: 30%;
+    border-radius: 50%;
+    background: rgba(4, 2, 10, 0.8);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,0.03),
+        0 30px 80px rgba(0,0,0,0.6),
+        inset 0 0 40px rgba(255,255,255,0.02),
+        0 0 60px rgba(0,0,0,0.4);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+}
+
+/* --- Time Typography --- */
+.vc-time {
+    text-align: center;
+    line-height: 1;
+}
+
+.vc-hours {
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(160deg, #fff 0%, rgba(255,255,255,0.45) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+}
+
+.vc-minutes {
+    font-size: 2.8rem;
+    font-weight: 200;
+    letter-spacing: -0.03em;
+    color: rgba(255,255,255,0.75);
+}
+
+.vc-sep {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--vc-glow);
+    margin: 2px auto 8px;
+    box-shadow: 0 0 8px var(--vc-glow), 0 0 20px var(--vc-glow);
+    animation: vcSepPulse 1s ease-in-out infinite;
+}
+
+@keyframes vcSepPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(0.5); }
+}
+
+.vc-seconds-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    color: var(--vc-glow);
+    opacity: 0.7;
+    text-transform: uppercase;
+}
+
+.vc-date {
+    position: absolute;
+    bottom: 16%;
+    font-size: 0.5rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.22);
+    text-transform: uppercase;
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+    .vc-hours, .vc-minutes { font-size: 2rem; }
+    .vc-capsule { width: 36%; height: 36%; }
+    .vc-cathedral { width: min(95vmin, 380px); height: min(95vmin, 380px); }
+}

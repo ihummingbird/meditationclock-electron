@@ -1,0 +1,126 @@
+.pc-stage {
+    --glow: hsl(190, 90%, 72%);
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at 50% 35%, #0c1326 0%, #070b18 55%, #02030a 100%);
+}
+
+.pc-canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    z-index: 1;
+}
+
+.pc-clock {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    text-align: center;
+    color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+    user-select: none;
+    point-events: none;
+
+text-shadow:
+
+0 0 15px rgba(255,255,255,0.15),
+
+0 0 45px var(–glow),
+
+0 0 90px var(–glow);
+
+transition: color 0.6s ease, text-shadow 0.6s ease;
+
+}
+
+.pc-time {
+
+font-size: 15vh;
+
+font-weight: 200;
+
+letter-spacing: -0.02em;
+
+line-height: 0.9;
+
+white-space: nowrap;
+
+}
+
+#pc-sep {
+
+margin: 0 0.04em;
+
+font-weight: 100;
+
+transition: opacity 0.7s ease;
+
+}
+
+.pc-sub {
+
+margin-top: 10px;
+
+display: flex;
+
+justify-content: center;
+
+align-items: center;
+
+gap: 15px;
+
+opacity: 0.85;
+
+}
+
+#pc-s {
+
+font-size: 4vh;
+
+font-weight: 400;
+
+font-variant-numeric: tabular-nums;
+
+color: var(–glow);
+
+}
+
+#pc-date {
+
+font-size: 2vh;
+
+font-weight: 600;
+
+letter-spacing: 2px;
+
+text-transform: uppercase;
+
+color: #fff;
+
+opacity: 0.9;
+
+}
+
+/* mobile landscape / portrait fixes */
+
+@media (max-width: 600px) {
+
+.pc-time { font-size: 11vh; }
+
+#pc-s { font-size: 3vh; }
+
+#pc-date { font-size: 1.6vh; }
+
+.pc-clock {
+
+text-shadow: 0 0 30px var(–glow), 0 0 60px var(–glow);
+
+}
+
+}
