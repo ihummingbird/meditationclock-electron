@@ -2,6 +2,9 @@
 
 ### Although I highly doubt that, if it's true, there won't be any need for this electron app or repo anymore. Hence I updated the json and got a fully updated signed build from the project today. Before deprecating the repo. However, I know no one uses this build other than me. :P 
 
+
+
+
 # Meditation Clock (Electron)
 
 A desktop port of the [Meditation Clock web app](https://github.com/ihummingbird/meditationclock) built with Electron.  
